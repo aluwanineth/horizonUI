@@ -1,0 +1,60 @@
+﻿@page "/configuration/billperiod"
+@using HorizonPollyC.Services.General
+@using HorizonPollyC.Models.Configuration
+@using HorizonPollyC.Services.Configuration
+@using Microsoft.JSInterop;
+@inject IExportService _exportService
+@inject IJSRuntime js
+@inject IBillPeriodService _billPeriodService
+<h3>Bill Periods</h3>
+
+@if (billperiods != null)
+{
+
+
+
+    <RadzenButton Icon="add_circle_outline" style="margin-bottom: 10px" Text="Add New Record" Click="@InsertRow" Disabled=@(billperiodToInsert != null) />
+    <RadzenButton Text="Export XLS" Icon="grid_on" Click="@(args => Export("excel"))" Class="mb-4 mr-2" />
+    <RadzenButton Text="Export CSV" Icon="wrap_text" Click="@(args => Export("csv"))" Class="mb-4" />
+    <RadzenDataGrid @ref="billperiodsGrid" AllowFiltering="true" AllowColumnResize="true" FilterMode="FilterMode.Advanced" AllowSorting="true" PageSize="5" AllowPaging="true" PagerHorizontalAlign="HorizontalAlign.Left" ShowPagingSummary="true"
+                Data="@billperiods" TItem="BillPeriodVM" ColumnWidth="300px" LogicalFilterOperator="LogicalFilterOperator.Or" EditMode="DataGridEditMode.Single" RowUpdate="@OnUpdateRow" RowCreate="@OnCreateRow">
+        <Columns>
+            <RadzenDataGridColumn TItem="BillPeriodVM" Property="BillPeriodCD" Filterable="true" Title="Bill Period" Width="110px" TextAlign="TextAlign.Right">
+                <EditTemplate Context="billperiodvm">
+                    <RadzenNumeric Min="1" Max="100" @bind-Value="billperiodvm.BillPeriodCD" Class="w-70" Disabled="@enable" />
+                </EditTemplate>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="BillPeriodVM" Property="AudCreateUser" Title="Audit Create User" Width="110px" TextAlign="TextAlign.Left" >
+                <EditTemplate Context="billperiodvm">
+                    <RadzenTextBox @bind-Value="billperiodvm.AudCreateUser" Style="width:100%; display: block" Name="Description" />
+                      <RadzenRequiredValidator Component="Description" Text="Value is required" Popup="true" />
+                </EditTemplate>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="BillPeriodVM" Property="AudCreateDate" Title="Audit Create Date" Width="90px" TextAlign="TextAlign.Left"  FormatString="{0:d}">
+                <EditTemplate Context="billperiodvm">
+                    <RadzenDatePicker @bind-Value="billperiodvm.AudCreateDate" DateFormat="d" Class="w-100" />
+                </EditTemplate>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="BillPeriodVM" Property="BillPeriodDate" Title="Bill Period Date" Width="100px" TextAlign="TextAlign.Left"  FormatString="{0:d}">
+                <EditTemplate Context="billperiodvm">
+                    <RadzenDatePicker @bind-Value="billperiodvm.BillPeriodDate" DateFormat="d" Class="w-100" />
+                </EditTemplate>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="BillPeriodVM" Context="billperiodvm" Filterable="false" Sortable="false" TextAlign="TextAlign.Center" Width="80px">
+                <Template Context="billperiodvm">
+                    <RadzenButton Icon="edit" ButtonStyle="ButtonStyle.Primary" Class="m-1" Click="@(args => EditRow(billperiodvm))" @onclick:stopPropagation="true">
+                    </RadzenButton>
+                </Template>
+                <EditTemplate Context="billperiodvm">
+                    <RadzenButton Icon="check" ButtonStyle="ButtonStyle.Primary" Class="m-1" Click="@((args) => SaveRow(billperiodvm))">
+                    </RadzenButton>
+                    <RadzenButton Icon="close" ButtonStyle="ButtonStyle.Primary" Class="m-1" Click="@((args) => CancelEdit(billperiodvm))">
+                    </RadzenButton>
+                </EditTemplate>
+            </RadzenDataGridColumn>
+
+        </Columns>
+    </RadzenDataGrid>
+
+
+}

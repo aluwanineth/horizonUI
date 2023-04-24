@@ -1,0 +1,74 @@
+﻿@page "/configuration/loadingtypes"
+@using HorizonPollyC.Services.General
+@using HorizonPollyC.Models.Configuration
+@using HorizonPollyC.Services.Configuration
+@using Microsoft.JSInterop;
+@inject IExportService _exportService
+@inject IJSRuntime js
+@inject ILoadingTypeService _loadingtypeService
+<h3>Loading Types</h3>
+
+@if (loadingtypes != null)
+{
+
+    <RadzenButton Icon="add_circle_outline" style="margin-bottom: 10px" Text="Add New Record" Click="@InsertRow" Disabled=@(loadingtypeToInsert != null) />
+    <RadzenButton Text="Export XLS" Icon="grid_on" Click="@(args => Export("excel"))" Class="mb-4 mr-2" />
+    <RadzenButton Text="Export CSV" Icon="wrap_text" Click="@(args => Export("csv"))" Class="mb-4" />
+    <RadzenDataGrid @ref="loadingtypeGrid" AllowFiltering="true" AllowColumnResize="true" FilterMode="FilterMode.Advanced" AllowSorting="true" PageSize="10" AllowPaging="true" PagerHorizontalAlign="HorizontalAlign.Left" ShowPagingSummary="true"
+                Data="@loadingtypes" TItem="LoadingTypeVM" ColumnWidth="300px" LogicalFilterOperator="LogicalFilterOperator.Or" EditMode="DataGridEditMode.Single" RowUpdate="@OnUpdateRow" RowCreate="@OnCreateRow">
+        <Columns>
+            <RadzenDataGridColumn TItem="LoadingTypeVM" Property="LoadingTypeCD" Filterable="true" Title="Loading Type CD" Width="110px" TextAlign="TextAlign.Right">
+                <EditTemplate Context="loadingtypevm">
+                    <RadzenNumeric Min="1" Max="100" @bind-Value="loadingtypevm.LoadingTypeCD" Class="w-70" Disabled="@enable" />
+                </EditTemplate>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="LoadingTypeVM" Property="SDesc" Title="Description" Width="140px" TextAlign="TextAlign.Left">
+                <EditTemplate Context="loadingtypevm">
+                    <RadzenTextBox @bind-Value="loadingtypevm.SDesc" Style="width:100%; display: block" Name="Description" />   <RadzenRequiredValidator Component="Description" Text="Value is required" Popup="true" />
+                </EditTemplate>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="LoadingTypeVM" Property="LevelCD" Filterable="true" Title="Level CD" Width="110px" TextAlign="TextAlign.Right">
+                <EditTemplate Context="loadingtypevm">
+                    <RadzenNumeric Min="1" Max="100" @bind-Value="loadingtypevm.LevelCD" Class="w-70" Disabled="@enable" />
+                </EditTemplate>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="LoadingTypeVM" Property="DispSeq" Filterable="true" Title="DispSeq" Width="110px" TextAlign="TextAlign.Right">
+                <EditTemplate Context="loadingtypevm">
+                    <RadzenNumeric Min="1" Max="100" @bind-Value="loadingtypevm.DispSeq" Class="w-70" Disabled="@enable" Name="DispSeq" />  <RadzenRequiredValidator Component="DispSeq" Text="Value is required" Popup="true" />
+                </EditTemplate>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="LoadingTypeVM" Property="EffDate" Title="EffDate" Width="100px" TextAlign="TextAlign.Left"  FormatString="{0:d}">
+                <EditTemplate Context="loadingtypevm">
+                    <RadzenDatePicker @bind-Value="loadingtypevm.EffDate" DateFormat="d" Class="w-100" Name="EffDate"/>   <RadzenRequiredValidator Component="EffDate" Text="Value is required" Popup="true" />
+                </EditTemplate>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="LoadingTypeVM" Property="ExpDate" Title="Expiry Date" Width="100px" TextAlign="TextAlign.Left"  FormatString="{0:d}">
+                <EditTemplate Context="loadingtypevm">
+                    <RadzenDatePicker @bind-Value="loadingtypevm.ExpDate" DateFormat="d" Class="w-100" Name="ExpDate"/> <RadzenRequiredValidator Component="ExpDate" Text="Value is required" Popup="true" />
+                </EditTemplate>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="LoadingTypeVM" Property="IsActive" Title="Is Active" Width="70px">
+                <Template Context="loadingtypevm">
+                    <RadzenSwitch @bind-Value="loadingtypevm.IsActive" Disabled="false" />
+                </Template>
+                <EditTemplate Context="loadingtypevm">
+                    <RadzenSwitch @bind-Value="loadingtypevm.IsActive" Disabled="false" />
+                </EditTemplate>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="LoadingTypeVM" Context="languagevm" Filterable="false" Sortable="false" TextAlign="TextAlign.Center" Width="80px">
+                <Template Context="loadingtypevm">
+                    <RadzenButton Icon="edit" ButtonStyle="ButtonStyle.Primary" Class="m-1" Click="@(args => EditRow(loadingtypevm))" @onclick:stopPropagation="true">
+                    </RadzenButton>
+                </Template>
+                <EditTemplate Context="loadingtypevm">
+                    <RadzenButton Icon="check" ButtonStyle="ButtonStyle.Primary" Class="m-1" Click="@((args) => SaveRow(loadingtypevm))">
+                    </RadzenButton>
+                    <RadzenButton Icon="close" ButtonStyle="ButtonStyle.Primary" Class="m-1" Click="@((args) => CancelEdit(loadingtypevm))">
+                    </RadzenButton>
+                </EditTemplate>
+            </RadzenDataGridColumn>
+        </Columns>
+    </RadzenDataGrid>
+
+
+}

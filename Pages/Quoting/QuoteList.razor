@@ -1,0 +1,81 @@
+﻿@*@layout QuoteLayout*@
+@using HorizonPollyC.Models.Quoting
+@using HorizonPollyC.Services
+@inject IQuotesService _QuotesService
+@page "/Quotes/QuotesList"
+@inject IJSRuntime JsRuntime
+
+<div>
+    <div>
+        <HorizonPollyC.Pages.Components.EntityPolicyList></HorizonPollyC.Pages.Components.EntityPolicyList>
+    </div>
+
+    <span style="padding-bottom: 10px;display: flex;">
+        <RadzenCard>
+                    <RadzenButton Text="New Quote" Icon="find_in_page" Click="@(args => CreateNewQuote())" ButtonStyle="ButtonStyle.Primary" Style="width:100%; cursor:pointer;" />
+            <RadzenTabs RenderMode="TabRenderMode.Client">
+                <Tabs>
+                    <RadzenDataGrid @ref="ResultsGrid" Data="@DisplayModel" AllowFiltering="true" AllowColumnResize="true"
+                                    FilterMode="FilterMode.Advanced" AllowSorting="true" PageSize="5" AllowPaging="true"
+                                    PagerHorizontalAlign="HorizontalAlign.Left" ShowPagingSummary="true" TItem="QuoteListModel" ColumnWidth="300px"
+                                    LogicalFilterOperator="LogicalFilterOperator.Or" EditMode="DataGridEditMode.Single"
+                                    @bind-Value=@SelecteModelDetail>
+                        <Columns>
+                            <RadzenDataGridColumn TItem="QuoteListModel" Property="QuoteNo" Filterable="false" Title="Quote No" Width="50px" TextAlign="TextAlign.Right" />
+                            <RadzenDataGridColumn TItem="QuoteListModel" Property="Partner" Filterable="false" Title="Partner" Width="70px" TextAlign="TextAlign.Left" />
+                            <RadzenDataGridColumn TItem="QuoteListModel" Property="Scheme" Filterable="false" Title="Scheme" Width="70px" TextAlign="TextAlign.Left" />
+                            <RadzenDataGridColumn TItem="QuoteListModel" Property="EffDate" Filterable="false" Title="EffDate" Width="50px" TextAlign="TextAlign.Left" FormatString="{0:d}" />
+                            <RadzenDataGridColumn TItem="QuoteListModel" Property="ExpDate" Filterable="false" Title="ExpDate" Width="50px" TextAlign="TextAlign.Left" FormatString="{0:d}" />
+                            <RadzenDataGridColumn TItem="QuoteListModel" Property="Premium" Filterable="false" Title="Premium" Width="50px" TextAlign="TextAlign.Right" FormatString="{0:00.00}" />
+                            <RadzenDataGridColumn TItem="QuoteListModel" Property="LastModifiedBy" Filterable="false" Title="LastModifiedBy" Width="70px" TextAlign="TextAlign.Left" />
+                            <RadzenDataGridColumn TItem="QuoteListModel" Property="LastModifiedOn" Filterable="false" Title="LastModifiedOn" Width="50px" TextAlign="TextAlign.Left" FormatString="{0:d}" />
+                            <RadzenDataGridColumn TItem="QuoteListModel" Property="QuoteNo" Title="" Width="75px">
+                                <Template Context="data">
+                                    <RadzenButton ButtonStyle="ButtonStyle.Primary" Variant="Variant.Flat" Icon="build" Class="m-1" Text="" Click=@(() => EditQuoteClick(data.QuoteNo)) />
+                                    <RadzenButton ButtonStyle="ButtonStyle.Success" Variant="Variant.Flat" Icon="check_circle" Class="m-1" Text="" Click=@(() => AcceptQuoteClick(data.QuoteNo)) />
+                                    <RadzenButton ButtonStyle="ButtonStyle.Danger" Variant="Variant.Flat" Icon="delete" Class="m-1" Text="" Click=@(() => RejectQuoteClick(data.QuoteNo)) />
+                                    <RadzenButton ButtonStyle="ButtonStyle.Secondary" Variant="Variant.Flat" Icon="aspect_ratio" Class="m-1" Text="" Click=@(() => CopyQuoteClick(data.QuoteNo)) />
+                                </Template>
+                            </RadzenDataGridColumn>
+                        </Columns>
+                    </RadzenDataGrid>
+                </Tabs>
+            </RadzenTabs>
+        </RadzenCard>
+    </span>
+
+
+
+</div>
+
+@code {
+    async Task EditQuoteClick(int id)
+    {
+        EditQuote(id);
+    }
+    async Task AcceptQuoteClick(int id)
+    {
+        bool confirmed = await JsRuntime.InvokeAsync<bool>("confirm", "Are you sure you want to ACCEPT this quote?");
+        if (confirmed)
+        {
+            AcceptQuote(id);
+        }
+    }
+    async Task RejectQuoteClick(int id)
+    {
+        bool confirmed = await JsRuntime.InvokeAsync<bool>("confirm", "Are you sure you want to REJECT this quote?");
+        if (confirmed)
+        {
+            RejectQuote(id);
+        }
+    }
+    async Task CopyQuoteClick(int id)
+    {
+        bool confirmed = await JsRuntime.InvokeAsync<bool>("confirm", "Are you sure you want to COPY this quote?");
+        if (confirmed)
+        {
+            CopyQuote(id);
+        }
+    }
+
+}

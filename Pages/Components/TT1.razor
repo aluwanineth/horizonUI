@@ -1,0 +1,116 @@
+﻿@using HorizonPollyC.Services.Financial
+@using HorizonPollyC.Models.Financial
+@using System;
+@using System.Diagnostics;
+@inject Radzen.DialogService dialogService
+@inject DialogService DialogService
+@inject IFinancialService _financialService
+<RadzenPanel Style="z-index:1500;width:450px;height:650px;">
+    <HeaderTemplate>
+        <h1 style="font-weight: bold;">@title</h1>
+
+    </HeaderTemplate>
+    <ChildContent>
+        <RadzenCard Style="width:450px;height:550px;">
+            <div class="alert alert-info" role="alert" style="width:450px;height:550px">
+                <div class="container">
+                    <div class="row" style="padding-bottom:20px;">
+                        <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+                            <symbol id="check-circle-fill" fill="currentColor" viewBox="0 0 16 16">
+                                <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z" />
+                            </symbol>
+                            <symbol id="info-fill" fill="currentColor" viewBox="0 0 16 16">
+                                <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z" />
+                            </symbol>
+                            <symbol id="exclamation-triangle-fill" fill="currentColor" viewBox="0 0 16 16">
+                                <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z" />
+                            </symbol>
+                        </svg>
+
+                        <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Info:"><use xlink:href="#info-fill" /></svg>
+
+                    </div>
+                    <div class="row">
+                        <P>
+                            {0} Please note that you will receive a <b>DEBICHECK</b> message on your phone shortly requesting you to confirm your debit order information with your bank. As soon as I start the process I will let you know as you will have to look at your phone screen and wait for the bank message to be pushed to your phone. Once this happens,
+                            you should follow the instructions and respond accordingly. I will kick off the process now so please look at your phone screen to receive the message from your bank, it might take a few seconds to come through.
+                        </P>
+                        <br />
+                        <br />
+                      
+                        <p style="padding-top:20px;padding-bottom:20px;" >
+                            <b style="border:3px; border-style:solid; border-color:#FF0000; padding: 1em;">[Click Authenticate Now button]</b>
+                        </p> 
+                        <br/>
+                        <br />
+                        <p>
+                            [Allow for 10 – 15 seconds then ask whether the message was received and whether it was successful]</p> 
+                        <p>
+                            [If the client confirms that they did not receive anything please advise them of the following: ]</p> 
+                        <p>
+                            MR/MRS even though we were not able to confirm the details with your bank now your bank will be sending you a <b>DEBICHECK</b> SMS within the next day requesting you to confirm, electronically your debit order information. The SMS will contain instructions on where to confirm the information. You should respond to the <b>DEBICHECK</b> request immediately via your preferred banking channel like an ATM, Banking App, Cell phone Banking or at a branch.</p> 
+                            <p>[If the client confirms that they did receive and responded to the message then conclude the call as per usual closing below.]
+
+                        </p> 
+                        <p>{0} thank you again for taking out the {1}</p>
+                    </div>
+                </div>
+            </div>
+        </RadzenCard>
+        <RadzenCard Style="padding-top: 30px;width:450px;height:80px;">
+            <div class="col-md-12 text-end">
+                <RadzenButton Click="Submit" ButtonType="ButtonType.Button" Text="Authenticate Now" Icon="send" Style="width: 200px" />
+                <RadzenButton Click="@((args) => dialogService.Close(false))" Variant="Variant.Flat" Text="Cancel" Style="width: 120px" Class="me-1" />
+            </div>
+
+        </RadzenCard>
+
+
+    </ChildContent>
+
+
+</RadzenPanel>
+
+@code {
+    [Parameter] public string title { get; set; }
+    [Parameter] public string messages { get; set; } = string.Empty;
+    [Parameter] public string policynumber { get; set; } = string.Empty;
+
+    async void Submit()
+    {
+            var mandate = new RequestMandate
+            {
+                //policynumber
+                //existingclient
+
+                SourceSystemId = 17,
+                PolicyNumber = policynumber,
+                ApplicationNumber = "",
+                ExistingClient = true
+            };
+
+        await DialogService.OpenAsync<AwaitingResponse>("DebiCheck Mandate", new Dictionary<string, object>() { { "messages", messages } }, new DialogOptions() { Width = "500px", Height = "500px", Resizable = true, Draggable = true, Style = "z-index:1600;", CloseDialogOnEsc = true });
+        DialogService.Close();
+
+        var result = await Request(mandate);
+
+        if (result.DidError == false)
+        {
+            await DialogService.OpenAsync<DebiCheckSuccess>("DebiCheck Mandate", new Dictionary<string, object>() { { "messages", messages } }, new DialogOptions() { Width = "400px", Height = "200px", Resizable = true, Draggable = true, Style = "z-index:1600;", CloseDialogOnEsc = true });
+            DialogService.Close();
+        }
+        else
+        {
+            await DialogService.OpenAsync<DebiCheckFail>("DebiCheck Mandate", new Dictionary<string, object>() { { "messages", messages } }, new DialogOptions() { Width = "400px", Height = "200px", Resizable = true, Draggable = true, Style = "z-index:1600;", CloseDialogOnEsc = true });
+            DialogService.Close();
+        }
+  
+
+    }
+
+    public async Task<RequestMandateResponse> Request(RequestMandate mandate)
+    {
+        var result = await _financialService.GetRequestAMandate(mandate);
+        return result;
+    }
+}

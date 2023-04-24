@@ -1,0 +1,68 @@
+﻿@page "/configuration/benefitPremFreqs"
+@using HorizonPollyC.Services.General
+@using HorizonPollyC.Models.Configuration
+@using HorizonPollyC.Services.Configuration
+@using Microsoft.JSInterop;
+@inject IExportService _exportService
+@inject IJSRuntime js
+@inject IBenefitPremFreqsService _benefitPremFreqsService
+<h3>Benefit Prem Freqs</h3>
+
+@if (benefitPremFreqs != null)
+{
+
+
+
+        <RadzenButton Icon="add_circle_outline" style="margin-bottom: 10px" Text="Add New Record" Click="@InsertRow" Disabled=@(benefitPremFreqsToInsert != null) />
+        <RadzenButton Text="Export XLS" Icon="grid_on" Click="@(args => Export("excel"))" Class="mb-4 mr-2" />
+        <RadzenButton Text="Export CSV" Icon="wrap_text" Click="@(args => Export("csv"))" Class="mb-4" />
+        <RadzenDataGrid @ref="benefitPremFreqsGrid" AllowFiltering="true" AllowColumnResize="true" FilterMode="FilterMode.Advanced" AllowSorting="true" PageSize="5" AllowPaging="true" PagerHorizontalAlign="HorizontalAlign.Left" ShowPagingSummary="true"
+                Data="@benefitPremFreqs" TItem="BenefitPremFreqsVM" ColumnWidth="300px" LogicalFilterOperator="LogicalFilterOperator.Or" EditMode="DataGridEditMode.Single" RowUpdate="@OnUpdateRow" RowCreate="@OnCreateRow">
+            <Columns>
+            <RadzenDataGridColumn TItem="BenefitPremFreqsVM" Property="BenefitTypeCD" Title="Benefit Type CD" Width="140px" TextAlign="TextAlign.Left">
+                    <EditTemplate Context="benefitPremFreqsvm">
+                    <RadzenNumeric @bind-Value="benefitPremFreqsvm.BenefitTypeCD" Style="width:100%; display: block" Name="Benefit Type CD" />
+                    </EditTemplate>
+                </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="BenefitPremFreqsVM" Property="PremFreqCD" Title="Prem Freq CD" Width="170px" TextAlign="TextAlign.Left">
+                    <EditTemplate Context="benefitPremFreqsvm">
+                    <RadzenNumeric @bind-Value="benefitPremFreqsvm.PremFreqCD" Style="width:100%; display: block" Name="Prem Freq CD" />
+                    </EditTemplate>
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="BenefitPremFreqsVM" Property="EffectiveDate" Title="Eff date" Width="100px" TextAlign="TextAlign.Left"  FormatString="{0:d}">
+                    <EditTemplate Context="benefitPremFreqsvm">
+                        <RadzenDatePicker @bind-Value="benefitPremFreqsvm.EffectiveDate" DateFormat="d" Class="w-100" />
+                    </EditTemplate>
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="BenefitPremFreqsVM" Property="ExpiryDate" Title="Expiry Date" Width="100px" TextAlign="TextAlign.Left"  FormatString="{0:d}">
+                    <EditTemplate Context="benefitPremFreqsvm">
+                        <RadzenDatePicker @bind-Value="benefitPremFreqsvm.ExpiryDate" DateFormat="d" Class="w-100" />
+                    </EditTemplate>
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="BenefitPremFreqsVM" Property="IsActive" Title="Is Active" Width="50px" TextAlign="TextAlign.Left">
+                    <Template Context="benefitPremFreqsvm">
+                        <RadzenSwitch @bind-Value="benefitPremFreqsvm.IsActive" Disabled="false" />
+                    </Template>
+                    <EditTemplate Context="benefitPremFreqsvm">
+                        <RadzenSwitch @bind-Value="benefitPremFreqsvm.IsActive" Disabled="false" />
+                    </EditTemplate>
+
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="BenefitPremFreqsVM" Context="benefitPremFreqsvm" Filterable="false" Sortable="false" TextAlign="TextAlign.Center" Width="100px">
+                    <Template Context="benefitPremFreqsvm">
+                        <RadzenButton Icon="edit" ButtonStyle="ButtonStyle.Primary" Class="m-1" Click="@(args => EditRow(benefitPremFreqsvm))" @onclick:stopPropagation="true">
+                        </RadzenButton>
+                    </Template>
+                    <EditTemplate Context="benefitPremFreqsvm">
+                        <RadzenButton Icon="check" ButtonStyle="ButtonStyle.Primary" Class="m-1" Click="@((args) => SaveRow(benefitPremFreqsvm))">
+                        </RadzenButton>
+                        <RadzenButton Icon="close" ButtonStyle="ButtonStyle.Primary" Class="m-1" Click="@((args) => CancelEdit(benefitPremFreqsvm))">
+                        </RadzenButton>
+                    </EditTemplate>
+                </RadzenDataGridColumn>
+
+            </Columns>
+        </RadzenDataGrid>
+
+
+}

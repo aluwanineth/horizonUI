@@ -1,0 +1,118 @@
+﻿@page "/BrokerDetails"
+@using HorizonPollyC.Services.SCV
+@using HorizonPollyC.Models
+@inject ISCVService _SCVService
+
+
+
+        <RadzenCard Style="width:45%;border:none;padding-right:10px;">
+
+            <RadzenTabs RenderMode="TabRenderMode.Client" Style="height:100%">
+                <Tabs>
+                    <RadzenTabsItem Text="Broker Details" >
+                        @if (_BrokerDetails != null && _BrokerDetails.ApplicationNumber != null)
+                        {
+                            <div style="width:100%">
+                                <div class="doubleLabelRow">
+                                    <div class="align-items-center d-flex">
+                                        <RadzenLabel class="LabelHeader" Text="Title: " />
+                                        <RadzenLabel Text="@_BrokerDetails.ApplicationNumber" />
+                                    </div>
+                                </div>
+
+                                <div class="doubleLabelRow">
+                                    <div class="align-items-center d-flex">
+                                        <RadzenLabel class="LabelHeader" Text="Broker Code: " />
+                                        <RadzenLabel Text="@_BrokerDetails.BrokerCode" />
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div>
+                                <div class="doubleLabelRow">
+                                    <div class="align-items-center d-flex">
+                                        <RadzenLabel class="LabelHeader" Text="Broker Number: " />
+                                        <RadzenLabel Text="@_BrokerDetails.BrokerNumber" />
+                                    </div>
+                                </div>
+
+                                <div class="doubleLabelRow">
+                                    <div class="align-items-center d-flex">
+                                        <RadzenLabel class="LabelHeader" Text="Broker Company: " />
+                                        <RadzenLabel Text="@_BrokerDetails.BrokerCompany" />
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div>
+                                <div class="doubleLabelRow">
+                                    <div class="align-items-center d-flex">
+                                        <RadzenLabel class="LabelHeader" Text="Broker Name: " />
+                                        <RadzenLabel Text="@_BrokerDetails.BrokerName" />
+                                    </div>
+                                </div>
+
+                                <div class="doubleLabelRow">
+                                    <div class="align-items-center d-flex">
+                                        <RadzenLabel class="LabelHeader" Text="Assembly Code: " />
+                                        <RadzenLabel Text="@_BrokerDetails.AssemblyCode" />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div>
+                                <div class="doubleLabelRow">
+                                    <div class="align-items-center d-flex">
+                                        <RadzenLabel class="LabelHeader" Text="Email Address: " />
+                                        <RadzenLabel Text="@_BrokerDetails.EmailAddress" />
+                                    </div>
+                                </div>
+
+                                <div class="doubleLabelRow">
+                                    <div class="align-items-center d-flex">
+                                        <RadzenLabel class="LabelHeader" Text="Ambassador Code: " />
+                                        <RadzenLabel Text="@_BrokerDetails.AmbassadorCode" />
+                                    </div>
+                                </div>
+                            </div>
+                               <div>
+                                <div class="doubleLabelRow">
+                                    <div class="align-items-center d-flex">
+                                        <RadzenLabel class="LabelHeader" Text="Contact Number: " />
+                                        <RadzenLabel Text="@_BrokerDetails.ContractNUmber" />
+                                    </div>
+                                </div>
+
+                                <div class="doubleLabelRow">
+                                    <div class="align-items-center d-flex">
+                                        <RadzenLabel class="LabelHeader" Text="Cell Code: " />
+                                        <RadzenLabel Text="@_BrokerDetails.CellCode" />
+                                    </div>
+                                </div>
+                            </div>
+                               <div>
+                                <div class="doubleLabelRow">
+                                    <div class="align-items-center d-flex">
+                                        <RadzenLabel class="LabelHeader" Text="Fax Number: " />
+                                        <RadzenLabel Text="@_BrokerDetails.FaxNumber" />
+                                    </div>
+                                </div>
+
+                            </div>
+
+                           
+                        }
+                        else
+                        {
+                            <div class="row LabelLabelRow">
+                                <div class="align-items-center d-flex">
+                                    <RadzenLabel class="LabelHeader" Text="No Data Available" />
+                                </div>
+                            </div>
+                        }
+                    </RadzenTabsItem>
+                </Tabs>
+            </RadzenTabs>
+        </RadzenCard>

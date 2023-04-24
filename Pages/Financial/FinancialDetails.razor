@@ -1,0 +1,287 @@
+﻿@page "/Financial/BankDetails"
+@using HorizonPollyC.Models.Financial
+@using HorizonPollyC.Services.Configuration
+@using HorizonPollyC.Services.SCV
+@using HorizonPollyC.Services.Financial
+@using HorizonPollyC.Models.Configuration
+@inject ILegacyPaymentService _legacypaymentService
+@inject IYesNoService _yesnoService
+@inject ISCVService _customerPolicyService
+@inject IFinancialService _financialService
+@inject IGenderService _genderService
+@inject IGeneric<StatusVM> _statusService
+@inject IGeneric<TitlesVM> _titleService
+@inject IJSRuntime JS
+@inject DialogService DialogService
+@inject NotificationService service
+@inject TooltipService tooltipService
+
+
+@*<h3>FinancialDetails</h3>*@
+
+<div>
+    <InformationBoard OnStateHasChanged="OnStateHasChanged" />
+    <div>
+        <HorizonPollyC.Pages.Components.EntityPolicyList onPolicySelect="PolicySelected"></HorizonPollyC.Pages.Components.EntityPolicyList>
+    </div>
+    <RadzenTemplateForm Data="@financialDetails" Submit="@((FinancialDetailsVM args) => { Submit(args); })">
+        <table>
+            <tr style="display: table; position: relative; vertical-align: top">
+                <td style="display: inline-block">
+                    <header style="background-color:#1E3482;color:floralwhite;width:100% !important;height:40px !important;text-align:center;font-size:20px;">Payer Details</header>
+
+                    <RadzenFieldset Text="">
+                        <div class="row" style="width:500px">
+                            <div>
+                                <div class="row" style="padding-bottom:10px;">
+                                    <div class="col-md-4 align-items-center d-flex">
+                                        <RadzenLabel Text="Title" />
+                                    </div>
+                                    <div class="col-md-6">
+                                        @* <RadzenTextBox style="width: 100%;" Name="Title" @bind-Value="financialDetails.Title" TextAlign="TextAlign.Left" />*@
+                                        <RadzenDropDown contenteditable="@isEditing" @bind-Value="financialDetails.TitleCD" Data="@titlesLookup" TextProperty="SDesc" ValueProperty="TitleCD" Style="width:100%; display: block;" TextAlign="TextAlign.Left" />
+                                    </div>
+                                </div>
+                                <div class="row" style="padding-bottom:10px;">
+                                    <div class="col-md-4 align-items-center d-flex">
+                                        <RadzenLabel Text="First Name" />
+                                    </div>
+                                    <div class="col-md-6">
+                                        <RadzenTextBox contenteditable="@isEditing" style="width: 100%;" Name="FirstName" @bind-Value="financialDetails.FirstName" TextAlign="TextAlign.Left" />
+                                        <RadzenRequiredValidator Component="FirstName" Text="FirstName is required" Popup=true Style="position: absolute" />
+                                    </div>
+                                </div>
+                                <div class="row" style="padding-bottom:10px;">
+                                    <div class="col-md-4 align-items-center d-flex">
+                                        <RadzenLabel Text="Surname" />
+                                    </div>
+                                    <div class="col-md-6">
+                                        <RadzenTextBox contenteditable="@isEditing" style="width: 100%;" Name="Surname" @bind-Value="financialDetails.Surname" TextAlign="TextAlign.Left" />
+                                        <RadzenRequiredValidator Component="Surname" Text="FirstName is required" Popup=true Style="position: absolute" />
+                                    </div>
+                                </div>
+                                <div class="row" style="padding-bottom:10px;">
+                                    <div class="col-md-4 align-items-center d-flex">
+                                        <RadzenLabel Text="ID Number" />
+                                    </div>
+                                    <div class="col-md-6">
+                                        <RadzenTextBox contenteditable="@isEditing" style="width: 100%;" Name="IDNumber" @bind-Value="financialDetails.IDNumber" TextAlign="TextAlign.Left" />
+                                        <RadzenRequiredValidator Component="IDNumber" Text="ID Number is required" Popup=true Style="position: absolute" />
+                                    </div>
+                                </div>
+                                <div class="row" style="padding-bottom:10px;">
+                                    <div class="col-md-4 align-items-center d-flex">
+                                        <RadzenLabel Text="Passport Number" />
+                                    </div>
+                                    <div class="col-md-6">
+                                        <RadzenTextBox contenteditable="@isEditing" style="width: 100%;" Name="PassportNumber" @bind-Value="financialDetails.PassportNumber" TextAlign="TextAlign.Left" />
+                                    </div>
+                                </div>
+                                <div class="row" style="padding-bottom:10px;">
+                                    <div class="col-md-4 align-items-center d-flex">
+                                        <RadzenLabel Text="Date of Birth" />
+                                    </div>
+                                    <div class="col-md-6">
+                                        <RadzenDatePicker contenteditable="@isEditing" @bind-Value="financialDetails.DOB" DateFormat="d" Class="w-100" Name="DOB" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="row" style="padding-bottom:10px;">
+                                    <div class="col-md-4 align-items-center d-flex">
+                                        <RadzenLabel Text="Home Number" />
+                                    </div>
+                                    <div class="col-md-6">
+                                        <RadzenTextBox contenteditable="@isEditing" style="width: 100%;" Name="HomeNumber" @bind-Value="financialDetails.HomeNumber" TextAlign="TextAlign.Left" />
+                                    </div>
+                                </div>
+                                <div class="row" style="padding-bottom:10px;">
+                                    <div class="col-md-4 align-items-center d-flex">
+                                        <RadzenLabel Text="Cell Number" />
+                                    </div>
+                                    <div class="col-md-6">
+                                        <RadzenTextBox contenteditable="@isEditing" style="width: 100%;" Name="CellNumber" @bind-Value="financialDetails.CellNumber" TextAlign="TextAlign.Left" />
+                                        <RadzenRequiredValidator Component="CellNumber" Text="Cell Number is required" Popup=true Style="position: absolute" />
+                                    </div>
+                                </div>
+                                <div class="row" style="padding-bottom:10px;">
+                                    <div class="col-md-4 align-items-center d-flex">
+                                        <RadzenLabel Text="Work Number" />
+                                    </div>
+                                    <div class="col-md-6">
+                                        <RadzenTextBox contenteditable="@isEditing" style="width: 100%;" Name="WorkNumber" @bind-Value="financialDetails.WorkNumber" TextAlign="TextAlign.Left" />
+                                    </div>
+                                </div>
+                                <div class="row" style="padding-bottom:10px;">
+                                    <div class="col-md-4 align-items-center d-flex">
+                                        <RadzenLabel Text="Relation To Member" />
+                                    </div>
+                                    <div class="col-md-6">
+                                        <RadzenTextBox contenteditable="@isEditing" style="width: 100%;" Name="RelationshipToMember" @bind-Value="financialDetails.RelationshipToMember" TextAlign="TextAlign.Left" />
+                                        <RadzenRequiredValidator Component="RelationshipToMember" Text="Relationship To Member is required" Popup=true Style="position: absolute" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </RadzenFieldset>
+                </td>
+                <td>
+                    <div id="form-wrapper">
+                        <header style="background-color:#1E3482;color:floralwhite;width:100% !important;height:40px !important;text-align:center;font-size:20px;">Banking Details</header>
+                        <RadzenFieldset Text="" class="bankdetails">
+                            <div class="row" style="width:500px">
+                                <div>
+                                    <div class="row" style="padding-bottom:10px">
+                                        <div class="col-md-4 align-items-center d-flex">
+                                            <RadzenLabel Text="Account Holder" />
+                                        </div>
+                                        <div class="col-md-6">
+                                            <RadzenTextBox contenteditable="@isEditing" style="width: 100%;" Name="AccountHolder" @bind-Value="financialDetails.BankAccHolder" TextAlign="TextAlign.Left" />
+                                            <RadzenRequiredValidator Component="AccountHolder" Text="AccountHolder is required" Popup=true Style="position: absolute" />
+                                        </div>
+                                    </div>
+                                    <div class="row" style="padding-bottom:10px;">
+                                        <div class="col-md-4 align-items-center d-flex">
+                                            <RadzenLabel Text="Bank Name" />
+                                        </div>
+                                        <div class="col-md-6">
+
+                                            <RadzenDropDown contenteditable="@isEditing" @bind-Value="financialDetails.BankId" Data="@bankLookup" TextProperty="BankName" ValueProperty="BankID" Change=@(args => OnChange(args, "Bankname")) Style="width:100%; display: block;" />
+                                        </div>
+                                    </div>
+                                    <div class="row" style="padding-bottom:10px;">
+                                        <div class="col-md-4 align-items-center d-flex">
+                                            <RadzenLabel Text="Account Type" />
+                                        </div>
+                                        <div class="col-md-6">
+                                            @*<RadzenTextBox style="width: 100%;" Name="AccountType" @bind-Value="financialDetails.AccountType" TextAlign="TextAlign.Left" />*@
+                                            <RadzenDropDown contenteditable="@isEditing" @bind-Value="financialDetails.BankAccTypeCD" Data="@accountTypesLookup" TextProperty="BankAccTypeDesc" ValueProperty="BankAccTypeCD" Style="width:100%; display: block;" />
+                                        </div>
+                                    </div>
+                                    <div class="row" style="padding-bottom:10px;">
+                                        <div class="col-md-4 align-items-center d-flex">
+                                            <RadzenLabel Text="Payment Method" />
+                                        </div>
+                                        <div class="col-md-6">
+                                            <RadzenDropDown contenteditable="@isEditing" @bind-Value="financialDetails.PaymentMethodId" Data="@legacyPaymentLookup" TextProperty="SDesc" ValueProperty="LegacyPaymentMethodCD" Style="width:100%; display: block;" />
+                                        </div>
+                                    </div>
+                                    <div class="row" style="padding-bottom:10px;">
+                                        <div class="col-md-4 align-items-center d-flex">
+                                            <RadzenLabel Text="First Debit Day" />
+                                        </div>
+                                        <div class="col-md-6">
+                                            @*  <RadzenTextBox style="width: 100%;" Name="FirstDebitDay" />*@
+                                            <RadzenNumeric contenteditable="@isEditing" Min="1" Max="31" @bind-Value="financialDetails.FirstDebitDay" Class="w-70" Name="FirstDebitDay" TextAlign="TextAlign.Right" />
+                                        </div>
+                                    </div>
+                                    <div class="row" style="padding-bottom:10px;">
+                                        <div class="col-md-4 align-items-center d-flex">
+                                            <RadzenLabel Text="Branch Code" />
+                                        </div>
+                                        <div class="col-md-6">
+
+                                            <RadzenTextBox contenteditable="@isEditing" style="width: 100%;" Name="BranchCode" @bind-Value="financialDetails.BankAccBranchCode" TextAlign="TextAlign.Left" />
+                                            <RadzenRequiredValidator Component="BranchCode" Text="BranchCode is required" Popup=true Style="position: absolute" />
+                                            @* <RadzenNumeric ShowUpDown="false" TValue="int" Placeholder="Enter or clear value" Name="BranchCode" Class="w-100" TextAlign="TextAlign.Right" @bind-Value="financialDetails.BranchCode" />*@
+                                        </div>
+                                    </div>
+                                    <div class="row" style="padding-bottom:10px;">
+                                        <div class="col-md-4 align-items-center d-flex">
+                                            <RadzenLabel Text="Account Number" />
+                                        </div>
+                                        <div class="col-md-6">
+                                            <RadzenTextBox contenteditable="@isEditing" style="width: 100%;" Name="AccountNumber" @bind-Value="financialDetails.BankAccNo" TextAlign="TextAlign.Left" />
+                                            @*<RadzenNumeric ShowUpDown="false" TValue="int" Placeholder="Enter or clear value" Name="AccountNumber" Class="w-100" TextAlign="TextAlign.Right" @bind-Value="financialDetails.AccountNumber" />*@
+                                            @*  <RadzenMask Mask="**** **** **** ****" CharacterPattern="[0-9]" Placeholder="0000 0000 0000 0000"  Name="AccountNumber" Style="width: 100%;" @bind-Value="financialDetails.AccountNumber" />*@
+                                            <RadzenRequiredValidator Component="AccountNumber" Text="AccountNumber is required" Popup=true Style="position: absolute" />
+                                        </div>
+                                    </div>
+                                    <div class="row" style="padding-bottom:10px;">
+                                        <div class="col-md-4 align-items-center d-flex">
+                                            <RadzenLabel Text="Early WE/PH" />
+                                        </div>
+                                        <div class="col-md-6">
+                                            <RadzenDropDown contenteditable="@isEditing" @bind-Value="financialDetails.EarlyWEPH" Data="@yesNoLookup" TextProperty="SDescr" ValueProperty="YesNoId" Style="width:100%; display: block;" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </RadzenFieldset>
+                    </div> <div class="col-md-6 d-flex align-items-end justify-content-right" style="margin-top: 16px;">
+                        <RadzenButton Visible="@isEditing" ButtonType="ButtonType.Submit" Icon="save" Text="Save" />
+                        <RadzenButton Visible="@isEditing" Icon="cancel" style="display: inline-block; margin-left: 10px;" Text="Cancel" Click="@Cancel" />
+                        <RadzenButton Visible="@(!isEditing)" ButtonType="ButtonType.Button" Text="Edit" />
+                    </div>
+                </td>
+                <td style="display: inline-block">
+                    <header style="background-color:#1E3482;color:floralwhite;width:100% !important;height:40px !important;text-align:center;font-size:20px;">
+                        <div style="display: inline-block">
+                            DebiCheck Details
+                        </div>
+                    </header>
+                    <RadzenFieldset Text="">
+                        @if (debiCheckList != null)
+                        {
+                            string name = string.Empty;
+                            @foreach (var item in debiCheckList)
+                            {
+                                <div>
+                                    <div class="col-md-4 align-items-center d-flex">
+                                        <table>
+                                            <tr>
+                                                <td>
+                                                    <RadzenLabel Text="Policy Number :" />
+                                                </td>
+                                                <td>
+
+                                                    <RadzenNumeric ShowUpDown="false" TValue="int" style="border-color:transparent;" Class="w-100" Name="PolicyNumber" @bind-Value="item.custPolicies.Policy_NO" TextAlign="TextAlign.Right" ReadOnly=true />
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <RadzenLabel Text="Debicheck Ammount :" />
+                                                </td>
+                                                <td>
+
+                                                    <RadzenNumeric ShowUpDown="false" Format="" style="border-color:transparent;" Placeholder="R0,000,000.00" TValue="decimal" Class="w-100" Name="DebiAmount" @bind-Value="item.Amount" TextAlign="TextAlign.Right" ReadOnly=true />
+                                                    @*  <RadzenMask Mask="(***) ***-****" Pattern="^\$\d{1,3}(,\d{3})*(\.\d+)?$" Placeholder="(000) 000-0000" Name="Phone" @bind-Value="@item.custPolicies.Policy_Premium.ToString()" />*@
+                                                    @*<RadzenTextBox style="width: 100%;" @bind-Value="item.custPolicies.Policy_Premium.ToString()" TextAlign="TextAlign.Left" ReadOnly=true />*@
+
+                                                </td>
+
+                                            </tr>
+                                        </table>
+                                    </div>
+                                    <div>
+                                        <table>
+                                            <tr>
+                                                <td>
+                                                    <RadzenLabel Text="DebiCheck Status: " />
+                                                </td>
+                                                <td>
+                                                    <RadzenTextBox Style="@textboxStyle" @bind-Value="item.DebiCheckStatus" TextAlign="TextAlign.Left" ReadOnly=true MouseEnter="@(args => ShowTooltip(args) )" />
+                                                </td>
+                                                <td>
+
+
+
+                                                    <input type="checkbox" id="@item.Policy_NO" @bind="item.Checked" style="background-color:#1E3482 !important;width:20px !important;height:20px !important" />
+
+
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                            }
+                        }
+
+                    </RadzenFieldset>
+
+                </td>
+            </tr>
+        </table>
+    </RadzenTemplateForm>
+</div>

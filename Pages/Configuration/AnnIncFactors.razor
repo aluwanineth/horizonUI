@@ -1,0 +1,75 @@
+﻿@page "/configuration/anincfactor"
+@using HorizonPollyC.Services.General
+@using HorizonPollyC.Models.Configuration
+@using HorizonPollyC.Services.Configuration
+@using Microsoft.JSInterop;
+@inject IExportService _exportService
+@inject IJSRuntime js
+@inject IAnnIncFactorService _annincfactorService
+<h3>Annual Increase Factors</h3>
+
+@if (anincfactors != null)
+{
+
+
+
+    <RadzenButton Icon="add_circle_outline" style="margin-bottom: 10px" Text="Add New Record" Click="@InsertRow" Disabled=@(anincfactorsToInsert != null) />
+    <RadzenButton Text="Export XLS" Icon="grid_on" Click="@(args => Export("excel"))" Class="mb-4 mr-2" />
+    <RadzenButton Text="Export CSV" Icon="wrap_text" Click="@(args => Export("csv"))" Class="mb-4" />
+    <RadzenDataGrid @ref="anincfactorsGrid" AllowFiltering="true" AllowColumnResize="true" FilterMode="FilterMode.Advanced" AllowSorting="true" PageSize="5" AllowPaging="true" PagerHorizontalAlign="HorizontalAlign.Left" ShowPagingSummary="true"
+                Data="@anincfactors" TItem="AnnIncFactorsVM" ColumnWidth="300px" LogicalFilterOperator="LogicalFilterOperator.Or" EditMode="DataGridEditMode.Single" RowUpdate="@OnUpdateRow" RowCreate="@OnCreateRow">
+        <Columns>
+            <RadzenDataGridColumn TItem="AnnIncFactorsVM" Property="AnnIncCd" Filterable="true" Title="AnnInc CD" Width="80px" TextAlign="TextAlign.Right">
+                <EditTemplate Context="annincfactorsvm">
+                    <RadzenNumeric Min="1" Max="100" @bind-Value="annincfactorsvm.AnnIncCd" Class="w-70" Disabled="@enable"  Name ="AnnIncCd" />
+                        <RadzenRequiredValidator Component="AnnIncCd" Text="Value is required" Popup="true" />
+                </EditTemplate>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="AnnIncFactorsVM" Property="PremiumIncPerc" Title="Premium Inc Perc" Width="120px" TextAlign="TextAlign.Right" FormatString="{0:0.00}" >
+                <EditTemplate Context="annincfactorsvm">
+                    <RadzenNumeric TValue="decimal" Format="0.0000" @bind-Value="annincfactorsvm.PremiumIncPerc" Placeholder="Enter or clear value" Class="mr-1" Name ="PremiumIncPerc" />
+                        <RadzenRequiredValidator Component="PremiumIncPerc" Text="Value is required" Popup="true" />
+                </EditTemplate>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="AnnIncFactorsVM" Property="BenefitIncPerc" Title="Benefit Inc Perc" Width="120px" TextAlign="TextAlign.Right" FormatString="{0:0.00}">
+                <EditTemplate Context="annincfactorsvm">
+                    <RadzenNumeric TValue="decimal" Format="0.0000" @bind-Value="annincfactorsvm.BenefitIncPerc" Placeholder="Enter or clear value" Class="mr-1" Name ="BenefitIncPerc" />
+                        <RadzenRequiredValidator Component="BenefitIncPerc" Text="Value is required" Popup="true" />
+                </EditTemplate>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="AnnIncFactorsVM" Property="EffDate" Title="Eff date" Width="90px" TextAlign="TextAlign.Left"  FormatString="{0:d}">
+                <EditTemplate Context="annincfactorsvm">
+                    <RadzenDatePicker @bind-Value="annincfactorsvm.EffDate" DateFormat="d" Class="w-100" Name="EffDate"/>   <RadzenRequiredValidator Component="EffDate" Text="Value is required" Popup="true" />
+                </EditTemplate>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="AnnIncFactorsVM" Property="ExpDate" Title="Expiry Date" Width="100px" TextAlign="TextAlign.Left"  FormatString="{0:d}">
+                <EditTemplate Context="annincfactorsvm">
+                    <RadzenDatePicker @bind-Value="annincfactorsvm.ExpDate" DateFormat="d" Class="w-100" Name="ExpDate"/> <RadzenRequiredValidator Component="ExpDate" Text="Value is required" Popup="true" />
+                </EditTemplate>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="AnnIncFactorsVM" Property="IsActive" Title="Is Active" Width="70px" TextAlign="TextAlign.Left">
+                <Template Context="annincfactorsvm">
+                    <RadzenSwitch @bind-Value="annincfactorsvm.IsActive" Disabled="false" />
+                </Template>
+                <EditTemplate Context="annincfactorsvm">
+                    <RadzenSwitch @bind-Value="annincfactorsvm.IsActive" Disabled="false" />
+                </EditTemplate>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="AnnIncFactorsVM" Context="accountvm" Filterable="false" Sortable="false" TextAlign="TextAlign.Center" Width="80px">
+                <Template Context="annincfactorsvm">
+                    <RadzenButton Icon="edit" ButtonStyle="ButtonStyle.Primary" Class="m-1" Click="@(args => EditRow(annincfactorsvm))" @onclick:stopPropagation="true">
+                    </RadzenButton>
+                </Template>
+                <EditTemplate Context="annincfactorsvm">
+                    <RadzenButton Icon="check" ButtonStyle="ButtonStyle.Primary" Class="m-1" Click="@((args) => SaveRow(annincfactorsvm))">
+                    </RadzenButton>
+                    <RadzenButton Icon="close" ButtonStyle="ButtonStyle.Primary" Class="m-1" Click="@((args) => CancelEdit(annincfactorsvm))">
+                    </RadzenButton>
+                </EditTemplate>
+            </RadzenDataGridColumn>
+
+        </Columns>
+    </RadzenDataGrid>
+
+
+}

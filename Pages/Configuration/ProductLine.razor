@@ -1,0 +1,85 @@
+﻿@page "/configuration/ProductLine"
+@using HorizonPollyC.Services.General
+@using HorizonPollyC.Models.Configuration
+@using HorizonPollyC.Services.Configuration
+@using Microsoft.JSInterop;
+@inject IExportService _exportService
+@inject IJSRuntime js
+@inject IGeneric<ProductLineVM> _genericService
+
+
+<h3>Product LInes</h3>
+
+@if (modelList != null)
+{
+
+
+    <RadzenButton Icon="add_circle_outline" style="margin-bottom: 10px" Text="Add New Record" Click="@InsertRow" 
+    Disabled=@(modelToInsert != null) />
+    <RadzenButton Text="Export XLS" Icon="grid_on" Click="@(args => Export("excel"))" Class="mb-4 mr-2" />
+    <RadzenButton Text="Export CSV" Icon="wrap_text" Click="@(args => Export("csv"))" Class="mb-4" />
+    <RadzenDataGrid @ref="modelGrid" 
+                    Data="@modelList"
+                    TItem="ProductLineVM" 
+        AllowFiltering="true" AllowColumnResize="true" FilterMode="FilterMode.Advanced" AllowSorting="true" PageSize="5" AllowPaging="true" PagerHorizontalAlign="HorizontalAlign.Left" ShowPagingSummary="true"
+                ColumnWidth="300px" LogicalFilterOperator="LogicalFilterOperator.Or" EditMode="DataGridEditMode.Single" RowUpdate="@OnUpdateRow" RowCreate="@OnCreateRow">
+        <Columns>
+           <RadzenDataGridColumn TItem="ProductLineVM" Property="UnitTypeCD" Filterable="true" Title="CD" Width="70px" TextAlign="TextAlign.Right">
+                <EditTemplate Context="productLineVM">
+                    <RadzenNumeric Min="1" Max="100" @bind-Value="productLineVM.ProductLineCD" Class="w-70" Disabled="@enable" Name="ProductLineCD" />
+                    <RadzenRequiredValidator Component="ProductLineCD" Text="Value is required" Popup="true" />
+                </EditTemplate>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="ProductLineVM" Property="SDesc" Title="Description" Width="140px" TextAlign="TextAlign.Left">
+                <EditTemplate Context="productLineVM">
+                    <RadzenTextBox @bind-Value="productLineVM.SDesc" Style="width:100%; display: block" Name="Description" /> 
+                    <RadzenRequiredValidator Component="Description" Text="Value is required" Popup="true" />
+                </EditTemplate>
+            </RadzenDataGridColumn>
+           <RadzenDataGridColumn TItem="ProductLineVM" Property="DispSeq" Title="Display Sequence" Width="140px" TextAlign="TextAlign.Right">
+                <EditTemplate Context="productLineVM">
+                     <RadzenNumeric Min="1" Max="100" @bind-Value="productLineVM.DispSeq" Class="w-70" Disabled="@enable" Name="DispSeq" />
+                     <RadzenRequiredValidator Component="DispSeq" Text="Value is required" Popup="true" />
+                </EditTemplate>
+            </RadzenDataGridColumn>
+        
+            <RadzenDataGridColumn TItem="ProductLineVM" Property="EffDate" Title="Eff date" Width="100px" TextAlign="TextAlign.Left"  FormatString="{0:d}">
+              <EditTemplate Context="productLineVM">
+                     <RadzenDatePicker @bind-Value="productLineVM.EffDate" DateFormat="d" Class="w-100" Name="EffDate"/>  
+                     <RadzenRequiredValidator Component="EffDate" Text="Value is required" Popup="true" />
+                </EditTemplate>
+              </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="ProductLineVM" Property="ExpDate" Title="Expiry Date" Width="100px" TextAlign="TextAlign.Left"  FormatString="{0:d}">
+              <EditTemplate Context="productLineVM">
+                     <RadzenDatePicker @bind-Value="productLineVM.ExpDate" DateFormat="d" Class="w-100" Name="ExpDate"/>
+                     <RadzenRequiredValidator Component="ExpDate" Text="Value is required" Popup="true" />
+                </EditTemplate>
+              </RadzenDataGridColumn>
+
+            <RadzenDataGridColumn TItem="ProductLineVM" Property="IsActive" Title="Is Active" Width="50px" TextAlign="TextAlign.Left">
+                 <Template Context="productLineVM">
+                    <RadzenSwitch @bind-Value="productLineVM.IsActive" Disabled="false" />
+                </Template>
+                 <EditTemplate Context="productLineVM">
+                    <RadzenSwitch @bind-Value="productLineVM.IsActive" Disabled="false" />
+                </EditTemplate>
+            </RadzenDataGridColumn>
+
+            <RadzenDataGridColumn TItem="ProductLineVM" Context="schemePlanFactorssvm" Filterable="false" Sortable="false" TextAlign="TextAlign.Center" Width="100px">
+                <Template Context="productLineVM">
+                    <RadzenButton Icon="edit" ButtonStyle="ButtonStyle.Primary" Class="m-1" Click="@(args => EditRow(productLineVM))" @onclick:stopPropagation="true">
+                    </RadzenButton>
+                </Template>
+                <EditTemplate Context="productLineVM">
+                    <RadzenButton Icon="check" ButtonStyle="ButtonStyle.Primary" Class="m-1" Click="@((args) => SaveRow(productLineVM))">
+                    </RadzenButton>
+                    <RadzenButton Icon="close" ButtonStyle="ButtonStyle.Primary" Class="m-1" Click="@((args) => CancelEdit(productLineVM))">
+                    </RadzenButton>
+                </EditTemplate>
+            </RadzenDataGridColumn>
+
+        </Columns>
+    </RadzenDataGrid>
+
+
+}

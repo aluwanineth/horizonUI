@@ -1,0 +1,17 @@
+﻿@page "/Quotes/Quotes";
+<div>
+    <div style="min-height:60%">
+        <DynamicComponent Type="@ComponentToShow" Parameters="@PassThroughParamaters" />
+
+    </div>
+    <div style= "position:fixed;
+                    width:100%;
+                    bottom:0;
+                    padding-left:0;
+                    padding:1em;">
+        <div>
+    @*        <RadzenButton Text="Back" Icon="find_in_page" Click="@(args => Back())" ButtonStyle="ButtonStyle.Primary" Style="width:150px;" />
+            <RadzenButton Text="Next" Icon="find_in_page" Click="@(args => Next())" ButtonStyle="ButtonStyle.Primary" Style="width:150px;" />
+*@        </div>
+    </div>
+</div>

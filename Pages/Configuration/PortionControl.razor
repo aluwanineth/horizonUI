@@ -1,0 +1,90 @@
+﻿@page "/configuration/portioncontrol"
+@using HorizonPollyC.Services.General
+@using HorizonPollyC.Models.Configuration
+@using HorizonPollyC.Services.Configuration
+@using Microsoft.JSInterop;
+@inject IExportService _exportService
+@inject IJSRuntime js
+@inject IPortionControlService _portioncontrolService
+<h3>Portion Controls</h3>
+
+@if (portioncontrols != null)
+{
+
+    <RadzenButton Icon="add_circle_outline" style="margin-bottom: 10px" Text="Add New Record" Click="@InsertRow" Disabled=@(portioncontrolToInsert != null) />
+    <RadzenButton Text="Export XLS" Icon="grid_on" Click="@(args => Export("excel"))" Class="mb-4 mr-2" />
+    <RadzenButton Text="Export CSV" Icon="wrap_text" Click="@(args => Export("csv"))" Class="mb-4" />
+    <RadzenDataGrid @ref="portioncontrolGrid" AllowFiltering="true" AllowColumnResize="true" FilterMode="FilterMode.Advanced" AllowSorting="true" PageSize="10" AllowPaging="true" PagerHorizontalAlign="HorizontalAlign.Left" ShowPagingSummary="true"
+                Data="@portioncontrols" TItem="PortionControlVM" ColumnWidth="300px" LogicalFilterOperator="LogicalFilterOperator.Or" EditMode="DataGridEditMode.Single" RowUpdate="@OnUpdateRow" RowCreate="@OnCreateRow">
+        <Columns>
+            <RadzenDataGridColumn TItem="PortionControlVM" Property="PortionCD" Filterable="true" Title="Portion CD" Width="110px" TextAlign="TextAlign.Right">
+                <EditTemplate Context="portioncontrolvm">
+                    <RadzenNumeric Min="1" Max="100" @bind-Value="portioncontrolvm.PortionCD" Class="w-70" Disabled="@enable" />
+                </EditTemplate>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="PortionControlVM" Property="PortionGroupCD" Filterable="true" Title="Portion Group CD" Width="110px" TextAlign="TextAlign.Right">
+                <EditTemplate Context="portioncontrolvm">
+                    <RadzenNumeric Min="1" Max="100" @bind-Value="portioncontrolvm.PortionGroupCD" Class="w-70" Disabled="@enable" />
+                </EditTemplate>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="PortionControlVM" Property="PremPortionTypeCD" Filterable="true" Title="Prem Portion TypeCD" Width="110px" TextAlign="TextAlign.Right">
+                <EditTemplate Context="portioncontrolvm">
+                    <RadzenNumeric Min="1" Max="100" @bind-Value="portioncontrolvm.PremPortionTypeCD" Class="w-70" Disabled="@enable" />
+                </EditTemplate>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="PortionControlVM" Property="PortionAmount" Title="Portion Amount" Width="110px" TextAlign="TextAlign.Right" FormatString="{0:0.00}">
+                <EditTemplate Context="portioncontrolvm">
+                    <RadzenNumeric TValue="decimal" Format="0.0000" @bind-Value="portioncontrolvm.PortionAmount" Placeholder="Enter or clear value" Class="mr-1" />
+                </EditTemplate>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="PortionControlVM" Property="PortionPercentage" Title="Portion Percentage" Width="110px" TextAlign="TextAlign.Right" FormatString="{0:0.00}">
+                <EditTemplate Context="portioncontrolvm">
+                    <RadzenNumeric TValue="decimal" Format="0.0000" @bind-Value="portioncontrolvm.PortionPercentage" Placeholder="Enter or clear value" Class="mr-1" />
+                </EditTemplate>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="PortionControlVM" Property="BasedOn" Filterable="true" Title="Based On" Width="110px" TextAlign="TextAlign.Right">
+                <EditTemplate Context="portioncontrolvm">
+                    <RadzenNumeric Min="1" Max="100" @bind-Value="portioncontrolvm.BasedOn" Class="w-70" Disabled="@enable" />
+                </EditTemplate>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="PortionControlVM" Property="ProcessSequence" Filterable="true" Title="Process Sequence" Width="110px" TextAlign="TextAlign.Right">
+                <EditTemplate Context="portioncontrolvm">
+                    <RadzenNumeric Min="1" Max="100" @bind-Value="portioncontrolvm.ProcessSequence" Class="w-70" Disabled="@enable" />
+                </EditTemplate>
+            </RadzenDataGridColumn>
+
+            <RadzenDataGridColumn TItem="PortionControlVM" Property="EffDate" Title="EffDate" Width="100px" TextAlign="TextAlign.Left"  FormatString="{0:d}">
+                <EditTemplate Context="portioncontrolvm">
+                    <RadzenDatePicker @bind-Value="portioncontrolvm.EffDate" DateFormat="d" Class="w-100" Name="EffDate"/>   <RadzenRequiredValidator Component="EffDate" Text="Value is required" Popup="true" />
+                </EditTemplate>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="PortionControlVM" Property="ExpDate" Title="Expiry Date" Width="100px" TextAlign="TextAlign.Left"  FormatString="{0:d}">
+                <EditTemplate Context="portioncontrolvm">
+                    <RadzenDatePicker @bind-Value="portioncontrolvm.ExpDate" DateFormat="d" Class="w-100" Name="ExpDate"/> <RadzenRequiredValidator Component="ExpDate" Text="Value is required" Popup="true" />
+                </EditTemplate>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="PortionControlVM" Property="IsActive" Title="Is Active" Width="70px">
+                <Template Context="portioncontrolvm">
+                    <RadzenSwitch @bind-Value="portioncontrolvm.IsActive" Disabled="false" />
+                </Template>
+                <EditTemplate Context="portioncontrolvm">
+                    <RadzenSwitch @bind-Value="portioncontrolvm.IsActive" Disabled="false" />
+                </EditTemplate>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="PortionControlVM" Context="portioncontrolvm" Filterable="false" Sortable="false" TextAlign="TextAlign.Center" Width="80px">
+                <Template Context="portioncontrolvm">
+                    <RadzenButton Icon="edit" ButtonStyle="ButtonStyle.Primary" Class="m-1" Click="@(args => EditRow(portioncontrolvm))" @onclick:stopPropagation="true">
+                    </RadzenButton>
+                </Template>
+                <EditTemplate Context="portioncontrolvm">
+                    <RadzenButton Icon="check" ButtonStyle="ButtonStyle.Primary" Class="m-1" Click="@((args) => SaveRow(portioncontrolvm))">
+                    </RadzenButton>
+                    <RadzenButton Icon="close" ButtonStyle="ButtonStyle.Primary" Class="m-1" Click="@((args) => CancelEdit(portioncontrolvm))">
+                    </RadzenButton>
+                </EditTemplate>
+            </RadzenDataGridColumn>
+        </Columns>
+    </RadzenDataGrid>
+
+
+}

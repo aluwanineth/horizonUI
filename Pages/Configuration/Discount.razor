@@ -1,0 +1,85 @@
+﻿@page "/configuration/discount"
+@using HorizonPollyC.Services.General
+@using HorizonPollyC.Models.Configuration
+@using HorizonPollyC.Services.Configuration
+@using Microsoft.JSInterop;
+@inject IExportService _exportService
+@inject IJSRuntime js
+@inject IDiscountService _discountService
+<h3>Discount</h3>
+
+@if (discounts != null)
+{
+
+    <RadzenButton Icon="add_circle_outline" style="margin-bottom: 10px" Text="Add New Record" Click="@InsertRow" Disabled=@(discountToInsert != null) />
+    <RadzenButton Text="Export XLS" Icon="grid_on" Click="@(args => Export("excel"))" Class="mb-4 mr-2" />
+    <RadzenButton Text="Export CSV" Icon="wrap_text" Click="@(args => Export("csv"))" Class="mb-4" />
+    <RadzenDataGrid @ref="discountGrid" AllowFiltering="true" AllowColumnResize="true" FilterMode="FilterMode.Advanced" AllowSorting="true" PageSize="5" AllowPaging="true" PagerHorizontalAlign="HorizontalAlign.Left" ShowPagingSummary="true"
+                Data="@discounts" TItem="DiscountVM" ColumnWidth="300px" LogicalFilterOperator="LogicalFilterOperator.Or" EditMode="DataGridEditMode.Single" RowUpdate="@OnUpdateRow" RowCreate="@OnCreateRow">
+        <Columns>
+            <RadzenDataGridColumn TItem="DiscountVM" Property="DiscountCD" Filterable="true" Title="Discount CD" Width="90px" TextAlign="TextAlign.Right">
+                <EditTemplate Context="discountvm">
+                    <RadzenNumeric Min="1" Max="100" @bind-Value="discountvm.DiscountCD" Class="w-70" Disabled="@enable" />
+                </EditTemplate>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="DiscountVM" Property="DiscountTypeCD" Title="Discount Type CD" Width="110px" TextAlign="TextAlign.Right">
+                <EditTemplate Context="discountvm">
+                    <RadzenNumeric Min="1" Max="100" @bind-Value="discountvm.DiscountTypeCD" Class="w-70" Disabled="@enable" />
+                </EditTemplate>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="DiscountVM" Property="SDescr" Title="Description" Width="110px" TextAlign="TextAlign.Left">
+                <EditTemplate Context="discountvm">
+                    <RadzenTextBox @bind-Value="discountvm.SDescr" Style="width:100%; display: block" Name="SDescr" />
+                      <RadzenRequiredValidator Component="SDescr" Text="Value is required" Popup="true" />
+                </EditTemplate>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="DiscountVM" Property="DiscountAmt" Title="Discount Ammount" Width="110px" TextAlign="TextAlign.Right" >
+                <EditTemplate Context="discountvm">
+                    <RadzenNumeric TValue="decimal" Format="0.00" @bind-Value="discountvm.DiscountAmt" Placeholder="Enter or clear value" Class="mr-1" />
+                </EditTemplate>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="DiscountVM" Property="DiscountPerc" Title="Discount %" Width="110px" TextAlign="TextAlign.Right" >
+                <EditTemplate Context="discountvm">
+                    <RadzenNumeric TValue="decimal" Format="0.00" @bind-Value="discountvm.DiscountPerc" Placeholder="Enter or clear value" Class="mr-1" />
+                </EditTemplate>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="DiscountVM" Property="DispSeq" Filterable="true" Title="Disp Sequence" Width="90px" TextAlign="TextAlign.Right">
+                <EditTemplate Context="discountvm">
+                    <RadzenNumeric Min="1" Max="100" @bind-Value="discountvm.DispSeq" Class="w-70" Disabled="@enable" Name="DispSeq" />  <RadzenRequiredValidator Component="DispSeq" Text="Value is required" Popup="true" />
+                </EditTemplate>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="DiscountVM" Property="EffDate" Title="Eff date" Width="90px" TextAlign="TextAlign.Left"  FormatString="{0:d}">
+                <EditTemplate Context="discountvm">
+                    <RadzenDatePicker @bind-Value="discountvm.EffDate" DateFormat="d" Class="w-100" Name="EffDate"/>   <RadzenRequiredValidator Component="EffDate" Text="Value is required" Popup="true" />
+                </EditTemplate>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="DiscountVM" Property="ExpDate" Title="Expiry Date" Width="100px" TextAlign="TextAlign.Left"  FormatString="{0:d}">
+                <EditTemplate Context="discountvm">
+                    <RadzenDatePicker @bind-Value="discountvm.ExpDate" DateFormat="d" Class="w-100" Name="ExpDate"/> <RadzenRequiredValidator Component="ExpDate" Text="Value is required" Popup="true" />
+                </EditTemplate>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="DiscountVM" Property="IsActive" Title="Is Active" Width="70px" TextAlign="TextAlign.Left">
+                <Template Context="discountvm">
+                    <RadzenSwitch @bind-Value="discountvm.IsActive" Disabled="false" />
+                </Template>
+                <EditTemplate Context="discountvm">
+                    <RadzenSwitch @bind-Value="discountvm.IsActive" Disabled="false" />
+                </EditTemplate>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="DiscountVM" Context="discountvm" Filterable="false" Sortable="false" TextAlign="TextAlign.Center" Width="80px">
+                <Template Context="discountvm">
+                    <RadzenButton Icon="edit" ButtonStyle="ButtonStyle.Primary" Class="m-1" Click="@(args => EditRow(discountvm))" @onclick:stopPropagation="true">
+                    </RadzenButton>
+                </Template>
+                <EditTemplate Context="discountvm">
+                    <RadzenButton Icon="check" ButtonStyle="ButtonStyle.Primary" Class="m-1" Click="@((args) => SaveRow(discountvm))">
+                    </RadzenButton>
+                    <RadzenButton Icon="close" ButtonStyle="ButtonStyle.Primary" Class="m-1" Click="@((args) => CancelEdit(discountvm))">
+                    </RadzenButton>
+                </EditTemplate>
+            </RadzenDataGridColumn>
+        </Columns>
+    </RadzenDataGrid>
+
+
+}

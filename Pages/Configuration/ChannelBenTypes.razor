@@ -1,0 +1,67 @@
+﻿@page "/configuration/channelBenTypes"
+@using HorizonPollyC.Services.General
+@using HorizonPollyC.Models.Configuration
+@using HorizonPollyC.Services.Configuration
+@using Microsoft.JSInterop;
+@inject IExportService _exportService
+@inject IJSRuntime js
+@inject IChannelBenTypesService _channelBenTypesService
+<h3>Channels Ben Types</h3>
+
+@if (channelBenTypes != null)
+{
+
+
+
+    <RadzenButton Icon="add_circle_outline" style="margin-bottom: 10px" Text="Add New Record" Click="@InsertRow" Disabled=@(channelBenTypesToInsert != null) />
+    <RadzenButton Text="Export XLS" Icon="grid_on" Click="@(args => Export("excel"))" Class="mb-4 mr-2" />
+    <RadzenButton Text="Export CSV" Icon="wrap_text" Click="@(args => Export("csv"))" Class="mb-4" />
+    <RadzenDataGrid @ref="channelBenTypesGrid" AllowFiltering="true" AllowColumnResize="true" FilterMode="FilterMode.Advanced" AllowSorting="true" PageSize="5" AllowPaging="true" PagerHorizontalAlign="HorizontalAlign.Left" ShowPagingSummary="true"
+                Data="@channelBenTypes" TItem="ChannelBenTypesVM" ColumnWidth="300px" LogicalFilterOperator="LogicalFilterOperator.Or" EditMode="DataGridEditMode.Single" RowUpdate="@OnUpdateRow" RowCreate="@OnCreateRow">
+        <Columns>
+            <RadzenDataGridColumn TItem="ChannelBenTypesVM" Property="ChannelCD" Title="Channel CD" Width="110px" TextAlign="TextAlign.Left">
+                <EditTemplate Context="channelBenTypesvm">
+                    <RadzenNumeric @bind-Value="channelBenTypesvm.ChannelCD" Style="width:100%; display: block" Name="Channel CD" />
+                </EditTemplate>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="ChannelBenTypesVM" Property="BenefitTypeCD" Filterable="true" Title="Benefit Type CD" Width="90px" TextAlign="TextAlign.Right">
+                <EditTemplate Context="channelBenTypesvm">
+                    <RadzenNumeric Min="1" Max="100" @bind-Value="channelBenTypesvm.BenefitTypeCD" Class="w-70" Disabled="@enable" />
+                </EditTemplate>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="ChannelBenTypesVM" Property="EffectiveDate" Title="Eff date" Width="90px" TextAlign="TextAlign.Left"  FormatString="{0:d}">
+                <EditTemplate Context="channelBenTypesvm">
+                    <RadzenDatePicker @bind-Value="channelBenTypesvm.EffectiveDate" DateFormat="d" Class="w-100" />
+                </EditTemplate>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="ChannelBenTypesVM" Property="ExpiryDate" Title="Expiry Date" Width="100px" TextAlign="TextAlign.Left"  FormatString="{0:d}">
+                <EditTemplate Context="channelBenTypesvm">
+                    <RadzenDatePicker @bind-Value="channelBenTypesvm.ExpiryDate" DateFormat="d" Class="w-100" />
+                </EditTemplate>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="ChannelBenTypesVM" Property="IsActive" Title="Is Active" Width="70px" TextAlign="TextAlign.Left">
+                <Template Context="channelBenTypesvm">
+                    <RadzenSwitch @bind-Value="channelBenTypesvm.IsActive" Disabled="false" />
+                </Template>
+                <EditTemplate Context="channelBenTypesvm">
+                    <RadzenSwitch @bind-Value="channelBenTypesvm.IsActive" Disabled="false" />
+                </EditTemplate>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="ChannelBenTypesVM" Context="channelBenTypesvm" Filterable="false" Sortable="false" TextAlign="TextAlign.Center" Width="80px">
+                <Template Context="channelBenTypesvm">
+                    <RadzenButton Icon="edit" ButtonStyle="ButtonStyle.Primary" Class="m-1" Click="@(args => EditRow(channelBenTypesvm))" @onclick:stopPropagation="true">
+                    </RadzenButton>
+                </Template>
+                <EditTemplate Context="channelBenTypesvm">
+                    <RadzenButton Icon="check" ButtonStyle="ButtonStyle.Primary" Class="m-1" Click="@((args) => SaveRow(channelBenTypesvm))">
+                    </RadzenButton>
+                    <RadzenButton Icon="close" ButtonStyle="ButtonStyle.Primary" Class="m-1" Click="@((args) => CancelEdit(channelBenTypesvm))">
+                    </RadzenButton>
+                </EditTemplate>
+            </RadzenDataGridColumn>
+
+        </Columns>
+    </RadzenDataGrid>
+
+
+}

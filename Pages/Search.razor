@@ -1,0 +1,89 @@
+﻿@page "/Search3"
+@using Blazored.LocalStorage
+@using HorizonPollyC.Pages.Components
+@using HorizonPollyC.Services.SCV
+@using HorizonPollyC.Models
+@inject HttpClient httpClient
+@inject ISCVService SCVService
+@inject ILocalStorageService _localStorageService;
+
+@using Radzen
+@using System.Text.Json
+
+<RadzenCard style="min-width:100%">
+    <RadzenTemplateForm TItem="ScreenControlls" Data=@screenControlls>
+        <RadzenCard>
+            <RadzenTextBox name="SearchString" @bind-Value="@screenControlls.SearchString" Placeholder="Search Here... for anything" Class="w-100" @onkeyup="@do_search" Style="width:100%; height:50px; font-size:large; align-content:center" />
+            @*<RadzenRequiredValidator Component="SearchString" Text="Please enter a search criteria " Popup="true" Style="position:inherit" />*@
+            <RadzenButton Text="Search" disabled="@(!context.Validate())" Icon="find_in_page" Click="@(args => SearchForPerson())" ButtonStyle="ButtonStyle.Primary" Style="width:100%; cursor:pointer;" />
+        </RadzenCard>
+    </RadzenTemplateForm>
+
+    <br />
+
+    <RadzenDataGrid Visible="@(!ShowProcessingScreen)" @ref="ClientsResultsGrid"
+                    Data="@ClientsModel"
+                    AllowFiltering="true"
+                    AllowColumnResize="true"
+                    FilterMode="FilterMode.Advanced"
+                    AllowSorting="true"
+                    PageSize="10"
+                    AllowPaging="true"
+                    PagerHorizontalAlign="HorizontalAlign.Left"
+                    ShowPagingSummary="true"
+                    TItem="PersonSearch"
+                    ColumnWidth="300px"
+                    LogicalFilterOperator="LogicalFilterOperator.Or"
+                    EditMode="DataGridEditMode.Single"
+                    @bind-Value=@SelectedClients
+                    RowClick="@ClientSelected">
+        <Columns>
+            <RadzenDataGridColumn TItem="PersonSearch" Property="EntityID" Filterable="false" Title="Entity ID" Width="70px" TextAlign="TextAlign.Left" />
+            <RadzenDataGridColumn TItem="PersonSearch" Property="PersonFirstName" Filterable="false" Title="First Name." Width="70px" TextAlign="TextAlign.Right" />
+            <RadzenDataGridColumn TItem="PersonSearch" Property="PersonSurname" Filterable="false" Title="Surname" Width="70px" TextAlign="TextAlign.Left" />
+            <RadzenDataGridColumn TItem="PersonSearch" Property="PersonDOB" Filterable="false" Title="Date of Birth" Width="70px" TextAlign="TextAlign.Left" FormatString="{0:d}" />
+            <RadzenDataGridColumn TItem="PersonSearch" Property="RewardStatus" Filterable="false" Title="Reward Status" Width="70px" TextAlign="TextAlign.Left" />
+        </Columns>
+    </RadzenDataGrid>
+
+    @*
+    @if (SelectedClients?.Any() == true)
+    {
+    <div style="margin-left: 16px">
+    Selected Employee: @SelectedClients[0].PersonFirstName
+    </div>
+    }*@
+
+    <RadzenCard class="m-0" Visible=@ShowErrorMessage>
+        <label style="text-align:center">@ErrorMessage</label>
+    </RadzenCard>
+
+    <div>
+
+
+        <RadzenFieldset Visible=@(ShowProcessingScreen)>
+            <div class="progress" style="align-items:center; height:2rem; ">
+                <div class="progress-bar progress-bar-striped progress-bar-animated"
+                     role="progressbar" aria-valuenow="75"
+                     aria-valuemin="0" aria-valuemax="100"
+                     style="width: 100%; align-items:center; height:2rem; background-color:#1E3482 ">
+                    Loading..
+                </div>
+            </div>
+        </RadzenFieldset>
+
+    </div>
+</RadzenCard>
+
+@code
+{
+
+    public void do_search(KeyboardEventArgs e)
+    {
+        if (e.Code == "Enter" || e.Code == "NumpadEnter")
+        {
+            SearchForPerson();
+        }
+    }
+
+}

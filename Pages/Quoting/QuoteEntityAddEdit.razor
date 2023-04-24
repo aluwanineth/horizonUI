@@ -1,0 +1,273 @@
+﻿@*@layout QuoteLayout*@
+@using HorizonPollyC.Models.Configuration
+@using HorizonPollyC.Models.Quoting
+@using HorizonPollyC.Services
+@using HorizonPollyC.Services.Configuration
+@inject IQuotesService _QuotesService
+@inject IGeneric<RoleVM> _genericService
+@inject IGeneric<StatusVM> _statusService
+@inject IGeneric<TitlesVM> _titlesService
+@inject IGenderService _genderService
+@inject ICoverService _coverService
+
+<style>
+    .loading_dlg {
+        z-index: 999;
+        padding: 10px;
+        background-color: white;
+        position: absolute;
+        left: 50vw;
+        top: 50vh;
+        box-shadow: #747474 0px 0px 11px 0px;
+        border-radius: 5px 5px 5px 5px;
+    }
+
+        .loading_dlg p {
+            font-size: 2em;
+            font-weight: bold;
+            text-align: center;
+            padding-top: 10px;
+        }
+</style>
+
+@page "/Quotes/QuoteEntityAddEdit/{EntityID}/{EntityType}"
+
+<RadzenCard Visible ="busy_loading">
+<div class="loading_dlg" >
+    <img src="loading-gif.gif" title="loading" style="zoom:50%; filter:brightness(80%) hue-rotate(345deg) saturate(1) contrast(3.5) saturate(12);" />
+    <p>LOADING</p>
+</div>
+</RadzenCard>
+
+<RadzenTemplateForm TItem="QuoteEntity" Data=@Model Style="width:45%; float:left">
+    <RadzenCard Style="width:100%; display:flow-root">
+        <header style="background-color:#1E3482;color:floralwhite;width:100% !important;height:40px !important;">
+            <div style="text-align:center;font-size:20px;">
+                Personal Details
+            </div>
+        </header>
+        <table border="0" class="pinfo_table_4col" style="width:100%">
+            <tr>
+                <td>RelationShip:</td>
+                <td>
+                    <RadzenDropDown @bind-Value="@Model.Relationid" Data="@RoleLookup" TextProperty="SDesc" ValueProperty="RoleCD" />
+                </td>
+            </tr>
+
+            <tr>
+                <td>FirstName:</td>
+                <td>
+                    <RadzenTextBox name="FirstName" @bind-Value="@Model.Firstname" Placeholder="" />
+                    <RadzenRequiredValidator Component="FirstName" Text="*Required" Popup="true" Style="position:inherit" />
+                </td>
+            </tr>
+            <tr>
+                <td>Surname:</td>
+                <td>
+                    <RadzenTextBox name="Surname" @bind-Value="@Model.Surname" Placeholder="" />
+                    <RadzenRequiredValidator Component="Surname" Text="*Required" Popup="true" Style="position:inherit" />
+                </td>
+            </tr>
+            <tr>
+                <td>Title:</td>
+                <td>
+                    <RadzenDropDown @bind-Value="@Model.TitleID" Data="@TitleLookup" TextProperty="SDesc" ValueProperty="TitleCD" />
+                </td>
+            </tr>
+            <tr>
+                <td>CellNumber:</td>
+                <td>
+                    <RadzenTextBox name="CellNumber" @bind-Value="@Model.CellNumber" Placeholder="" />
+                    <RadzenRequiredValidator Component="CellNumber" Text="*Required" Popup="true" Style="position:inherit" />
+                </td>
+            </tr>
+            <tr>
+                <td>IdNumber:</td>
+                <td>
+                    <RadzenTextBox name="IdNumber" @bind-Value="@Model.IdNumber" Placeholder="" />
+                </td>
+            </tr>
+            <tr>
+                <td>PassportNo:</td>
+                <td>
+                    <RadzenTextBox name="PassportNo" @bind-Value="@Model.PassportNo" Placeholder="" />
+                </td>
+            </tr>
+            <tr>
+                <td>Date Of Birth</td>
+                <td>
+                    <RadzenDatePicker name="DateOfBirth" @bind-Value="@Model.DOB" Placeholder="" />
+                    <RadzenRequiredValidator Component="DateOfBirth" Text="*Required" Popup="true" Style="position:inherit" />
+                </td>
+            </tr>
+            <tr>
+                <td>Date of Commencement </td>
+                <td>
+                    <RadzenDatePicker name="DateofCommencement" @bind-Value="@Model.DOC" Placeholder="" />
+                    <RadzenRequiredValidator Component="DateofCommencement" Text="*Required" Popup="true" Style="position:inherit" />
+                </td>
+            </tr>
+            <tr>
+                <td>Gender</td>
+                <td>
+                    <RadzenDropDown @bind-Value="@Model.GenderID" Data="@GenderLookup" TextProperty="SDesc" ValueProperty="GenderCD" />
+                </td>
+            </tr>
+            @if (!isBeneficiary)
+            {
+                <tr>
+                    <td>Is Also Beneficiary</td>
+                    <td>
+                        <RadzenCheckBox @bind-Value=@Model.isAlsoBeneficiary Name="isAlsoBeneficiary" Change=@(args => OnChange(args)) TValue="bool" />
+                    </td>
+                </tr>
+            }
+        </table>
+    </RadzenCard>
+</RadzenTemplateForm>
+
+@if (Model.QuoteBenefits != null)
+{
+    <RadzenTemplateForm TItem="QuoteEntity" Data=@Model Style="width:45%; display:flow-root;" Visible="!isBeneficiary ">
+        <RadzenCard>
+
+            <header style="background-color:#1E3482;color:floralwhite;width:100% !important;height:40px !important;">
+                <div style="text-align:center;font-size:20px;">
+                    Benefit Details
+                </div>
+            </header>
+            <table border="0" class="pinfo_table_4col" style="width:100%">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Descripion</th>
+                        <th>Value</th>
+
+                    </tr>
+                </thead>
+                @foreach (var Benefit in Model.QuoteBenefits.OrderBy(x=>x.DisplSeq))
+                {
+                    <tr>
+                        <td> <RadzenDropDown @bind-Value="Benefit.Status" Data="@StatusLookup" TextProperty="SDesc" ValueProperty="StatusCD" Style="width:50%; display: block;" /></td>
+                        <td>@Benefit.S_Desc</td>
+                        <td> <RadzenDropDown @bind-Value="Benefit.Benefit_Cover" Data="@CoverLookup" TextProperty="CoverAmt" ValueProperty="CoverAmt" Style="width:50%; display: block;" /></td>
+                        <td>@Benefit.Benefit_Premium</td>
+                    </tr>
+                }
+            </table>
+        </RadzenCard>
+    </RadzenTemplateForm>
+}
+
+
+
+
+<RadzenTemplateForm TItem="QuoteEntity" Data=@Model Visible="Model.isAlsoBeneficiary|| isBeneficiary " Style="width:45%; display:flow-root;">
+    <RadzenCard Style="width:100%; display:flow-root">
+        <header style="background-color:#1E3482;color:floralwhite;width:100% !important;height:40px !important;">
+            <div style="text-align:center;font-size:20px;">
+                Beneficiary Details
+            </div>
+        </header>
+        <table border="0" class="pinfo_table_4col" style="width:100%">
+            <tr>
+                <td>Allocation</td>
+                <td>
+                    <RadzenNumeric name="Allocation" @bind-Value="@Model.Allocation" Placeholder="" />
+                </td>
+            </tr>
+        </table>
+    </RadzenCard>
+</RadzenTemplateForm>
+
+<RadzenTemplateForm TItem="QuoteEntity" Data=@Model>
+    <RadzenCard Style="width:100%; display:flow-root">
+        <header style="background-color:#1E3482;color:floralwhite;width:100% !important;height:40px !important;">
+            <div style="text-align:center;font-size:20px;">
+                Address Details
+            </div>
+        </header>
+        <table border="0" class="pinfo_table_4col" style="width:45%; float:left">
+            <thead>
+                <tr>
+                    <th colspan="2">Physical Address</th>
+                </tr>
+            </thead>
+
+            <tr>
+                <td>Address Line 1</td>
+                <td>
+                    <RadzenTextBox name="PlanRate" @bind-Value="@Model.PhysicalAddress.AddressLine1" Placeholder="" />
+                </td>
+            </tr>
+            <tr>
+                <td>Address Line 2</td>
+                <td>
+                    <RadzenTextBox name="PlanRate" @bind-Value="@Model.PhysicalAddress.AddressLine2" Placeholder="" />
+                </td>
+            </tr>
+            <tr>
+                <td>Suburb</td>
+                <td>
+                    <RadzenTextBox name="PlanRate" @bind-Value="@Model.PhysicalAddress.Suburb" Placeholder="" />
+                </td>
+            </tr>
+            <tr>
+                <td>City</td>
+                <td>
+                    <RadzenTextBox name="PlanRate" @bind-Value="@Model.PhysicalAddress.City" Placeholder="" />
+                </td>
+            </tr>
+            <tr>
+                <td>PosyalCode</td>
+                <td>
+                    <RadzenNumeric name="PlanRate" @bind-Value="@Model.PhysicalAddress.PostalCode" Placeholder="" />
+                </td>
+            </tr>
+        </table>
+
+        <table border="0" class="pinfo_table_4col" style="width:45%">
+            <thead>
+                <tr>
+                    <th colspan="2">Postal Address</th>
+                </tr>
+            </thead>
+
+            <tr>
+                <td>Address Line 1</td>
+                <td>
+                    <RadzenTextBox name="PlanRate" @bind-Value="@Model.PostalAddress.AddressLine1" Placeholder="" />
+                </td>
+            </tr>
+            <tr>
+                <td>Address Line 2</td>
+                <td>
+                    <RadzenTextBox name="PlanRate" @bind-Value="@Model.PostalAddress.AddressLine2" Placeholder="" />
+                </td>
+            </tr>
+            <tr>
+                <td>Suburb</td>
+                <td>
+                    <RadzenTextBox name="PlanRate" @bind-Value="@Model.PostalAddress.Suburb" Placeholder="" />
+                </td>
+            </tr>
+            <tr>
+                <td>City</td>
+                <td>
+                    <RadzenTextBox name="PlanRate" @bind-Value="@Model.PostalAddress.City" Placeholder="" />
+                </td>
+            </tr>
+            <tr>
+                <td>PosyalCode</td>
+                <td>
+                    <RadzenNumeric name="PlanRate" @bind-Value="@Model.PostalAddress.PostalCode" Placeholder="" />
+                </td>
+            </tr>
+        </table>
+
+    </RadzenCard>
+</RadzenTemplateForm>
+
+<RadzenButton Text="Save" Icon="find_in_page" Click="@(args => UpdateEntity())" ButtonStyle="ButtonStyle.Primary" Style="width:150px;" />
+<RadzenButton Text="Cancel" Icon="find_in_page" Click="@(args => Cancel())" ButtonStyle="ButtonStyle.Primary" Style="width:150px;" />
+

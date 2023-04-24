@@ -1,0 +1,70 @@
+﻿@page "/configuration/paymentfrequencies"
+@using HorizonPollyC.Services.General
+@using HorizonPollyC.Models.Configuration
+@using HorizonPollyC.Services.Configuration
+@using Microsoft.JSInterop;
+@inject IExportService _exportService
+@inject IJSRuntime js
+@inject IPaymentFrequencyService _paymentfrequencyService
+<h3>Payment Frequency</h3>
+
+@if (paymentfrequencies != null)
+{
+
+    <RadzenButton Icon="add_circle_outline" style="margin-bottom: 10px" Text="Add New Record" Click="@InsertRow" Disabled=@(paymentfrequencyToInsert != null) />
+            <RadzenButton Text="Export XLS" Icon="grid_on" Click="@(args => Export("excel"))" Class="mb-4 mr-2" />
+            <RadzenButton Text="Export CSV" Icon="wrap_text" Click="@(args => Export("csv"))" Class="mb-4" />
+    <RadzenDataGrid @ref="paymentfrequencyGrid" AllowFiltering="true" AllowColumnResize="true" FilterMode="FilterMode.Advanced" AllowSorting="true" PageSize="10" AllowPaging="true" PagerHorizontalAlign="HorizontalAlign.Left" ShowPagingSummary="true"
+                Data="@paymentfrequencies" TItem="PaymentFreqVM" ColumnWidth="300px" LogicalFilterOperator="LogicalFilterOperator.Or" EditMode="DataGridEditMode.Single" RowUpdate="@OnUpdateRow" RowCreate="@OnCreateRow">
+                <Columns>
+            <RadzenDataGridColumn TItem="PaymentFreqVM" Property="PaymentFreqCD" Filterable="true" Title="Payment Frequency CD" Width="110px" TextAlign="TextAlign.Right">
+                        <EditTemplate Context="paymentfreqvm">
+                    <RadzenNumeric Min="1" Max="100" @bind-Value="paymentfreqvm.PaymentFreqCD" Class="w-70" Disabled="@enable" />
+                        </EditTemplate>
+                    </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="PaymentFreqVM" Property="ShortDesc" Title="Description" Width="140px" TextAlign="TextAlign.Left">
+                <EditTemplate Context="paymentfreqvm">
+                    <RadzenTextBox @bind-Value="paymentfreqvm.ShortDesc" Style="width:100%; display: block" Name="ShortDesc" />
+                      <RadzenRequiredValidator Component="ShortDesc" Text="Value is required" Popup="true" />
+                        </EditTemplate>
+                    </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="PaymentFreqVM" Property="DispSeq" Filterable="true" Title="DispSeq" Width="110px" TextAlign="TextAlign.Right">
+                <EditTemplate Context="paymentfreqvm">
+                    <RadzenNumeric Min="1" Max="100" @bind-Value="paymentfreqvm.DispSeq" Class="w-70" Disabled="@enable" Name="DispSeq" />  <RadzenRequiredValidator Component="DispSeq" Text="Value is required" Popup="true" />
+                        </EditTemplate>
+                    </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="PaymentFreqVM" Property="EffDate" Title="EffDate" Width="100px" TextAlign="TextAlign.Left"  FormatString="{0:d}">
+                <EditTemplate Context="paymentfreqvm">
+                    <RadzenDatePicker @bind-Value="paymentfreqvm.EffDate" DateFormat="d" Class="w-100" Name="EffDate"/>   <RadzenRequiredValidator Component="EffDate" Text="Value is required" Popup="true" />
+                        </EditTemplate>
+                    </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="PaymentFreqVM" Property="ExpDate" Title="Expiry Date" Width="100px" TextAlign="TextAlign.Left"  FormatString="{0:d}">
+                <EditTemplate Context="paymentfreqvm">
+                    <RadzenDatePicker @bind-Value="paymentfreqvm.ExpDate" DateFormat="d" Class="w-100" Name="ExpDate"/> <RadzenRequiredValidator Component="ExpDate" Text="Value is required" Popup="true" />
+                        </EditTemplate>
+                    </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="PaymentFreqVM" Property="IsActive" Title="Is Active" Width="70px">
+                <Template Context="paymentfreqvm">
+                    <RadzenSwitch @bind-Value="paymentfreqvm.IsActive" Disabled="false" />
+                        </Template>
+                <EditTemplate Context="paymentfreqvm">
+                    <RadzenSwitch @bind-Value="paymentfreqvm.IsActive" Disabled="false" />
+                        </EditTemplate>
+                    </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="PaymentFreqVM" Context="paymentfreqvm" Filterable="false" Sortable="false" TextAlign="TextAlign.Center" Width="80px">
+                <Template Context="paymentfreqvm">
+                    <RadzenButton Icon="edit" ButtonStyle="ButtonStyle.Primary" Class="m-1" Click="@(args => EditRow(paymentfreqvm))" @onclick:stopPropagation="true">
+                            </RadzenButton>
+                        </Template>
+                <EditTemplate Context="paymentfreqvm">
+                    <RadzenButton Icon="check" ButtonStyle="ButtonStyle.Primary" Class="m-1" Click="@((args) => SaveRow(paymentfreqvm))">
+                            </RadzenButton>
+                    <RadzenButton Icon="close" ButtonStyle="ButtonStyle.Primary" Class="m-1" Click="@((args) => CancelEdit(paymentfreqvm))">
+                            </RadzenButton>
+                        </EditTemplate>
+                    </RadzenDataGridColumn>
+                </Columns>
+            </RadzenDataGrid>
+
+
+}

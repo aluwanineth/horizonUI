@@ -1,0 +1,384 @@
+﻿@page "/Search"
+@using Blazored.LocalStorage
+@using HorizonPollyC.Pages.Components
+@using HorizonPollyC.Services.SCV
+@using HorizonPollyC.Models
+@inject HttpClient httpClient
+@inject ISCVService SCVService
+@inject ILocalStorageService _localStorageService;
+
+
+@using Radzen
+@using System.Text.Json
+
+<style>
+
+    .search_box {
+        padding-top: 2px;
+        padding-left: 20px;
+        padding-right: 20px;
+        padding-bottom: 6px;
+        background: linear-gradient(0deg, rgba(167,178,190,1) 0%, rgba(242,244,246,1) 53%);
+        width: min-content;
+        border-radius: 4px 4px 4px 4px;
+        border: 1px solid #444D58;
+        white-space: nowrap;
+        text-align: center;
+    }
+
+    .search_label {
+        text-align: center;
+        padding-bottom: 1px;
+        font-size: 17px;
+        text-decoration: underline;
+        font-weight: 400;
+        font-family: 'liberation Sans';
+    }
+
+    .search_txt {
+        width: 140px;
+        border: 2px solid #3A414A;
+    }
+
+    .mdet > div {
+        padding: 4px 4px 4px 4px;
+        background: linear-gradient(0deg, rgba(167,178,190,1) 0%, rgba(242,244,246,1) 53%);
+        width: min-content;
+        border-radius: 4px 4px 4px 4px;
+        border: 1px solid #444D58;
+        white-space: nowrap;
+        display: inline-block;
+        flex-grow: 1;
+        min-height: 52px;
+    }
+
+    .mdet > div > div {
+        text-align: center;
+        font-family: 'Liberation Sans';
+        font-size: 14px;
+    }
+
+    .mdet > div > div:first-child {
+        text-decoration: underline;
+    }
+    .mdet {
+        display: flex !important;
+        flex-direction: row;
+        justify-content:space-between;
+    }
+
+    .msg_brd {
+        height: calc(100vh - 100px - 80px - 140px - 12px);
+    }
+
+    .info_btn > button {
+        background-color: #007bff !important;
+    }
+
+    .info_btn {
+        zoom: 1.2;
+        width: 140px;
+    }
+
+    .scrit_box {
+        width: 100%;
+        display: flex;
+        padding: 4px;
+        margin: 0px;
+        transition: height 0.4s;
+        overflow-y: hidden;
+        flex-direction: row;
+        justify-content: space-evenly;
+    }
+
+    .loading_dlg {
+        z-index: 999;
+        padding: 10px;
+        background-color: white;
+        position: absolute;
+        left: 50vw;
+        top: 50vh;
+        box-shadow: #747474 0px 0px 11px 0px;
+        border-radius: 5px 5px 5px 5px;
+    }
+
+    .alert_dlg {
+        z-index: 999;
+        padding: 15px;
+        width: 340px;
+        position: absolute;
+        background-color: white;
+        left: 50vw;
+        top: 20vh;
+        box-shadow: #202020 0px 0px 11px 0px;
+        border-radius: 5px 5px 5px 5px;
+        padding: 10px 10px 10px 10px;
+    }
+
+    .loading_dlg p {
+        font-size: 2em;
+        font-weight: bold;
+        text-align: center;
+        padding-top: 10px;
+    }
+
+    .rz-splitbutton-menu {
+        margin-top: 4px;
+        zoom: 1.2;
+    }
+
+    .rz-state-highlight {
+        background-color: slategrey !important;
+        color:white !important;
+    }
+
+    .rz-data-row {
+        transition: background-color 0.3s;
+        background-color: #ffffff;
+        cursor: pointer;
+    }
+    .rz-data-row:hover {
+        background-color: #92CAF0 !important;
+    }
+</style>
+
+<div class="loading_dlg" style="@("display:" + (is_loading ? "block" : "none") + ";")">
+    <img src="loading-gif.gif" title="loading" style="zoom:50%; filter:brightness(80%) hue-rotate(345deg) saturate(1) contrast(3.5) saturate(12);" />
+    <p>LOADING</p>
+</div>
+
+
+<InformationBoard OnStateHasChanged="OnStateHasChanged" />
+
+<RadzenCard Style="min-width:100%; background:linear-gradient(90deg, rgba(166,206,255,1) 0%, rgba(255,255,255,1) 53%, rgba(166,206,255,1) 100%); border:1px solid rgb(20, 20, 20); border-radius:5px 5px 5px 5px; padding:8px 8px 8px 8px; height:140px;">
+    <RadzenTemplateForm TItem="ScreenControls" Data="@_screencontrols">
+
+
+        <div class="scrit_box" style="@("display:" + (showing_advanced_search ? "none" : "flex") + ";")">
+
+            <div class="search_box">
+                <div class="search_label">
+                    Policy Number
+                </div>
+                <RadzenTextBox class="search_txt" Name="policyno_search" @bind-Value=@_screencontrols.PolicyNo @onkeyup="@do_search" />
+            </div>
+
+            <div class="search_box">
+                <div class="search_label">
+                    IFA Number
+                </div>
+                <RadzenTextBox style="width:100px;" class="search_txt" Name="ifa_search" @bind-Value=@_screencontrols.IFANo @onkeyup="@do_search" />
+            </div>
+
+            <div class="search_box">
+                <div class="search_label">
+                    ID &#47; Passport Number
+                </div>
+                <RadzenTextBox class="search_txt" Name="idpassportno_search" @bind-Value=@_screencontrols.IDPassportNo @onkeyup="@do_search" />
+            </div>
+
+            <div class="search_box">
+                <div class="search_label">
+                    Email Address
+                </div>
+                <RadzenTextBox style="width:140px;" class="search_txt" Name="email_search" @bind-Value=@_screencontrols.EmailAddress @onkeyup="@do_search" />
+            </div>
+
+            <div class="search_box">
+                <div class="search_label">
+                    Claim Number
+                </div>
+                <RadzenTextBox style="width:110px;" class="search_txt" Name="claim_search" @bind-Value=@_screencontrols.ClaimNo @onkeyup="@do_search" />
+            </div>
+
+            <div class="search_box">
+                <div class="search_label">
+                    Client Number
+                </div>
+                <RadzenTextBox class="search_txt" Name="clientno_search" @bind-Value=@_screencontrols.ClientNo @onkeyup="@do_search" />
+            </div>
+
+            <div class="search_box">
+                <div class="search_label">
+                    Cellphone Number
+                </div>
+                <RadzenTextBox class="search_txt" Name="cellno_search" @bind-Value=@_screencontrols.CellphoneNo @onkeyup="@do_search" />
+            </div>
+
+        </div>
+
+        <div class="scrit_box" style="@("display:" + (showing_advanced_search ? "flex" : "none") + ";")">
+
+            <div class="search_box">
+                <div class="search_label">
+                    Legacy Policy Number
+                </div>
+                <RadzenTextBox class="search_txt" Name="legacypolno_search" @bind-Value=@_screencontrols.LegacyPolicyNo @onkeyup="@do_search" />
+            </div>
+
+            <div class="search_box" style="filter: brightness(0.9) opacity(0.5); cursor:not-allowed;">
+                <div class="search_label">
+                    Application Form Number
+                </div>
+                <RadzenTextBox Disabled Style="cursor:not-allowed;" class="search_txt" Name="applicationformno_search" @bind-Value=@_screencontrols.ApplicationFormNo />
+            </div>
+
+            <div class="search_box" style="filter: brightness(0.9) opacity(0.5); cursor:not-allowed;">
+                <div class="search_label">
+                    Business Name
+                </div>
+                <RadzenTextBox Disabled Style="cursor:not-allowed;" class="search_txt" Name="businessname_search" @bind-Value=@_screencontrols.BusinessName />
+            </div>
+
+
+            <div class="search_box">
+                <div class="search_label">
+                    Name
+                </div>
+                <RadzenTextBox Style="width:150px;" class="search_txt" Name="personname_search" @bind-Value=@_screencontrols.PersonName @onkeyup="@do_search" />
+            </div>
+
+            <div class="search_box">
+                <div class="search_label">
+                    Surname
+                </div>
+                <RadzenTextBox Style="width:150px;" class="search_txt" Name="personsurname_search" @bind-Value=@_screencontrols.PersonSurname @onkeyup="@do_search" />
+            </div>
+
+        </div>
+
+
+        <div style="width:100%; text-align:center; padding-top:16px; padding-bottom: 10px;">
+            <RadzenSplitButton Text="Search" class="info_btn" ButtonStyle="ButtonStyle.Info" Style="cursor:pointer;" Size="ButtonSize.Medium" Click="@(args => search_btn_click(args))">
+                <ChildContent>
+                    <RadzenSplitButtonItem Text="Standard Search Criteria" Value="0" Style="@("cursor:pointer; padding:4px;" + (showing_advanced_search ? "" : " display:none;"))" />
+                    <RadzenSplitButtonItem Text="Advanced Search Criteria" Value="1" Style="@("cursor:pointer; padding:4px;" + (showing_advanced_search ? " display:none;" : ""))" />
+                </ChildContent>
+            </RadzenSplitButton>
+        </div>
+
+    </RadzenTemplateForm>
+
+
+
+</RadzenCard>
+
+
+<table style="width:100%;">
+    <tr>
+        <td style="vertical-align:top;">
+
+            <RadzenCard class="mdet">
+
+                <div style="width:20%;">
+                    <div>Client Name &amp; Surname</div>
+                    <div>@selected_name_surname</div>
+                </div>
+
+                <div style="width:10%;">
+                    <div>Date of Birth</div>
+                    <div>@selected_dob</div>
+                </div>
+
+                <div style="width:5%;">
+                    <div>Age</div>
+                    <div>@selected_age</div>
+                </div>
+
+                <div style="width:14%;">
+                    <div>Rewards Status</div>
+                    <div>@selected_reward_status</div>
+                </div>
+
+                <div style="width:14%;">
+                    <div>Status</div>
+                    <div>@selected_status</div>
+                </div>
+
+                <div style="width:14%;">
+                    <div>Debicheck Status</div>
+                    <div>@selected_debicheck_status</div>
+                </div>
+
+                <div style="width:20%;">
+                    <div>Sales Person</div>
+                    <div>@selected_sales_person</div>
+                </div>
+
+
+            </RadzenCard>
+
+
+
+            <RadzenCard>
+
+                <RadzenDataGrid @ref="ClientsResultsGrid"
+                                Data="@ClientsModel"
+                                AllowFiltering="true"
+                                AllowColumnResize="true"
+                                FilterMode="FilterMode.Advanced"
+                                AllowSorting="true"
+                                PageSize="10"
+                                AllowPaging="true"
+                                PagerHorizontalAlign="HorizontalAlign.Left"
+                                ShowPagingSummary="true"
+                                TItem="PersonSearch"
+                                LogicalFilterOperator="LogicalFilterOperator.Or"
+                                EditMode="DataGridEditMode.Single"
+                                @bind-Value=@SelectedClients
+                                RowClick="@ClientSelected"
+                                SelectionMode="DataGridSelectionMode.Single"
+                                AllowAlternatingRows="true"                                
+                                >
+
+                    <Columns>
+                        <RadzenDataGridColumn TItem="PersonSearch" Property="Policy_NO" Filterable="false" Title="Policy Number" Width="70px" TextAlign="TextAlign.Right" />
+                        <RadzenDataGridColumn TItem="PersonSearch" Property="IFANo" Filterable="false" Title="IFA / Broker / Agency Number" Width="120px" TextAlign="TextAlign.Right" />
+                        <RadzenDataGridColumn TItem="PersonSearch" Property="PlanTypeDescription" Filterable="false" Title="Product Name" Width="70px" TextAlign="TextAlign.Right" />
+                        <RadzenDataGridColumn TItem="PersonSearch" Property="PlanStatus2" Filterable="false" Title="Status" Width="70px" TextAlign="TextAlign.Right" />
+                        <RadzenDataGridColumn TItem="PersonSearch" Property="Status_Date" Filterable="false" Title="Status Date" Width="70px" TextAlign="TextAlign.Right" FormatString="{0:yyyy/MM/dd}" />
+                        <RadzenDataGridColumn TItem="PersonSearch" Property="Date_of_Commencement" Filterable="false" Title="DOC" Width="70px" TextAlign="TextAlign.Right" FormatString="{0:yyyy/MM/dd}" />
+                        <RadzenDataGridColumn TItem="PersonSearch" Property="OwnerNames" Filterable="false" Title="Owner" Width="70px" TextAlign="TextAlign.Right" />
+                        <RadzenDataGridColumn TItem="PersonSearch" Property="PayerNames" Filterable="false" Title="Payer" Width="70px" TextAlign="TextAlign.Right" />
+                        <RadzenDataGridColumn TItem="PersonSearch" Property="Premium" Filterable="false" Title="Premium Amount" Width="70px" TextAlign="TextAlign.Right" FormatString="{0:N2}" />
+                    </Columns>
+                </RadzenDataGrid>
+
+            </RadzenCard>
+
+        </td>
+        <td style="width:220px;">
+
+            <div class="msg_brd" style="width:100%; border-radius: 4px 4px 4px 4px; background:linear-gradient(0deg, rgba(167,178,190,1) 0%, rgba(242,244,246,1) 53%); border:1px solid #444D58;">
+            </div>
+
+        </td>
+    </tr>
+</table>
+
+@code {
+
+    async void search_btn_click(RadzenSplitButtonItem item)
+    {
+
+        if (item != null)
+        {
+            toggle_show_advanced_search((item.Value == "1" ? true : false));
+        }
+        else
+        {
+            await SearchForPeople();
+        }
+
+    }
+
+    public void do_search(KeyboardEventArgs e)
+    {
+        if (e.Code == "Enter" || e.Code == "NumpadEnter")
+        {
+            SearchForPeople();
+        }
+    }
+
+}
+

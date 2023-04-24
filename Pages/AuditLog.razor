@@ -1,0 +1,38 @@
+﻿@page "/AuditLogDetails"
+@using HorizonPollyC.Services.SCV
+@using HorizonPollyC.Models
+@inject ISCVService _SCVService
+
+
+<div>
+    <div>
+        <HorizonPollyC.Pages.Components.EntityPolicyList></HorizonPollyC.Pages.Components.EntityPolicyList>
+    </div>
+
+    <span style="padding-bottom: 10px;display: flex;">
+        <RadzenCard>
+            <RadzenTabs RenderMode="TabRenderMode.Client">
+                <Tabs>
+                    <RadzenTabsItem Text="Audit Logs">
+                        <RadzenDataGrid @ref="AuditLogDetailsGrid" Data="@AuditLogDetailsModel" AllowFiltering="true" AllowColumnResize="true"
+                                        FilterMode="FilterMode.Advanced" AllowSorting="true" PageSize="5" AllowPaging="true"
+                                        PagerHorizontalAlign="HorizontalAlign.Left" ShowPagingSummary="true" TItem="AuditLogDetails" ColumnWidth="300px"
+                                        LogicalFilterOperator="LogicalFilterOperator.Or" EditMode="DataGridEditMode.Single">
+                            <Columns>
+                                <RadzenDataGridColumn TItem="AuditLogDetails" Property="ReferenceNo" Filterable="false" Title="Reference No" Width="70px" TextAlign="TextAlign.Left" />
+                                <RadzenDataGridColumn TItem="AuditLogDetails" Property="ActionedDate" Filterable="false" Title="Actioned Date" Width="70px" TextAlign="TextAlign.Left" />
+                                <RadzenDataGridColumn TItem="AuditLogDetails" Property="Agent" Filterable="false" Title="Agent" Width="70px" TextAlign="TextAlign.Left" />
+                                <RadzenDataGridColumn TItem="AuditLogDetails" Property="Type" Filterable="false" Title="Type" Width="70px" TextAlign="TextAlign.Left" />
+                                <RadzenDataGridColumn TItem="AuditLogDetails" Property="Category" Filterable="false" Title="Category" Width="70px" TextAlign="TextAlign.Left" />
+                                <RadzenDataGridColumn TItem="AuditLogDetails" Property="Status" Filterable="false" Title="Status" Width="70px" TextAlign="TextAlign.Left"/>
+                                <RadzenDataGridColumn TItem="AuditLogDetails" Property="Comments" Filterable="false" Title="Status" Width="70px" TextAlign="TextAlign.Left"/>
+                                <RadzenDataGridColumn TItem="AuditLogDetails" Property="Details" Filterable="false" Title="Status" Width="70px" TextAlign="TextAlign.Left"/>
+                            </Columns>
+                        </RadzenDataGrid>
+                    </RadzenTabsItem>
+                </Tabs>
+            </RadzenTabs>
+        </RadzenCard>
+    </span>
+</div>
+

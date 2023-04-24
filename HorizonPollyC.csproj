@@ -1,0 +1,56 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+	<!-- <StaticWebAssetBasePath>Horizon.UI</StaticWebAssetBasePath> -->
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Components\AvailableFeaturesAuthAttribute.cs" />
+    <Compile Remove="Components\AvailableFeaturesProvider.cs" />
+    <Compile Remove="Components\CustomAuthenticationStaterProvider.cs" />
+    <Compile Remove="Components\LocalStorageService.cs" />
+    <Compile Remove="Models\UserManagement\FeatureUpdate.cs" />
+    <Compile Remove="Pages\Configuration\AncilType.razor.cs" />
+    <Compile Remove="Pages\FinancialDetails.razor.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="Pages\Configuration\AncilType.razor" />
+    <Content Remove="Pages\FinancialDetails.razor" />
+    <Content Remove="Shared\LoginDisplay.razor" />
+    <Content Remove="wwwroot\css\Radzen\default.css" />
+  </ItemGroup>
+
+  <ItemGroup>
+	  <PackageReference Include="Blazored.LocalStorage" Version="4.3.0" />
+	  <PackageReference Include="ClosedXML.Report" Version="0.2.6" />
+	  <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="7.0.2" />
+	  <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="7.0.2" PrivateAssets="all" />
+	  <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Authentication" Version="7.0.2" />
+	  <PackageReference Include="Microsoft.AspNetCore.Http" Version="2.2.2" />
+	  <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
+	  <PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="7.0.2" />
+	  <PackageReference Include="Microsoft.Extensions.Http" Version="7.0.0" />
+	  <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
+	  <PackageReference Include="Radzen.Blazor" Version="4.6.2" />
+	  <PackageReference Include="Serilog" Version="2.12.0" />
+	  <PackageReference Include="Serilog.Extensions.Logging.File" Version="3.0.0" />
+	  <PackageReference Include="Serilog.Settings.Configuration" Version="3.4.0" />
+	  <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.26.0" />
+
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Models\UserManagement\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="wwwroot\appsettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+</Project>

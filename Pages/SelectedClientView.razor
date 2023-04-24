@@ -1,0 +1,38 @@
+﻿@page "/SelectedClientView"
+@using Blazored.LocalStorage
+@using HorizonPollyC.Pages.Components
+@using HorizonPollyC.Services.SCV
+@using HorizonPollyC.Models
+@inject HttpClient httpClient
+@inject ISCVService SCVService
+@inject ILocalStorageService _localStorageService;
+
+@using Radzen
+@using System.Text.Json
+
+    <RadzenCard  class="m-0" Style="padding:10px;">
+     
+        <div class="row">
+              <h2 class="h2">@(ClientSearchResults.PersonFirstName) @(ClientSearchResults.PersonSurname)</h2>
+             <div class="col-md-4">
+                <div>Born:</div>
+                <b>@(Convert.ToDateTime(ClientSearchResults.PersonDOB).ToString("dd/MM/yyyy"))</b>
+            </div>    
+
+              <div class="col-md-4">
+                  <div>Reward Level:</div>
+                <b>@(ClientSearchResults.RewardStatus)</b>
+            </div>
+        </div>
+    </RadzenCard>
+
+
+<br />
+<RadzenCard class="m-0" >
+    <EntityPolicyList onPolicySelect="PolicySelected"> </EntityPolicyList>
+</RadzenCard>
+<br />
+
+@code {
+
+}

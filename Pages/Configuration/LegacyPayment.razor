@@ -1,0 +1,79 @@
+﻿@page "/configuration/legacypayment"
+@using HorizonPollyC.Services.General
+@using HorizonPollyC.Models.Configuration
+@using HorizonPollyC.Services.Configuration
+@using Microsoft.JSInterop;
+@inject IExportService _exportService
+@inject IJSRuntime js
+@inject ILegacyPaymentService _legacypaymentService
+<h3>Legacy Payments</h3>
+
+@if (legacypayments != null)
+{
+
+    <RadzenButton Icon="add_circle_outline" style="margin-bottom: 10px" Text="Add New Record" Click="@InsertRow" Disabled=@(legacypaymentToInsert != null) />
+    <RadzenButton Text="Export XLS" Icon="grid_on" Click="@(args => Export("excel"))" Class="mb-4 mr-2" />
+    <RadzenButton Text="Export CSV" Icon="wrap_text" Click="@(args => Export("csv"))" Class="mb-4" />
+    <RadzenDataGrid @ref="legacypaymentGrid" AllowFiltering="true" AllowColumnResize="true" FilterMode="FilterMode.Advanced" AllowSorting="true" PageSize="10" AllowPaging="true" PagerHorizontalAlign="HorizontalAlign.Left" ShowPagingSummary="true"
+                Data="@legacypayments" TItem="LegacyPaymentVM" ColumnWidth="300px" LogicalFilterOperator="LogicalFilterOperator.Or" EditMode="DataGridEditMode.Single" RowUpdate="@OnUpdateRow" RowCreate="@OnCreateRow">
+        <Columns>
+            <RadzenDataGridColumn TItem="LegacyPaymentVM" Property="LegacyPaymentMethodCD" Filterable="true" Title="Legacy Payment Method CD" Width="110px" TextAlign="TextAlign.Right">
+                <EditTemplate Context="legacypaymentvm">
+                    <RadzenNumeric Min="1" Max="100" @bind-Value="legacypaymentvm.LegacyPaymentMethodCD" Class="w-70" Disabled="@enable" />
+                </EditTemplate>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="LegacyPaymentVM" Property="SDesc" Title="Description" Width="140px" TextAlign="TextAlign.Left">
+                <EditTemplate Context="legacypaymentvm">
+                    <RadzenTextBox @bind-Value="legacypaymentvm.SDesc" Style="width:100%; display: block" Name="Description" />   <RadzenRequiredValidator Component="Description" Text="Value is required" Popup="true" />
+                </EditTemplate>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="LegacyPaymentVM" Property="SCode" Filterable="true" Title="S Code" Width="110px" TextAlign="TextAlign.Left">
+                <EditTemplate Context="legacypaymentvm">
+                    <RadzenTextBox @bind-Value="legacypaymentvm.SCode" Style="width:100%; display: block" Name="Description" />
+                </EditTemplate>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="LegacyPaymentVM" Property="UserID" Filterable="true" Title="User ID" Width="110px" TextAlign="TextAlign.Left">
+                <EditTemplate Context="legacypaymentvm">
+                    <RadzenTextBox @bind-Value="legacypaymentvm.UserID" Style="width:100%; display: block" Name="Description" />
+                </EditTemplate>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="LegacyPaymentVM" Property="LastChanged" Title="Last Changed" Width="100px" TextAlign="TextAlign.Left">
+                <EditTemplate Context="legacypaymentvm">
+                    <RadzenDatePicker @bind-Value="legacypaymentvm.LastChanged" DateFormat="d" Class="w-100" />
+                </EditTemplate>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="LegacyPaymentVM" Property="EffDate" Title="EffDate" Width="100px" TextAlign="TextAlign.Left"  FormatString="{0:d}">
+                <EditTemplate Context="legacypaymentvm">
+                    <RadzenDatePicker @bind-Value="legacypaymentvm.EffDate" DateFormat="d" Class="w-100" Name="EffDate"/>   <RadzenRequiredValidator Component="EffDate" Text="Value is required" Popup="true" />
+                </EditTemplate>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="LegacyPaymentVM" Property="ExpDate" Title="Expiry Date" Width="100px" TextAlign="TextAlign.Left"  FormatString="{0:d}">
+                <EditTemplate Context="legacypaymentvm">
+                    <RadzenDatePicker @bind-Value="legacypaymentvm.ExpDate" DateFormat="d" Class="w-100" Name="ExpDate"/> <RadzenRequiredValidator Component="ExpDate" Text="Value is required" Popup="true" />
+                </EditTemplate>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="LegacyPaymentVM" Property="IsActive" Title="Is Active" Width="70px">
+                <Template Context="legacypaymentvm">
+                    <RadzenSwitch @bind-Value="legacypaymentvm.IsActive" Disabled="false" />
+                </Template>
+                <EditTemplate Context="legacypaymentvm">
+                    <RadzenSwitch @bind-Value="legacypaymentvm.IsActive" Disabled="false" />
+                </EditTemplate>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="LegacyPaymentVM" Context="languagevm" Filterable="false" Sortable="false" TextAlign="TextAlign.Center" Width="80px">
+                <Template Context="languagevm">
+                    <RadzenButton Icon="edit" ButtonStyle="ButtonStyle.Primary" Class="m-1" Click="@(args => EditRow(languagevm))" @onclick:stopPropagation="true">
+                    </RadzenButton>
+                </Template>
+                <EditTemplate Context="languagevm">
+                    <RadzenButton Icon="check" ButtonStyle="ButtonStyle.Primary" Class="m-1" Click="@((args) => SaveRow(languagevm))">
+                    </RadzenButton>
+                    <RadzenButton Icon="close" ButtonStyle="ButtonStyle.Primary" Class="m-1" Click="@((args) => CancelEdit(languagevm))">
+                    </RadzenButton>
+                </EditTemplate>
+            </RadzenDataGridColumn>
+        </Columns>
+    </RadzenDataGrid>
+
+
+}

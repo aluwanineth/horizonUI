@@ -1,0 +1,113 @@
+﻿@page "/BenefitDetail"
+@using Blazored.LocalStorage
+@using HorizonPollyC.Pages.Components
+@using HorizonPollyC.Services.SCV
+@using HorizonPollyC.Models
+@inject HttpClient httpClient
+@inject ISCVService _SCVService
+@inject ILocalStorageService _localStorageService;
+
+<style>
+
+    .rtblc > div > div > table > thead > tr > th:first-child {
+        border-radius: 5px 0px 0px 5px;
+    }
+
+    .rtblc > div > div > table > thead > tr > th:last-child {
+        border-radius: 0px 5px 5px 0px;
+    }
+
+    .rtblc > div > div > table > thead > tr > th {
+        border: 0px !important;
+        border-bottom: 1px solid black !important;
+    }
+
+    .rtblc > div > div > table > tbody > tr > td {
+        border: 0px !important;
+        border-bottom: 1px solid black !important;
+    }
+
+    .rtblc > div > div > table > tfoot > tr > td {
+        background-color: white !important;
+        border: 0px !important;
+        border-top: 2px solid black !important;
+        border-bottom: 2px solid black !important;
+        font-weight: bold !important;
+    }
+
+    .loading_dlg p {
+        font-size: 2em;
+        font-weight: bold;
+        text-align: center;
+        padding-top: 10px;
+    }
+
+    .loading_dlg {
+        z-index: 999;
+        padding: 10px;
+        background-color: white;
+        position: absolute;
+        left: 50vw;
+        top: 50vh;
+        box-shadow: #747474 0px 0px 11px 0px;
+        border-radius: 5px 5px 5px 5px;
+    }
+
+</style>
+
+<div class="loading_dlg" style="@("display:" + (is_loading ? "block" : "none") + ";")">
+    <img src="loading-gif.gif" title="loading" style="zoom:50%; filter:brightness(80%) hue-rotate(345deg) saturate(1) contrast(3.5) saturate(12);" />
+    <p>LOADING</p>
+</div>
+
+<div>
+
+    <InformationBoard OnStateHasChanged="OnStateHasChanged" />
+    <div>
+        <HorizonPollyC.Pages.Components.EntityPolicyList onPolicySelect="PolicySelected"></HorizonPollyC.Pages.Components.EntityPolicyList>
+    </div>
+
+    <div class="rtblc">
+
+        <RadzenDataGrid @ref="benefitsResultsGrid"
+            Data="@BenefitsModel"
+            AllowFiltering="true"
+            AllowColumnResize="true"
+            FilterMode="FilterMode.Advanced"
+            AllowSorting="true"
+            PageSize="10"
+            AllowPaging="true"
+            PagerHorizontalAlign="HorizontalAlign.Left"
+            ShowPagingSummary="true"
+            TItem="BenefitDetail2"
+            LogicalFilterOperator="LogicalFilterOperator.Or"
+            EditMode="DataGridEditMode.Single"
+            >
+    
+        <Columns>
+            <RadzenDataGridColumn TItem="BenefitDetail2" Property="Name" Filterable="false" Title="Name" Width="70px" TextAlign="TextAlign.Left" />
+            <RadzenDataGridColumn TItem="BenefitDetail2" Property="Surname" Filterable="false" Title="Surname" Width="70px" TextAlign="TextAlign.Left" />
+            <RadzenDataGridColumn TItem="BenefitDetail2" Property="Relation" Filterable="false" Title="Relation" Width="70px" TextAlign="TextAlign.Left" />
+            <RadzenDataGridColumn TItem="BenefitDetail2" Property="RelationType" Filterable="false" Title="Relation Type" Width="70px" TextAlign="TextAlign.Left" />
+            <RadzenDataGridColumn TItem="BenefitDetail2" Property="BenefitType" Filterable="false" Title="Benefit Type" Width="70px" TextAlign="TextAlign.Left" />
+            <RadzenDataGridColumn TItem="BenefitDetail2" Property="CoverAmount" Filterable="false" Title="Cover Amount" Width="70px" TextAlign="TextAlign.Right" FormatString="{0:N2}" >
+                <FooterTemplate>
+                        <span style="text-align:right;">Total</span>
+                </FooterTemplate>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="BenefitDetail2" Property="Premium" Filterable="false" Title="Premium" Width="70px" TextAlign="TextAlign.Right" FormatString="{0:N2}" >
+                <FooterTemplate>
+                        <span style="text-align:right;">R @PremiumTotal.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture)</span>
+                </FooterTemplate>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="BenefitDetail2" Property="DOC" Filterable="false" Title="DOC" Width="70px" TextAlign="TextAlign.Left" FormatString="{0:yyyy/MM/dd}" />
+            <RadzenDataGridColumn TItem="BenefitDetail2" Property="IDNumber" Filterable="false" Title="ID Number" Width="70px" TextAlign="TextAlign.Right" />
+            <RadzenDataGridColumn TItem="BenefitDetail2" Property="WaitingPeriod" Filterable="false" Title="Waiting Period" Width="160px" TextAlign="TextAlign.Left" FormatString="{0:yyyy/MM/dd}" />
+            <RadzenDataGridColumn TItem="BenefitDetail2" Property="DOB" Filterable="false" Title="DOB" Width="70px" TextAlign="TextAlign.Left" FormatString="{0:yyyy/MM/dd}" />
+        </Columns>
+    
+        </RadzenDataGrid>
+
+    </div>
+
+</div>

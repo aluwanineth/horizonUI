@@ -1,0 +1,34 @@
+﻿<RadzenCard Style="min-width:100%; background:linear-gradient(180deg, rgba(255,255,255,1) 0%, rgba(221,221,221,1) 100%); border:1px solid rgb(20, 20, 20); border-radius:5px 5px 5px 5px; padding:8px 8px 8px 8px; height:80px;">
+    <table style="width:100%;">
+        <tr>
+            <td style="width:33%; max-width:33%; vertical-align:top;">
+                <p style="font-family: 'Liberation Sans'; color:red; font-size:18px;">@Globals.error_msg</p>
+                <p style="font-family: 'Liberation Sans'; color:green; font-size:18px;">@Globals.validation_msg</p>
+            </td>
+            <td style="width:33%; max-width:33%; text-align:center; vertical-align:top;">
+                <p style="font-family: 'Liberation Sans'; color:black; font-size:18px; margin-top: -7px; margin-left: -250px;">Information Board</p>
+            </td>
+            <td style="width:33%; max-width:33%; vertical-align:top;">
+                <p style="font-family: 'Liberation Sans'; color:black; font-size:18px;"></p>
+            </td>
+        </tr>
+    </table>
+
+
+</RadzenCard>
+@code {
+    [CascadingParameter]
+    public GlobalVariables? Globals { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+    }
+
+    [Parameter]
+    public EventCallback OnStateHasChanged { get; set; }
+
+    private async Task OnUpdatedChild()
+    {
+        await OnStateHasChanged.InvokeAsync();
+    }
+}

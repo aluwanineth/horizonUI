@@ -1,0 +1,49 @@
+﻿@page "/configuration/bordereauxsource"
+@using HorizonPollyC.Services.General
+@using HorizonPollyC.Models.Configuration
+@using HorizonPollyC.Services.Configuration
+@using Microsoft.JSInterop;
+@inject IExportService _exportService
+@inject IJSRuntime js
+@inject IBordereauxSourceService _bordereauxSource
+<h3>Bordereaux Sources</h3>
+
+@if (bordereauxsources != null)
+{
+
+
+
+    <RadzenButton Icon="add_circle_outline" style="margin-bottom: 10px" Text="Add New Record" Click="@InsertRow" Disabled=@(bordereauxsourceToInsert != null) />
+    <RadzenButton Text="Export XLS" Icon="grid_on" Click="@(args => Export("excel"))" Class="mb-4 mr-2" />
+    <RadzenButton Text="Export CSV" Icon="wrap_text" Click="@(args => Export("csv"))" Class="mb-4" />
+    <RadzenDataGrid @ref="bordereauxsourcesGrid" AllowFiltering="true" AllowColumnResize="true" FilterMode="FilterMode.Advanced" AllowSorting="true" PageSize="5" AllowPaging="true" PagerHorizontalAlign="HorizontalAlign.Left" ShowPagingSummary="true"
+                Data="@bordereauxsources" TItem="BordereauxSourceVM" ColumnWidth="300px" LogicalFilterOperator="LogicalFilterOperator.Or" EditMode="DataGridEditMode.Single" RowUpdate="@OnUpdateRow" RowCreate="@OnCreateRow">
+        <Columns>
+            <RadzenDataGridColumn TItem="BordereauxSourceVM" Property="BordereauxSourceCD" Filterable="true" Title="Bordereauxsource CD" Width="110px" TextAlign="TextAlign.Right">
+                <EditTemplate Context="bordereauxsourcevm">
+                    <RadzenNumeric Min="1" Max="100" @bind-Value="bordereauxsourcevm.BordereauxSourceCD" Class="w-70" Disabled="@enable" />
+                </EditTemplate>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="BordereauxSourceVM" Property="SDesc" Title="Description" Width="110px" TextAlign="TextAlign.Left">
+                <EditTemplate Context="bordereauxsourcevm">
+                    <RadzenTextBox @bind-Value="bordereauxsourcevm.SDesc" Style="width:100%; display: block" Name="Description" />   <RadzenRequiredValidator Component="Description" Text="Value is required" Popup="true" />
+                </EditTemplate>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="BordereauxSourceVM" Context="bordereauxsourcevm" Filterable="false" Sortable="false" TextAlign="TextAlign.Center" Width="80px">
+                <Template Context="bordereauxsourcevm">
+                    <RadzenButton Icon="edit" ButtonStyle="ButtonStyle.Primary" Class="m-1" Click="@(args => EditRow(bordereauxsourcevm))" @onclick:stopPropagation="true">
+                    </RadzenButton>
+                </Template>
+                <EditTemplate Context="bordereauxsourcevm">
+                    <RadzenButton Icon="check" ButtonStyle="ButtonStyle.Primary" Class="m-1" Click="@((args) => SaveRow(bordereauxsourcevm))">
+                    </RadzenButton>
+                    <RadzenButton Icon="close" ButtonStyle="ButtonStyle.Primary" Class="m-1" Click="@((args) => CancelEdit(bordereauxsourcevm))">
+                    </RadzenButton>
+                </EditTemplate>
+            </RadzenDataGridColumn>
+
+        </Columns>
+    </RadzenDataGrid>
+
+
+}

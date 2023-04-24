@@ -1,0 +1,39 @@
+﻿@page "/AccountingHistory"
+@using HorizonPollyC.Services.SCV
+@using HorizonPollyC.Models
+@inject ISCVService _SCVService
+
+
+<div>
+    <div>
+        <HorizonPollyC.Pages.Components.EntityPolicyList></HorizonPollyC.Pages.Components.EntityPolicyList>
+    </div>
+
+    <span style="padding-bottom: 10px;display: flex;">
+        <RadzenCard>
+            <RadzenTabs RenderMode="TabRenderMode.Client">
+                <Tabs>
+                    <RadzenTabsItem Text="Accounting History">
+                        <RadzenDataGrid @ref="AccountingHistoryGrid" Data="@AccountingHistoryModel" AllowFiltering="true" AllowColumnResize="true"
+                                        FilterMode="FilterMode.Advanced" AllowSorting="true" PageSize="10" AllowPaging="true"
+                                        PagerHorizontalAlign="HorizontalAlign.Left" ShowPagingSummary="true" TItem="AccountingHistoryDetails" ColumnWidth="300px"
+                                        LogicalFilterOperator="LogicalFilterOperator.Or" EditMode="DataGridEditMode.Single">
+                            <Columns>
+                                <RadzenDataGridColumn TItem="AccountingHistoryDetails" Property="ReferenceNo" Filterable="false" Title="Reference No" Width="70px" TextAlign="TextAlign.Left" />
+                                <RadzenDataGridColumn TItem="AccountingHistoryDetails" Property="EffectiveDate" Filterable="false" Title="EffectiveDate" Width="70px" TextAlign="TextAlign.Left" FormatString="{0:d}" />
+                                <RadzenDataGridColumn TItem="AccountingHistoryDetails" Property="PostDate" Filterable="false" Title="Post Date" Width="70px" TextAlign="TextAlign.Left" FormatString="{0:d}" />
+                                <RadzenDataGridColumn TItem="AccountingHistoryDetails" Property="Status" Filterable="false" Title="Status" Width="70px" TextAlign="TextAlign.Left" />
+                                <RadzenDataGridColumn TItem="AccountingHistoryDetails" Property="Tracking" Filterable="false" Title="Tracking" Width="70px" TextAlign="TextAlign.Left" />
+                                <RadzenDataGridColumn TItem="AccountingHistoryDetails" Property="AmountBilled" Filterable="false" Title="Amount Billed" Width="70px" TextAlign="TextAlign.Right"/>
+                                <RadzenDataGridColumn TItem="AccountingHistoryDetails" Property="AmountPaid" Filterable="false" Title="Amount Paid" Width="70px" TextAlign="TextAlign.Right"/>
+                                <RadzenDataGridColumn TItem="AccountingHistoryDetails" Property="AmountOutstanding" Filterable="false" Title="Amount Outstanding" Width="70px" TextAlign="TextAlign.Right">
+                                </RadzenDataGridColumn>
+                            </Columns>
+                        </RadzenDataGrid>
+                    </RadzenTabsItem>
+                </Tabs>
+            </RadzenTabs>
+        </RadzenCard>
+    </span>
+</div>
+

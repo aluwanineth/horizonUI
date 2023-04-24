@@ -1,0 +1,71 @@
+﻿@page "/configuration/premiumportiontype"
+@using HorizonPollyC.Services.General
+@using HorizonPollyC.Models.Configuration
+@using HorizonPollyC.Services.Configuration
+@using Microsoft.JSInterop;
+@inject IExportService _exportService
+@inject IJSRuntime js
+@inject IPremiumPortionService _premiumportionService
+<h3>Premium Portion Types</h3>
+
+@if (premiumportiontypes != null)
+{
+
+            <RadzenButton Icon="add_circle_outline" style="margin-bottom: 10px" Text="Add New Record" Click="@InsertRow" Disabled=@(premiumportiontypeToInsert != null) />
+            <RadzenButton Text="Export XLS" Icon="grid_on" Click="@(args => Export("excel"))" Class="mb-4 mr-2" />
+            <RadzenButton Text="Export CSV" Icon="wrap_text" Click="@(args => Export("csv"))" Class="mb-4" />
+            <RadzenDataGrid @ref="premiumportiontypeGrid" AllowFiltering="true" AllowColumnResize="true" FilterMode="FilterMode.Advanced" AllowSorting="true" PageSize="10" AllowPaging="true" PagerHorizontalAlign="HorizontalAlign.Left" ShowPagingSummary="true"
+                Data="@premiumportiontypes" TItem="PremiumPortionTypeVM" ColumnWidth="300px" LogicalFilterOperator="LogicalFilterOperator.Or" EditMode="DataGridEditMode.Single" RowUpdate="@OnUpdateRow" RowCreate="@OnCreateRow">
+                <Columns>
+            <RadzenDataGridColumn TItem="PremiumPortionTypeVM" Property="PremPortionTypeCD" Filterable="true" Title="Premium PortionType CD" Width="110px" TextAlign="TextAlign.Right">
+                        <EditTemplate Context="premiumportiontypevm">
+                    <RadzenNumeric Min="1" Max="100" @bind-Value="premiumportiontypevm.PremPortionTypeCD" Class="w-70" Disabled="@enable" />
+                        </EditTemplate>
+                    </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="PremiumPortionTypeVM" Property="SDesc" Title="Description" Width="140px" TextAlign="TextAlign.Left">
+                <EditTemplate Context="premiumportiontypevm">
+                    <RadzenTextBox @bind-Value="premiumportiontypevm.SDesc" Style="width:100%; display: block" Name="Description" />   <RadzenRequiredValidator Component="Description" Text="Value is required" Popup="true" />
+                </EditTemplate>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="PremiumPortionTypeVM" Property="AccountCD" Title="Account CD" Width="140px" TextAlign="TextAlign.Left">
+                <EditTemplate Context="premiumportiontypevm">
+                    <RadzenTextBox @bind-Value="premiumportiontypevm.AccountCD" Style="width:100%; display: block" Name="AccountCD" />
+                     <RadzenRequiredValidator Component="AccountCD" Text="Value is required" Popup="true" />
+                </EditTemplate>
+            </RadzenDataGridColumn>
+             
+                <RadzenDataGridColumn TItem="PremiumPortionTypeVM" Property="EffDate" Title="EffDate" Width="100px" TextAlign="TextAlign.Left"  FormatString="{0:d}">
+                    <EditTemplate Context="premiumportiontypevm">
+                    <RadzenDatePicker @bind-Value="premiumportiontypevm.EffDate" DateFormat="d" Class="w-100" Name="EffDate"/>   <RadzenRequiredValidator Component="EffDate" Text="Value is required" Popup="true" />
+                        </EditTemplate>
+                    </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="PremiumPortionTypeVM" Property="ExpDate" Title="Expiry Date" Width="100px" TextAlign="TextAlign.Left"  FormatString="{0:d}">
+                <EditTemplate Context="premiumportiontypevm">
+                    <RadzenDatePicker @bind-Value="premiumportiontypevm.ExpDate" DateFormat="d" Class="w-100" Name="ExpDate"/> <RadzenRequiredValidator Component="ExpDate" Text="Value is required" Popup="true" />
+                        </EditTemplate>
+                    </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="PremiumPortionTypeVM" Property="IsActive" Title="Is Active" Width="70px">
+                <Template Context="premiumportiontypevm">
+                    <RadzenSwitch @bind-Value="premiumportiontypevm.IsActive" Disabled="false" />
+                        </Template>
+                <EditTemplate Context="premiumportiontypevm">
+                    <RadzenSwitch @bind-Value="premiumportiontypevm.IsActive" Disabled="false" />
+                        </EditTemplate>
+                    </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="PremiumPortionTypeVM" Context="premiumportiontypevm" Filterable="false" Sortable="false" TextAlign="TextAlign.Center" Width="80px">
+                    <Template Context="premiumportiontypevm">
+                    <RadzenButton Icon="edit" ButtonStyle="ButtonStyle.Primary" Class="m-1" Click="@(args => EditRow(premiumportiontypevm))" @onclick:stopPropagation="true">
+                            </RadzenButton>
+                        </Template>
+                <EditTemplate Context="premiumportiontypevm">
+                    <RadzenButton Icon="check" ButtonStyle="ButtonStyle.Primary" Class="m-1" Click="@((args) => SaveRow(premiumportiontypevm))">
+                            </RadzenButton>
+                    <RadzenButton Icon="close" ButtonStyle="ButtonStyle.Primary" Class="m-1" Click="@((args) => CancelEdit(premiumportiontypevm))">
+                            </RadzenButton>
+                        </EditTemplate>
+                    </RadzenDataGridColumn>
+                </Columns>
+            </RadzenDataGrid>
+
+
+}

@@ -1,0 +1,76 @@
+﻿@page "/configuration/productBenefits"
+@using HorizonPollyC.Services.General
+@using HorizonPollyC.Models.Configuration
+@using HorizonPollyC.Services.Configuration
+@using Microsoft.JSInterop;
+@inject IExportService _exportService
+@inject IJSRuntime js
+@inject IProductBenefitsService _productBenefitsService
+@inject IGeneric<ProductLineVM> _productlineService
+@inject IBenefitTypeService _benefitTypeService
+<h3>ProductBenefits</h3>
+
+@if (productBenefits != null)
+{
+
+
+
+    <RadzenButton Icon="add_circle_outline" style="margin-bottom: 10px" Text="Add New Record" Click="@InsertRow" Disabled=@(productBenefitsToInsert != null) />
+        <RadzenButton Text="Export XLS" Icon="grid_on" Click="@(args => Export("excel"))" Class="mb-4 mr-2" />
+        <RadzenButton Text="Export CSV" Icon="wrap_text" Click="@(args => Export("csv"))" Class="mb-4" />
+    <RadzenDataGrid @ref="productBenefitsGrid" AllowFiltering="true" AllowColumnResize="true" FilterMode="FilterMode.Advanced" AllowSorting="true" PageSize="5" AllowPaging="true" PagerHorizontalAlign="HorizontalAlign.Left" ShowPagingSummary="true"
+                Data="@productBenefits" TItem="ProductBenefitsVM" ColumnWidth="300px" LogicalFilterOperator="LogicalFilterOperator.Or" EditMode="DataGridEditMode.Single" RowUpdate="@OnUpdateRow" RowCreate="@OnCreateRow">
+            <Columns>
+            <RadzenDataGridColumn TItem="ProductBenefitsVM" Property="ProductLineCD" Title="Product Line CD" Width="140px" TextAlign="TextAlign.Left">
+                    <EditTemplate Context="productBenefitsvm">
+                    @*<RadzenNumeric @bind-Value="productBenefitsvm.ProductLineCD" Style="width:100%; display: block" Name="ProductLineCD" />*@
+                    <RadzenDropDown @bind-Value="productBenefitsvm.ProductLineCD" Data="@productlineLookup" Name="ProductLineCD" TextProperty="SDesc" ValueProperty="ProductLineCD" Style="width:100%; display: block;"  />
+                    <RadzenRequiredValidator Component="ProductLineCD" Text="Value is required" Popup="true" />
+                    </EditTemplate>
+                </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="ProductBenefitsVM" Property="BenefitTypeCD" Title="Benefit Type CD" Width="170px" TextAlign="TextAlign.Right">
+                    <EditTemplate Context="productBenefitsvm">
+                   @* <RadzenNumeric @bind-Value="productBenefitsvm.BenefitTypeCD" Style="width:100%; display: block" Name="BenefitTypeCD" />*@
+                    <RadzenDropDown @bind-Value="productBenefitsvm.BenefitTypeCD" Data="@benefittypeLookup" Name="BenefitTypeCD" TextProperty="SDesc" ValueProperty="BenefitTypeCD" Style="width:100%; display: block;" />
+                    <RadzenRequiredValidator Component="BenefitTypeCD" Text="Value is required" Popup="true" />
+                    </EditTemplate>
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ProductBenefitsVM" Property="EffectiveDate" Title="Eff date" Width="100px" TextAlign="TextAlign.Left"  FormatString="{0:d}">
+                    <EditTemplate Context="productBenefitsvm">
+                    <RadzenDatePicker @bind-Value="productBenefitsvm.EffectiveDate" DateFormat="d" Class="w-100" Name="EffectiveDate" />
+                    <RadzenRequiredValidator Component="EffectiveDate" Text="Value is required" Popup="true" />
+                    </EditTemplate>
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ProductBenefitsVM" Property="ExpiryDate" Title="Expiry Date" Width="100px" TextAlign="TextAlign.Left"  FormatString="{0:d}">
+                    <EditTemplate Context="productBenefitsvm">
+                    <RadzenDatePicker @bind-Value="productBenefitsvm.ExpiryDate" DateFormat="d" Class="w-100" Name="ExpiryDate" />
+                    <RadzenRequiredValidator Component="ExpiryDate" Text="Value is required" Popup="true" />
+                    </EditTemplate>
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ProductBenefitsVM" Property="IsActive" Title="Is Active" Width="50px" TextAlign="TextAlign.Left">
+                    <Template Context="productBenefitsvm">
+                        <RadzenSwitch @bind-Value="productBenefitsvm.IsActive" Disabled="false" />
+                    </Template>
+                    <EditTemplate Context="productBenefitsvm">
+                        <RadzenSwitch @bind-Value="productBenefitsvm.IsActive" Disabled="false" />
+                    </EditTemplate>
+
+                </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="ProductBenefitsVM" Context="productBenefitsvm" Filterable="false" Sortable="false" TextAlign="TextAlign.Center" Width="100px">
+                    <Template Context="productBenefitsvm">
+                        <RadzenButton Icon="edit" ButtonStyle="ButtonStyle.Primary" Class="m-1" Click="@(args => EditRow(productBenefitsvm))" @onclick:stopPropagation="true">
+                        </RadzenButton>
+                    </Template>
+                <EditTemplate Context="productBenefitsvm">
+                        <RadzenButton Icon="check" ButtonStyle="ButtonStyle.Primary" Class="m-1" Click="@((args) => SaveRow(productBenefitsvm))">
+                        </RadzenButton>
+                    <RadzenButton Icon="close" ButtonStyle="ButtonStyle.Primary" Class="m-1" Click="@((args) => CancelEdit(productBenefitsvm))">
+                        </RadzenButton>
+                    </EditTemplate>
+                </RadzenDataGridColumn>
+
+            </Columns>
+        </RadzenDataGrid>
+
+
+}

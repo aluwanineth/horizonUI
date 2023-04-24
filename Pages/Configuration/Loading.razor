@@ -1,0 +1,85 @@
+﻿@page "/configuration/loading"
+@using HorizonPollyC.Services.General
+@using HorizonPollyC.Models.Configuration
+@using HorizonPollyC.Services.Configuration
+@using Microsoft.JSInterop;
+@inject IExportService _exportService
+@inject IJSRuntime js
+@inject ILoadingService _loadingService
+<h3>Loading</h3>
+
+@if (loadings != null)
+{
+
+    <RadzenButton Icon="add_circle_outline" style="margin-bottom: 10px" Text="Add New Record" Click="@InsertRow" Disabled=@(loadingToInsert != null) />
+    <RadzenButton Text="Export XLS" Icon="grid_on" Click="@(args => Export("excel"))" Class="mb-4 mr-2" />
+    <RadzenButton Text="Export CSV" Icon="wrap_text" Click="@(args => Export("csv"))" Class="mb-4" />
+    <RadzenDataGrid @ref="loadingGrid" AllowFiltering="true" AllowColumnResize="true" FilterMode="FilterMode.Advanced" AllowSorting="true" PageSize="10" AllowPaging="true" PagerHorizontalAlign="HorizontalAlign.Left" ShowPagingSummary="true"
+                Data="@loadings" TItem="LoadingVM" ColumnWidth="300px" LogicalFilterOperator="LogicalFilterOperator.Or" EditMode="DataGridEditMode.Single" RowUpdate="@OnUpdateRow" RowCreate="@OnCreateRow">
+        <Columns>
+            <RadzenDataGridColumn TItem="LoadingVM" Property="LoadingCD" Filterable="true" Title="Loading CD" Width="110px" TextAlign="TextAlign.Right">
+                <EditTemplate Context="loadingvm">
+                    <RadzenNumeric Min="1" Max="100" @bind-Value="loadingvm.LoadingCD" Class="w-70" Disabled="@enable" />
+                </EditTemplate>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="LoadingVM" Property="LoadingTypeCD" Filterable="true" Title="Loading Type CD" Width="110px" TextAlign="TextAlign.Right">
+                <EditTemplate Context="loadingvm">
+                    <RadzenNumeric Min="1" Max="100" @bind-Value="loadingvm.LoadingTypeCD" Class="w-70" Disabled="@enable" />
+                </EditTemplate>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="LoadingVM" Property="SDescr" Title="Description" Width="140px" TextAlign="TextAlign.Left">
+                <EditTemplate Context="loadingvm">
+                    <RadzenTextBox @bind-Value="loadingvm.SDescr" Style="width:100%; display: block" Name="SDescr" />
+                      <RadzenRequiredValidator Component="SDescr" Text="Value is required" Popup="true" />
+                </EditTemplate>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="LoadingVM" Property="LoadingAmt" Title="Loading Ammount" Width="110px" TextAlign="TextAlign.Right"    FormatString="{0:0.00}">
+                <EditTemplate Context="loadingvm">
+                    <RadzenNumeric TValue="decimal" Format="0.0000" @bind-Value="loadingvm.LoadingAmt" Placeholder="Enter or clear value" Class="mr-1" />
+                </EditTemplate>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="LoadingVM" Property="LoadingPerc" Title="Loading Percentage" Width="110px" TextAlign="TextAlign.Right"    FormatString="{0:0.00}">
+                <EditTemplate Context="loadingvm">
+                    <RadzenNumeric TValue="decimal" Format="0.0000" @bind-Value="loadingvm.LoadingPerc" Placeholder="Enter or clear value" Class="mr-1" />
+                </EditTemplate>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="LoadingVM" Property="DispSeq" Filterable="true" Title="DispSeq" Width="110px" TextAlign="TextAlign.Right">
+                <EditTemplate Context="loadingvm">
+                    <RadzenNumeric Min="1" Max="100" @bind-Value="loadingvm.DispSeq" Class="w-70" Disabled="@enable" Name="DispSeq" />  <RadzenRequiredValidator Component="DispSeq" Text="Value is required" Popup="true" />
+                </EditTemplate>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="LoadingVM" Property="EffDate" Title="EffDate" Width="100px" TextAlign="TextAlign.Left"  FormatString="{0:d}">
+                <EditTemplate Context="loadingvm">
+                    <RadzenDatePicker @bind-Value="loadingvm.EffDate" DateFormat="d" Class="w-100" Name="EffDate"/>   <RadzenRequiredValidator Component="EffDate" Text="Value is required" Popup="true" />
+                </EditTemplate>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="LoadingVM" Property="ExpDate" Title="Expiry Date" Width="100px" TextAlign="TextAlign.Left"  FormatString="{0:d}">
+                <EditTemplate Context="loadingvm">
+                    <RadzenDatePicker @bind-Value="loadingvm.ExpDate" DateFormat="d" Class="w-100" Name="ExpDate"/> <RadzenRequiredValidator Component="ExpDate" Text="Value is required" Popup="true" />
+                </EditTemplate>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="LoadingVM" Property="IsActive" Title="Is Active" Width="70px">
+                <Template Context="loadingvm">
+                    <RadzenSwitch @bind-Value="loadingvm.IsActive" Disabled="false" />
+                </Template>
+                <EditTemplate Context="loadingvm">
+                    <RadzenSwitch @bind-Value="loadingvm.IsActive" Disabled="false" />
+                </EditTemplate>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="LoadingVM" Context="languagevm" Filterable="false" Sortable="false" TextAlign="TextAlign.Center" Width="80px">
+                <Template Context="loadingvm">
+                    <RadzenButton Icon="edit" ButtonStyle="ButtonStyle.Primary" Class="m-1" Click="@(args => EditRow(loadingvm))" @onclick:stopPropagation="true">
+                    </RadzenButton>
+                </Template>
+                <EditTemplate Context="loadingvm">
+                    <RadzenButton Icon="check" ButtonStyle="ButtonStyle.Primary" Class="m-1" Click="@((args) => SaveRow(loadingvm))">
+                    </RadzenButton>
+                    <RadzenButton Icon="close" ButtonStyle="ButtonStyle.Primary" Class="m-1" Click="@((args) => CancelEdit(loadingvm))">
+                    </RadzenButton>
+                </EditTemplate>
+            </RadzenDataGridColumn>
+        </Columns>
+    </RadzenDataGrid>
+
+
+}

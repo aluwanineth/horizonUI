@@ -1,0 +1,50 @@
+﻿@page "/UserManagement/RoleFeatures"
+@using HorizonPollyC.Models.UserManagement
+@using HorizonPollyC.Services.UserManagement
+@inject IUserManagementService _userManagementService
+<h3>Roles Features </h3>
+
+<div>
+    <RadzenFieldset Visible=@(ShowProcessingScreen)>
+<div class="progress" style="align-items:center; height:2rem; ">
+    <div class="progress-bar progress-bar-striped progress-bar-animated"
+            role="progressbar" aria-valuenow="75"
+            aria-valuemin="0" aria-valuemax="100"
+            style="width: 100%; align-items:center; height:2rem; background-color:#1E3482 ">
+        Loading..
+    </div>
+</div>
+</RadzenFieldset>
+
+    <div>
+        <RadzenCard>
+            <RadzenDropDown AllowClear="true" TValue="int" Class="w-100"
+                            AllowFiltering="true"
+                            Data=@roleList TextProperty="Name" ValueProperty="Id"
+                            Change=@(args => OnRoleChange(args)) />
+        </RadzenCard>
+    </div>
+
+    <div>
+
+ @*     I potentially want this to span 3 or 4 columns, you can do this by taking(X), then skipping(X) for the next column. 
+        will also need some logic to only do that if there are more than X values*@
+        <h4 class="mb-4">Available Roles</h4>
+        <RadzenCheckBoxList @bind-Value=@SelectedFeatures
+                            TValue="int"
+                            Orientation="Orientation.Vertical"
+                            Data=@WorkingfeatureList
+                            TextProperty="FeatureDescription"
+                            ValueProperty="ID" />
+    </div>
+    <span style="display:flex">
+                <RadzenButton Text="Save" Icon="find_in_page" Disabled=ShowProcessingScreen Click="@(args => UpdateFeatureList())" ButtonStyle="ButtonStyle.Primary" Style="width:150px;" />
+
+               <RadzenButton Text="Clear" Icon="find_in_page" Disabled=ShowProcessingScreen Click="@(args => ClearSelection())" ButtonStyle="ButtonStyle.Primary" Style="width:150px;" />
+    </span>
+
+
+
+
+   
+</div>

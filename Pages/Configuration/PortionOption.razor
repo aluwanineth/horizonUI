@@ -1,0 +1,84 @@
+﻿@page "/configuration/portionoption"
+@using HorizonPollyC.Services.General
+@using HorizonPollyC.Models.Configuration
+@using HorizonPollyC.Services.Configuration
+@using Microsoft.JSInterop;
+@inject IExportService _exportService
+@inject IJSRuntime js
+@inject IPortionOptionService _portionoptionService
+<h3>Portion Options</h3>
+
+@if (portionoptions != null)
+{
+
+        <RadzenButton Icon="add_circle_outline" style="margin-bottom: 10px" Text="Add New Record" Click="@InsertRow" Disabled=@(portionoptionToInsert != null) />
+        <RadzenButton Text="Export XLS" Icon="grid_on" Click="@(args => Export("excel"))" Class="mb-4 mr-2" />
+        <RadzenButton Text="Export CSV" Icon="wrap_text" Click="@(args => Export("csv"))" Class="mb-4" />
+        <RadzenDataGrid @ref="portionoptionGrid" AllowFiltering="true" AllowColumnResize="true" FilterMode="FilterMode.Advanced" AllowSorting="true" PageSize="10" AllowPaging="true" PagerHorizontalAlign="HorizontalAlign.Left" ShowPagingSummary="true"
+                Data="@portionoptions" TItem="PortionOptionVM" ColumnWidth="300px" LogicalFilterOperator="LogicalFilterOperator.Or" EditMode="DataGridEditMode.Single" RowUpdate="@OnUpdateRow" RowCreate="@OnCreateRow">
+            <Columns>
+            <RadzenDataGridColumn TItem="PortionOptionVM" Property="SchemeCD" Filterable="true" Title="Scheme CD" Width="110px" TextAlign="TextAlign.Right">
+                    <EditTemplate Context="portionoptionvm">
+                    <RadzenNumeric Min="1" Max="100" @bind-Value="portionoptionvm.SchemeCD" Class="w-70" Disabled="@enable" />
+                    </EditTemplate>
+                </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="PortionOptionVM" Property="PlanCD" Filterable="true" Title="Plan CD" Width="110px" TextAlign="TextAlign.Right">
+                <EditTemplate Context="portionoptionvm">
+                    <RadzenNumeric Min="1" Max="100" @bind-Value="portionoptionvm.PlanCD" Class="w-70" Disabled="@enable" />
+                    </EditTemplate>
+                </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="PortionOptionVM" Property="OptionCD" Filterable="true" Title="Option CD" Width="110px" TextAlign="TextAlign.Right">
+                <EditTemplate Context="portionoptionvm">
+                    <RadzenNumeric Min="1" Max="100" @bind-Value="portionoptionvm.OptionCD" Class="w-70" Disabled="@enable" />
+                    </EditTemplate>
+                </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="PortionOptionVM" Property="PremiumPortionCD" Filterable="true" Title="Premium Portion CD" Width="110px" TextAlign="TextAlign.Right">
+                <EditTemplate Context="portionoptionvm">
+                    <RadzenNumeric Min="1" Max="100" @bind-Value="portionoptionvm.PremiumPortionCD" Class="w-70" Disabled="@enable" />
+                    </EditTemplate>
+                </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="PortionOptionVM" Property="LevelCD" Filterable="true" Title="Level CD" Width="110px" TextAlign="TextAlign.Right">
+                <EditTemplate Context="portionoptionvm">
+                    <RadzenNumeric Min="1" Max="100" @bind-Value="portionoptionvm.LevelCD" Class="w-70" Disabled="@enable" />
+                    </EditTemplate>
+                </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="PortionOptionVM" Property="PortionGroupCD" Filterable="true" Title="Portion Group CD" Width="110px" TextAlign="TextAlign.Right">
+                <EditTemplate Context="portionoptionvm">
+                    <RadzenNumeric Min="1" Max="100" @bind-Value="portionoptionvm.PortionGroupCD" Class="w-70" Disabled="@enable" />
+                    </EditTemplate>
+                </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="PortionOptionVM" Property="EffDate" Title="EffDate" Width="100px" TextAlign="TextAlign.Left"  FormatString="{0:d}">
+                <EditTemplate Context="portionoptionvm">
+                    <RadzenDatePicker @bind-Value="portionoptionvm.EffDate" DateFormat="d" Class="w-100" Name="EffDate"/>   <RadzenRequiredValidator Component="EffDate" Text="Value is required" Popup="true" />
+                    </EditTemplate>
+                </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="PortionOptionVM" Property="ExpDate" Title="Expiry Date" Width="100px" TextAlign="TextAlign.Left"  FormatString="{0:d}">
+                <EditTemplate Context="portionoptionvm">
+                    <RadzenDatePicker @bind-Value="portionoptionvm.ExpDate" DateFormat="d" Class="w-100" Name="ExpDate"/> <RadzenRequiredValidator Component="ExpDate" Text="Value is required" Popup="true" />
+                    </EditTemplate>
+                </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="PortionOptionVM" Property="IsActive" Title="Is Active" Width="70px">
+                <Template Context="portionoptionvm">
+                    <RadzenSwitch @bind-Value="portionoptionvm.IsActive" Disabled="false" />
+                    </Template>
+                <EditTemplate Context="portionoptionvm">
+                    <RadzenSwitch @bind-Value="portionoptionvm.IsActive" Disabled="false" />
+                    </EditTemplate>
+                </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="PortionOptionVM" Context="portionoptionvm" Filterable="false" Sortable="false" TextAlign="TextAlign.Center" Width="80px">
+                <Template Context="portionoptionvm">
+                    <RadzenButton Icon="edit" ButtonStyle="ButtonStyle.Primary" Class="m-1" Click="@(args => EditRow(portionoptionvm))" @onclick:stopPropagation="true">
+                        </RadzenButton>
+                    </Template>
+                <EditTemplate Context="portionoptionvm">
+                    <RadzenButton Icon="check" ButtonStyle="ButtonStyle.Primary" Class="m-1" Click="@((args) => SaveRow(portionoptionvm))">
+                        </RadzenButton>
+                    <RadzenButton Icon="close" ButtonStyle="ButtonStyle.Primary" Class="m-1" Click="@((args) => CancelEdit(portionoptionvm))">
+                        </RadzenButton>
+                    </EditTemplate>
+                </RadzenDataGridColumn>
+            </Columns>
+        </RadzenDataGrid>
+
+
+}

@@ -1,0 +1,127 @@
+﻿@*@layout QuoteLayout*@
+@using HorizonPollyC.Models.Quoting
+@using HorizonPollyC.Services
+@inject IQuotesService _QuotesService
+@page "/Quotes/QuoteEntities"
+
+
+<span style="padding-bottom: 10px;width:100%">
+    <RadzenCard Style=" width:100%; display:block">
+        <header style="background-color: floralwhite; color:#1E3482 ;width:100% !important;height:30 !important; display:flex">
+            <div style="text-align:center;font-size:20px; float:left;width:100%">
+                Main Members Details
+            </div>
+            <RadzenButton Text="Add New" Icon="find_in_page" Click="@(args => AddNewEntity("MainMember"))" ButtonStyle="ButtonStyle.Primary" Style="float:right; cursor:pointer;" />
+
+        </header>
+        <RadzenTabs RenderMode="TabRenderMode.Client" Style=" width:100% ;display:block">
+            <Tabs>
+                <RadzenDataGrid @ref="ResultsGrid" Data="@MainMemberModel" AllowFiltering="true" AllowColumnResize="true"
+                                FilterMode="FilterMode.Advanced" AllowSorting="true" PageSize="5" AllowPaging="true"
+                                PagerHorizontalAlign="HorizontalAlign.Left" ShowPagingSummary="true" TItem="QuoteEntitiesList" ColumnWidth="300px"
+                                LogicalFilterOperator="LogicalFilterOperator.Or" EditMode="DataGridEditMode.Single"
+                                @bind-Value=@SelecteModelDetail>
+                    <Columns>
+                        <RadzenDataGridColumn TItem="QuoteEntitiesList" Property="FirstName" Filterable="false" Title="First Name" Width="50px" TextAlign="TextAlign.Left" />
+                        <RadzenDataGridColumn TItem="QuoteEntitiesList" Property="SurName" Filterable="false" Title="SurName" Width="70px" TextAlign="TextAlign.Left" />
+                        <RadzenDataGridColumn TItem="QuoteEntitiesList" Property="Scheme" Filterable="false" Title="Scheme" Width="70px" TextAlign="TextAlign.Left" />
+                        <RadzenDataGridColumn TItem="QuoteEntitiesList" Property="Relation" Filterable="false" Title="Relation" Width="50px" TextAlign="TextAlign.Left" />
+                        <RadzenDataGridColumn TItem="QuoteEntitiesList" Property="IDNumber" Filterable="false" Title="ID Number" Width="50px" TextAlign="TextAlign.Left" />
+                        <RadzenDataGridColumn TItem="QuoteEntitiesList" Property="CoveredAmount" Filterable="false" Title="Cover Amount" Width="50px" TextAlign="TextAlign.Right" FormatString="{0:00.00}" />
+                        <RadzenDataGridColumn TItem="QuoteEntitiesList" Property="Allocation" Filterable="false" Title="Allocation" Width="70px" TextAlign="TextAlign.Right" />
+                        <RadzenDataGridColumn TItem="QuoteEntitiesList" Property="DateCeded" Filterable="false" Title="Date Ceded" Width="50px" TextAlign="TextAlign.Left" FormatString="{0:d}" />
+                        <RadzenDataGridColumn TItem="QuoteEntitiesList" Property="DOB" Filterable="false" Title="DOB" Width="50px" TextAlign="TextAlign.Left" FormatString="{0:d}" />
+
+                        <RadzenDataGridColumn TItem="QuoteEntitiesList" Property="buttons" Title="" Width="75px">
+                            <Template Context="data">
+                                <RadzenButton ButtonStyle="ButtonStyle.Primary" Variant="Variant.Flat" Icon="find_in_page" Class="m-1" Text="" Click=@(() => EditEntity(data.EntityID, data.Relation)) />
+                            </Template>
+                        </RadzenDataGridColumn>
+                    </Columns>
+                </RadzenDataGrid>
+            </Tabs>
+
+        </RadzenTabs>
+
+    </RadzenCard>
+    <br />
+
+    <RadzenCard Style=" width:100%; display:block">
+        <header style="background-color: floralwhite; color:#1E3482 ;width:100% !important;height:30 !important; display:flex">
+            <div style="text-align:center;font-size:20px; float:left;width:100%">
+                Extended Members Details
+            </div>
+            <RadzenButton Text="Add New" Icon="find_in_page" Click="@(args => AddNewEntity("ExtendedMember"))" ButtonStyle="ButtonStyle.Primary" Style="float:right; cursor:pointer;" />
+
+        </header>
+        <RadzenTabs RenderMode="TabRenderMode.Client" Style=" width:100%;display:block">
+            <Tabs>
+                <RadzenDataGrid @ref="ResultsGrid" Data="@ExtededMemberModel" AllowFiltering="true" AllowColumnResize="true"
+                                FilterMode="FilterMode.Advanced" AllowSorting="true" PageSize="5" AllowPaging="true"
+                                PagerHorizontalAlign="HorizontalAlign.Left" ShowPagingSummary="true" TItem="QuoteEntitiesList" ColumnWidth="300px"
+                                LogicalFilterOperator="LogicalFilterOperator.Or" EditMode="DataGridEditMode.Single"
+                                @bind-Value=@SelecteModelDetail>
+                    <Columns>
+                        <RadzenDataGridColumn TItem="QuoteEntitiesList" Property="FirstName" Filterable="false" Title="First Name" Width="50px" TextAlign="TextAlign.Left" />
+                        <RadzenDataGridColumn TItem="QuoteEntitiesList" Property="SurName" Filterable="false" Title="SurName" Width="70px" TextAlign="TextAlign.Left" />
+                        <RadzenDataGridColumn TItem="QuoteEntitiesList" Property="Scheme" Filterable="false" Title="Scheme" Width="70px" TextAlign="TextAlign.Left" />
+                        <RadzenDataGridColumn TItem="QuoteEntitiesList" Property="Relation" Filterable="false" Title="Relation" Width="50px" TextAlign="TextAlign.Left" />
+                        <RadzenDataGridColumn TItem="QuoteEntitiesList" Property="IDNumber" Filterable="false" Title="ID Number" Width="50px" TextAlign="TextAlign.Left" />
+                        <RadzenDataGridColumn TItem="QuoteEntitiesList" Property="CoveredAmount" Filterable="false" Title="Cover Amount" Width="50px" TextAlign="TextAlign.Right" FormatString="{0:00.00}" />
+                        <RadzenDataGridColumn TItem="QuoteEntitiesList" Property="Allocation" Filterable="false" Title="Allocation" Width="70px" TextAlign="TextAlign.Right" />
+                        <RadzenDataGridColumn TItem="QuoteEntitiesList" Property="DateCeded" Filterable="false" Title="Date Ceded" Width="50px" TextAlign="TextAlign.Left" FormatString="{0:d}" />
+                        <RadzenDataGridColumn TItem="QuoteEntitiesList" Property="DOB" Filterable="false" Title="DOB" Width="50px" TextAlign="TextAlign.Left" FormatString="{0:d}" />
+
+                        <RadzenDataGridColumn TItem="QuoteEntitiesList" Property="buttons" Title="" Width="75px">
+                            <Template Context="data">
+                                <RadzenButton ButtonStyle="ButtonStyle.Primary" Variant="Variant.Flat" Icon="find_in_page" Class="m-1" Text="" Click=@(() => EditEntity(data.EntityID, data.Relation)) />
+                                @*<RadzenButton ButtonStyle="ButtonStyle.Danger" Variant="Variant.Flat" Icon="Delete" Class="m-1" Text="" Click=@(() => RemoveEntity(data.EntityID)) />*@
+                            </Template>
+                        </RadzenDataGridColumn>
+                    </Columns>
+                </RadzenDataGrid>
+            </Tabs>
+        </RadzenTabs>
+        @*<RadzenButton Text="Add an Extended Member" Icon="find_in_page" Click="@(args => AddNewEntity("ExtendedMember"))" ButtonStyle="ButtonStyle.Primary" Style="width:100%; cursor:pointer;" />*@
+    </RadzenCard>
+    <br />
+    <RadzenCard Style=" width:100%; display:block">
+        <header style="background-color: floralwhite; color:#1E3482 ;width:100% !important;height:30 !important; display:flex">
+            <div style="text-align:center;font-size:20px; float:left;width:100%">
+                Beneficiary Details
+            </div>
+            <RadzenButton Text="Add New" Icon="find_in_page" Click="@(args => AddNewEntity("Beneficiary"))" ButtonStyle="ButtonStyle.Primary" Style="float:right; cursor:pointer;" />
+
+        </header>
+        <RadzenTabs RenderMode="TabRenderMode.Client" Style=" width:100%;display:block">
+
+            <Tabs>
+                <RadzenDataGrid @ref="ResultsGrid" Data="@BeneficiaryMemberModel" AllowFiltering="true" AllowColumnResize="true"
+                                FilterMode="FilterMode.Advanced" AllowSorting="true" PageSize="5" AllowPaging="true"
+                                PagerHorizontalAlign="HorizontalAlign.Left" ShowPagingSummary="true" TItem="QuoteEntitiesList" ColumnWidth="300px"
+                                LogicalFilterOperator="LogicalFilterOperator.Or" EditMode="DataGridEditMode.Single"
+                                @bind-Value=@SelecteModelDetail>
+                    <Columns>
+                        <RadzenDataGridColumn TItem="QuoteEntitiesList" Property="FirstName" Filterable="false" Title="First Name" Width="50px" TextAlign="TextAlign.Left" />
+                        <RadzenDataGridColumn TItem="QuoteEntitiesList" Property="SurName" Filterable="false" Title="SurName" Width="70px" TextAlign="TextAlign.Left" />
+                        <RadzenDataGridColumn TItem="QuoteEntitiesList" Property="Scheme" Filterable="false" Title="Scheme" Width="70px" TextAlign="TextAlign.Left" />
+                        <RadzenDataGridColumn TItem="QuoteEntitiesList" Property="Relation" Filterable="false" Title="Relation" Width="50px" TextAlign="TextAlign.Left" />
+                        <RadzenDataGridColumn TItem="QuoteEntitiesList" Property="IDNumber" Filterable="false" Title="ID Number" Width="50px" TextAlign="TextAlign.Left" />
+                        <RadzenDataGridColumn TItem="QuoteEntitiesList" Property="CoveredAmount" Filterable="false" Title="Cover Amount" Width="50px" TextAlign="TextAlign.Right" FormatString="{0:00.00}" />
+                        <RadzenDataGridColumn TItem="QuoteEntitiesList" Property="Allocation" Filterable="false" Title="Allocation" Width="70px" TextAlign="TextAlign.Right" />
+                        <RadzenDataGridColumn TItem="QuoteEntitiesList" Property="DateCeded" Filterable="false" Title="Date Ceded" Width="50px" TextAlign="TextAlign.Left" FormatString="{0:d}" />
+                        <RadzenDataGridColumn TItem="QuoteEntitiesList" Property="DOB" Filterable="false" Title="DOB" Width="50px" TextAlign="TextAlign.Left" FormatString="{0:d}" />
+
+                        <RadzenDataGridColumn TItem="QuoteEntitiesList" Property="buttons" Title="" Width="75px">
+                            <Template Context="data">
+                                <RadzenButton ButtonStyle="ButtonStyle.Primary" Variant="Variant.Flat" Icon="find_in_page" Class="m-1" Text="" Click=@(() => EditEntity(data.EntityID, data.Relation)) />
+                                @*<RadzenButton ButtonStyle="ButtonStyle.Danger" Variant="Variant.Flat" Icon="Delete" Class="m-1" Text="" Click=@(() => RemoveEntity(data.EntityID)) />*@
+                            </Template>
+                        </RadzenDataGridColumn>
+                    </Columns>
+                </RadzenDataGrid>
+            </Tabs>
+        </RadzenTabs>
+        @*<RadzenButton Text="Add New Benficiary" Icon="find_in_page" Click="@(args => AddNewEntity("Beneficiary"))" ButtonStyle="ButtonStyle.Primary" Style="width:100%; cursor:pointer;" />*@
+    </RadzenCard>
+</span>

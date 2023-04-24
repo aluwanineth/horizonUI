@@ -1,0 +1,50 @@
+﻿@using Blazored.LocalStorage
+@using HorizonPollyC.Components
+@using HorizonPollyC.Pages
+@using HorizonPollyC.Services
+@using HorizonPollyC.Services.Authentication
+
+@inherits LayoutComponentBase
+@inject NavigationManager _navigationManager;
+
+@inject ILocalStorageService _localStorageService;
+@inject IAuthenticationService AuthenticationService
+
+<div class="page">
+    <CascadingValue Value="@userInfo">
+        <div class="sidebar" style="z-index: 1000;">
+            <AuthorizeView>
+                <Authorized>
+                    <NavMenu />
+                   
+                </Authorized>
+            </AuthorizeView>
+        </div>
+        <div style="z-index: 1000;" class="main">
+            <AuthorizeView>
+                <Authorized>               
+                    <div class="top-row px-4" style="z-index: 1000;">
+                        <UserDetails />
+                    </div>
+                </Authorized>
+            </AuthorizeView>
+            <div class="content">
+                <AuthorizeView>
+                    <div class="rz-tabview rz-tabview-top">
+                        <div class="rz-tabview-panels" style="border:none">
+                            <div class=" rz-tabview-panel" role="tabpanel" style="padding-left:0px; padding-right:0px;">
+                                <CascadingValue Value=setRefreshEventTimer >
+                                @Body
+                                    <RadzenDialog />
+                                    <RadzenNotification />
+                                    <RadzenTooltip />
+                                </CascadingValue>
+                            </div>
+                        </div>
+                    </div>
+                </AuthorizeView>
+            </div>
+        </div>
+    </CascadingValue>
+</div>
+

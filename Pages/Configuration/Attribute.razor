@@ -1,0 +1,108 @@
+﻿@page "/configuration/attribute"
+@using HorizonPollyC.Services.General
+@using HorizonPollyC.Models.Configuration
+@using HorizonPollyC.Services.Configuration
+@using Microsoft.JSInterop;
+@inject IExportService _exportService
+@inject IJSRuntime js
+@inject IAttributeService _attributeService
+<h3>Attributes</h3>
+
+@if (attributes != null)
+{
+
+
+
+    <RadzenButton Icon="add_circle_outline" style="margin-bottom: 10px" Text="Add New Record" Click="@InsertRow" Disabled=@(attributeToInsert != null) />
+    <RadzenButton Text="Export XLS" Icon="grid_on" Click="@(args => Export("excel"))" Class="mb-4 mr-2" />
+    <RadzenButton Text="Export CSV" Icon="wrap_text" Click="@(args => Export("csv"))" Class="mb-4" />
+    <RadzenDataGrid @ref="attributeGrid" AllowFiltering="true" AllowColumnResize="true" FilterMode="FilterMode.Advanced" AllowSorting="true" PageSize="5" AllowPaging="true" PagerHorizontalAlign="HorizontalAlign.Left" ShowPagingSummary="true"
+                Data="@attributes" TItem="AttributeVM" ColumnWidth="300px" LogicalFilterOperator="LogicalFilterOperator.Or" EditMode="DataGridEditMode.Single" RowUpdate="@OnUpdateRow" RowCreate="@OnCreateRow">
+        <Columns>
+            <RadzenDataGridColumn TItem="AttributeVM" Property="AttributeCD" Filterable="true" Title="Attribute CD" Width="100px" TextAlign="TextAlign.Right">
+                <EditTemplate Context="attributevm">
+                    <RadzenNumeric Min="1" Max="100" @bind-Value="attributevm.AttributeCD" Class="w-70" Disabled="@enable" Name ="AttributeCD" />
+                        <RadzenRequiredValidator Component="AttributeCD" Text="Value is required" Popup="true" />
+                </EditTemplate>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="AttributeVM" Property="SDesc" Title="Description" Width="110px" TextAlign="TextAlign.Left">
+                <EditTemplate Context="attributevm">
+                    <RadzenTextBox @bind-Value="attributevm.SDesc" Style="width:100%; display: block" Name="Description" />   
+                    <RadzenRequiredValidator Component="Description" Text="Value is required" Popup="true" />
+                </EditTemplate>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="AttributeVM" Property="DispSeq" Filterable="true" Title="Disp Seq" Width="90px" TextAlign="TextAlign.Right">
+                <EditTemplate Context="attributevm">
+                    <RadzenNumeric Min="1" Max="100" @bind-Value="attributevm.DispSeq" Class="w-70" Disabled="@enable" Name="DispSeq" />  
+                    <RadzenRequiredValidator Component="DispSeq" Text="Value is required" Popup="true" /> 
+                </EditTemplate>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="AttributeVM" Property="EffDate" Title="Eff date" Width="90px" TextAlign="TextAlign.Left"  FormatString="{0:d}">
+                <EditTemplate Context="attributevm">
+                    <RadzenDatePicker @bind-Value="attributevm.EffDate" DateFormat="d" Class="w-100" Name="EffDate"/>  
+                    <RadzenRequiredValidator Component="EffDate" Text="Value is required" Popup="true" />
+                </EditTemplate>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="AttributeVM" Property="ExpDate" Title="Expiry Date" Width="100px" TextAlign="TextAlign.Left"  FormatString="{0:d}">
+                <EditTemplate Context="attributevm">
+                    <RadzenDatePicker @bind-Value="attributevm.ExpDate" DateFormat="d" Class="w-100" Name="ExpDate"/> 
+                    <RadzenRequiredValidator Component="ExpDate" Text="Value is required" Popup="true" />
+                </EditTemplate>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="AttributeVM" Property="LevelCD" Filterable="true" Title="Level CD" Width="80px" TextAlign="TextAlign.Right">
+                <EditTemplate Context="attributevm">
+                    <RadzenNumeric Min="1" Max="100" @bind-Value="attributevm.LevelCD" Class="w-70" Disabled="@enable"  Name="LevelCD"/> 
+                    <RadzenRequiredValidator Component="LevelCD" Text="Value is required" Popup="true" />
+                </EditTemplate>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="AttributeVM" Property="AttAmmountCode" Title="Att Amount Code" Width="120px" TextAlign="TextAlign.Left">
+                <EditTemplate Context="attributevm">
+                    <RadzenTextBox @bind-Value="attributevm.AttAmmountCode" Style="width:100%; display: block" Name="AttAmmountCode" />
+                    <RadzenRequiredValidator Component="AttAmmountCode" Text="Value is required" Popup="true" />
+
+                </EditTemplate>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="AttributeVM" Property="AttTextCode" Title="Att Text Code" Width="120px" TextAlign="TextAlign.Left">
+                <EditTemplate Context="attributevm">
+                    <RadzenTextBox @bind-Value="attributevm.AttTextCode" Style="width:100%; display: block" Name="AttTextCode" />
+                    <RadzenRequiredValidator Component="AttTextCode" Text="Value is required" Popup="true" />
+                </EditTemplate>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="AttributeVM" Property="LookupTable" Title="Lookup Table" Width="120px" TextAlign="TextAlign.Left">
+                <EditTemplate Context="attributevm">
+                    <RadzenTextBox @bind-Value="attributevm.LookupTable" Style="width:100%; display: block" Name="LookupTable" />
+                    <RadzenRequiredValidator Component="LookupTable" Text="Value is required" Popup="true" />
+                </EditTemplate>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="AttributeVM" Property="LookupKey" Title="Lookup Key" Width="120px" TextAlign="TextAlign.Left">
+                <EditTemplate Context="attributevm">
+                    <RadzenTextBox @bind-Value="attributevm.LookupKey" Style="width:100%; display: block" Name="LookupKey" />
+                    <RadzenRequiredValidator Component="LookupKey" Text="Value is required" Popup="true" />
+                </EditTemplate>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="AttributeVM" Property="IsActive" Title="Is Active" Width="80px" TextAlign="TextAlign.Left">
+                <Template Context="attributevm">
+                    <RadzenSwitch @bind-Value="attributevm.IsActive" Disabled="false" />
+                </Template>
+                <EditTemplate Context="attributevm">
+                    <RadzenSwitch @bind-Value="attributevm.IsActive" Disabled="false" />
+                </EditTemplate>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="AttributeVM" Context="accountvm" Filterable="false" Sortable="false" TextAlign="TextAlign.Center" Width="80px">
+                <Template Context="attributevm">
+                    <RadzenButton Icon="edit" ButtonStyle="ButtonStyle.Primary" Class="m-1" Click="@(args => EditRow(attributevm))" @onclick:stopPropagation="true">
+                    </RadzenButton>
+                </Template>
+                <EditTemplate Context="attributevm">
+                    <RadzenButton Icon="check" ButtonStyle="ButtonStyle.Primary" Class="m-1" Click="@((args) => SaveRow(attributevm))">
+                    </RadzenButton>
+                    <RadzenButton Icon="close" ButtonStyle="ButtonStyle.Primary" Class="m-1" Click="@((args) => CancelEdit(attributevm))">
+                    </RadzenButton>
+                </EditTemplate>
+            </RadzenDataGridColumn>
+
+        </Columns>
+    </RadzenDataGrid>
+
+
+}

@@ -1,0 +1,75 @@
+﻿@page "/configuration/plantype"
+@using HorizonPollyC.Services.General
+@using HorizonPollyC.Models.Configuration
+@using HorizonPollyC.Services.Configuration
+@using Microsoft.JSInterop;
+@inject IExportService _exportService
+@inject IJSRuntime js
+@inject IPlanTypeService _plantypeService
+<h3>Plan Types</h3>
+
+@if (plantypes != null)
+{
+
+    <RadzenButton Icon="add_circle_outline" style="margin-bottom: 10px" Text="Add New Record" Click="@InsertRow" Disabled=@(plantypeToInsert != null) />
+    <RadzenButton Text="Export XLS" Icon="grid_on" Click="@(args => Export("excel"))" Class="mb-4 mr-2" />
+    <RadzenButton Text="Export CSV" Icon="wrap_text" Click="@(args => Export("csv"))" Class="mb-4" />
+    <RadzenDataGrid @ref="plantypeGrid" AllowFiltering="true" AllowColumnResize="true" FilterMode="FilterMode.Advanced" AllowSorting="true" PageSize="10" AllowPaging="true" PagerHorizontalAlign="HorizontalAlign.Left" ShowPagingSummary="true"
+                Data="@plantypes" TItem="PlanTypeVM" ColumnWidth="300px" LogicalFilterOperator="LogicalFilterOperator.Or" EditMode="DataGridEditMode.Single" RowUpdate="@OnUpdateRow" RowCreate="@OnCreateRow">
+        <Columns>
+            <RadzenDataGridColumn TItem="PlanTypeVM" Property="PlanCD" Filterable="true" Title="Plan CD" Width="110px" TextAlign="TextAlign.Right">
+                <EditTemplate Context="plantypevm">
+                    <RadzenNumeric Min="1" Max="100" @bind-Value="plantypevm.PlanCD" Class="w-70" Disabled="@enable" />
+                </EditTemplate>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="PlanTypeVM" Property="SDesc" Title="Description" Width="140px" TextAlign="TextAlign.Left">
+                <EditTemplate Context="plantypevm">
+                    <RadzenTextBox @bind-Value="plantypevm.SDesc" Style="width:100%; display: block" Name="Description" />   <RadzenRequiredValidator Component="Description" Text="Value is required" Popup="true" />
+                </EditTemplate>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="PlanTypeVM" Property="DispSeq" Filterable="true" Title="DispSeq" Width="110px" TextAlign="TextAlign.Right">
+                <EditTemplate Context="plantypevm">
+                    <RadzenNumeric Min="1" Max="100" @bind-Value="plantypevm.DispSeq" Class="w-70" Disabled="@enable" Name="DispSeq" />  <RadzenRequiredValidator Component="DispSeq" Text="Value is required" Popup="true" />
+                </EditTemplate>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="PlanTypeVM" Property="scode" Title="scode" Width="140px" TextAlign="TextAlign.Left">
+                <EditTemplate Context="plantypevm">
+                    <RadzenTextBox @bind-Value="plantypevm.scode" Style="width:100%; display: block" Name="scode" />
+                      <RadzenRequiredValidator Component="scode" Text="Value is required" Popup="true" />
+                </EditTemplate>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="PlanTypeVM" Property="EffDate" Title="EffDate" Width="100px" TextAlign="TextAlign.Left"  FormatString="{0:d}">
+                <EditTemplate Context="plantypevm">
+                    <RadzenDatePicker @bind-Value="plantypevm.EffDate" DateFormat="d" Class="w-100" Name="EffDate"/>   <RadzenRequiredValidator Component="EffDate" Text="Value is required" Popup="true" />
+                </EditTemplate>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="PlanTypeVM" Property="ExpDate" Title="Expiry Date" Width="100px" TextAlign="TextAlign.Left"  FormatString="{0:d}">
+                <EditTemplate Context="plantypevm">
+                    <RadzenDatePicker @bind-Value="plantypevm.ExpDate" DateFormat="d" Class="w-100" Name="ExpDate"/> <RadzenRequiredValidator Component="ExpDate" Text="Value is required" Popup="true" />
+                </EditTemplate>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="PlanTypeVM" Property="IsActive" Title="Is Active" Width="70px">
+                <Template Context="plantypevm">
+                    <RadzenSwitch @bind-Value="plantypevm.IsActive" Disabled="false" />
+                </Template>
+                <EditTemplate Context="plantypevm">
+                    <RadzenSwitch @bind-Value="plantypevm.IsActive" Disabled="false" />
+                </EditTemplate>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="PlanTypeVM" Context="plantypevm" Filterable="false" Sortable="false" TextAlign="TextAlign.Center" Width="80px">
+                <Template Context="plantypevm">
+                    <RadzenButton Icon="edit" ButtonStyle="ButtonStyle.Primary" Class="m-1" Click="@(args => EditRow(plantypevm))" @onclick:stopPropagation="true">
+                    </RadzenButton>
+                </Template>
+                <EditTemplate Context="plantypevm">
+                    <RadzenButton Icon="check" ButtonStyle="ButtonStyle.Primary" Class="m-1" Click="@((args) => SaveRow(plantypevm))">
+                    </RadzenButton>
+                    <RadzenButton Icon="close" ButtonStyle="ButtonStyle.Primary" Class="m-1" Click="@((args) => CancelEdit(plantypevm))">
+                    </RadzenButton>
+                </EditTemplate>
+            </RadzenDataGridColumn>
+        </Columns>
+    </RadzenDataGrid>
+
+
+}

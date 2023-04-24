@@ -1,0 +1,76 @@
+﻿@page "/configuration/eventheader"
+@using HorizonPollyC.Services.General
+@using HorizonPollyC.Models.Configuration
+@using HorizonPollyC.Services.Configuration
+@using Microsoft.JSInterop;
+@inject IExportService _exportService
+@inject IJSRuntime js
+@inject IEventHeaderService _eventheaderService
+<h3>EventHeader</h3>
+
+@if (eventheaders != null)
+{
+
+    <RadzenButton Icon="add_circle_outline" style="margin-bottom: 10px" Text="Add New Record" Click="@InsertRow" Disabled=@(eventheaderToInsert != null) />
+    <RadzenButton Text="Export XLS" Icon="grid_on" Click="@(args => Export("excel"))" Class="mb-4 mr-2" />
+    <RadzenButton Text="Export CSV" Icon="wrap_text" Click="@(args => Export("csv"))" Class="mb-4" />
+    <RadzenDataGrid @ref="eventheaderGrid" AllowFiltering="true" AllowColumnResize="true" FilterMode="FilterMode.Advanced" AllowSorting="true" PageSize="10" AllowPaging="true" PagerHorizontalAlign="HorizontalAlign.Left" ShowPagingSummary="true"
+                Data="@eventheaders" TItem="EventHeaderVM" ColumnWidth="300px" LogicalFilterOperator="LogicalFilterOperator.Or" EditMode="DataGridEditMode.Single" RowUpdate="@OnUpdateRow" RowCreate="@OnCreateRow">
+        <Columns>
+            <RadzenDataGridColumn TItem="EventHeaderVM" Property="EventHeaderCD" Filterable="true" Title="Eventheader CD" Width="90px" TextAlign="TextAlign.Right">
+                <EditTemplate Context="eventheadervm">
+                    <RadzenNumeric Min="1" Max="100" @bind-Value="eventheadervm.EventHeaderCD" Class="w-70" Disabled="@enable" />
+                </EditTemplate>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="EventHeaderVM" Property="EventSubscriptionCD" Filterable="true" Title="Event Subscription CD" Width="90px" TextAlign="TextAlign.Right">
+                <EditTemplate Context="eventheadervm">
+                    <RadzenNumeric Min="1" Max="100" @bind-Value="eventheadervm.EventSubscriptionCD" Class="w-70" Disabled="@enable" />
+                </EditTemplate>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="EventHeaderVM" Property="EventHeaderConstruct" Title="Event Header Construct" Width="110px" TextAlign="TextAlign.Left">
+                <EditTemplate Context="eventheadervm">
+                    <RadzenTextBox @bind-Value="eventheadervm.EventHeaderConstruct" Style="width:100%; display: block" Name="EventHeaderConstruct" />
+                                          <RadzenRequiredValidator Component="EventHeaderConstruct" Text="Value is required" Popup="true" />
+                </EditTemplate>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="EventHeaderVM" Property="UserId" Title="User Id" Width="110px" TextAlign="TextAlign.Left">
+                <EditTemplate Context="eventheadervm">
+                    <RadzenTextBox @bind-Value="eventheadervm.UserId" Style="width:100%; display: block" Name="UserId" />
+                                          <RadzenRequiredValidator Component="UserId" Text="Value is required" Popup="true" />
+                </EditTemplate>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="EventHeaderVM" Property="EffectiveDate" Title="Effective Date" Width="90px" TextAlign="TextAlign.Left"  FormatString="{0:d}">
+                <EditTemplate Context="eventheadervm">
+                    <RadzenDatePicker @bind-Value="eventheadervm.EffectiveDate" DateFormat="d" Class="w-100" />
+                </EditTemplate>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="EventHeaderVM" Property="LastChanged" Title="Last Changed" Width="100px" TextAlign="TextAlign.Left"  FormatString="{0:d}">
+                <EditTemplate Context="eventheadervm">
+                    <RadzenDatePicker @bind-Value="eventheadervm.LastChanged" DateFormat="d" Class="w-100" />
+                </EditTemplate>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="EventHeaderVM" Property="IsActive" Title="Is Active" Width="70px" TextAlign="TextAlign.Left">
+                <Template Context="eventheadervm">
+                    <RadzenSwitch @bind-Value="eventheadervm.IsActive" Disabled="false" />
+                </Template>
+                <EditTemplate Context="eventheadervm">
+                    <RadzenSwitch @bind-Value="eventheadervm.IsActive" Disabled="false" />
+                </EditTemplate>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="EventHeaderVM" Context="eventheadervm" Filterable="false" Sortable="false" TextAlign="TextAlign.Center" Width="80px">
+                <Template Context="eventheadervm">
+                    <RadzenButton Icon="edit" ButtonStyle="ButtonStyle.Primary" Class="m-1" Click="@(args => EditRow(eventheadervm))" @onclick:stopPropagation="true">
+                    </RadzenButton>
+                </Template>
+                <EditTemplate Context="eventheadervm">
+                    <RadzenButton Icon="check" ButtonStyle="ButtonStyle.Primary" Class="m-1" Click="@((args) => SaveRow(eventheadervm))">
+                    </RadzenButton>
+                    <RadzenButton Icon="close" ButtonStyle="ButtonStyle.Primary" Class="m-1" Click="@((args) => CancelEdit(eventheadervm))">
+                    </RadzenButton>
+                </EditTemplate>
+            </RadzenDataGridColumn>
+        </Columns>
+    </RadzenDataGrid>
+
+
+}

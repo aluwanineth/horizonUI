@@ -1,0 +1,51 @@
+﻿@page "/UserManagement/RoleList"
+@using HorizonPollyC.Models.UserManagement
+@using HorizonPollyC.Services.UserManagement
+@inject IUserManagementService _userManagementService 
+<h3>User Roles </h3>
+
+<RadzenButton Icon="add_circle_outline" style="margin-bottom: 10px" Text="Add New Record" Click="@InsertRow" Disabled=@(rolesToInsert != null) /> 
+   <RadzenDataGrid  @ref="rolegrid" AllowFiltering="true" AllowColumnResize="true" FilterMode="FilterMode.Advanced" AllowSorting="true" PageSize="10" AllowPaging="true" PagerHorizontalAlign="HorizontalAlign.Left" ShowPagingSummary="true"
+        Data="@roleList" TItem="Roles" ColumnWidth="300px" LogicalFilterOperator="LogicalFilterOperator.Or" EditMode="DataGridEditMode.Single" RowUpdate="@OnUpdateRow" RowCreate="@OnCreateRow">
+        <Columns>
+            <RadzenDataGridColumn TItem="Roles" Property="Id" Filterable="true" Title="Id"  Width="70px" TextAlign="TextAlign.Center" >
+                 <EditTemplate  Context="Roles">
+                       <RadzenNumeric Min="1" Max="100" @bind-Value="Roles.Id" Class="w-70"  Disabled="@enable"/>
+                </EditTemplate>
+             </RadzenDataGridColumn>
+
+            <RadzenDataGridColumn TItem="Roles" Property="Name" Title="Description"  Width="140px" >
+                  <EditTemplate Context="Roles">
+                    <RadzenTextBox @bind-Value="Roles.Name" Style="width:100%; display: block" Name="FeatureDescription" />
+                </EditTemplate>
+             </RadzenDataGridColumn>
+
+              <RadzenDataGridColumn TItem="Roles" Property="isActive" Title="Is Active" Width="50px">
+                 <Template Context="Roles">
+                   <RadzenSwitch @bind-Value="Roles.isActive" Disabled="false" />
+                </Template>
+                 <EditTemplate Context="Roles">
+                    <RadzenSwitch @bind-Value="Roles.isActive" Disabled="false" />
+                </EditTemplate>             
+            </RadzenDataGridColumn>
+
+           <RadzenDataGridColumn TItem="Roles" Context="Roles" Filterable="false" Sortable="false" TextAlign="TextAlign.Center" Width="100px">
+                <Template Context="Roles">
+                    <RadzenButton Icon="edit" ButtonStyle="ButtonStyle.Primary" Class="m-1" Click="@(args => EditRow(Roles))" @onclick:stopPropagation="true">
+                    </RadzenButton>
+                </Template>
+                <EditTemplate Context="Roles">
+                    <RadzenButton Icon="check" ButtonStyle="ButtonStyle.Primary" Class="m-1" Click="@((args) => SaveRow(Roles))">
+                    </RadzenButton>
+                    <RadzenButton Icon="close" ButtonStyle="ButtonStyle.Primary" Class="m-1" Click="@((args) => CancelEdit(Roles))">
+                    </RadzenButton>
+                </EditTemplate>
+            </RadzenDataGridColumn>
+
+
+
+
+        </Columns>
+    </RadzenDataGrid>
+
+

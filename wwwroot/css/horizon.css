@@ -1,0 +1,154 @@
+﻿.image img {
+    max-width: inherit;
+    width: 20%;
+}
+
+.user-input {
+    max-width: inherit
+}
+
+.login-label {
+    max-width: inherit;
+    width: 100%;
+}
+
+.popup {
+    position: absolute;
+    display: grid;
+    margin: -0.2% 1px 1px 10%;
+}
+
+    .popup .popup-text {
+        padding: -20px 0;
+        color: white;
+        font-size: small;
+        text-align: center;
+        background-color: red;
+        border-radius: 5px;
+        width: 110%;
+    }
+
+        .popup .popup-text::after {
+            content: "";
+            position: absolute;
+            top: -48%;
+            left: 25%;
+            margin-left: 1px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: red transparent transparent transparent;
+            transform: rotate(180deg);
+        }
+
+.component {
+    padding: 10px;
+    height: auto;
+    width: 50%;
+    border: 1px solid;
+}
+
+.login-container {
+    margin: 10% 10% 10% 5%;
+}
+
+.user-icon {
+    display: inline-block;
+    font-size: 18px;
+    margin-left: -30px;
+    filter: brightness(0.2) contrast(0.2);
+}
+
+.password-icon {
+    display: inline-block;
+    font-size: 18px;
+    margin-left: -30px;
+    transform: rotate(45deg);
+    filter: brightness(0.2) contrast(0.2);
+}
+
+.error-area {
+    visibility: visible;
+    position: absolute;
+    display: grid;
+    color: red;
+    top: 75%;
+    margin-left: 10%;
+    font-size: smaller;
+}
+
+.loading_dlg {
+    z-index: 999;
+    padding: 10px;
+    background-color: white;
+    position: absolute;
+    left: 50vw;
+    top: 50vh;
+    box-shadow: #747474 0px 0px 11px 0px;
+    border-radius: 5px 5px 5px 5px;
+}
+
+.alert_dlg {
+    z-index: 999;
+    padding: 15px;
+    width: 340px;
+    position: absolute;
+    background-color: white;
+    left: 50vw;
+    top: 20vh;
+    box-shadow: #202020 0px 0px 11px 0px;
+    border-radius: 5px 5px 5px 5px;
+    padding: 10px 10px 10px 10px;
+}
+
+.loading_dlg p {
+    font-size: 2em;
+    font-weight: bold;
+    text-align: center;
+    padding-top: 10px;
+}
+
+.outer_tbl {
+    width: 100%;
+}
+
+.outer_tbl > thead > tr > th {
+    border: 0px !important;
+}
+
+.outer_tbl > tbody > tr:nth-child(1) > td:nth-child(1) {
+    border: 0px !important;
+    vertical-align: top;
+    text-align: left;
+    width: 30%;
+    min-width: 30%;
+}
+
+.outer_tbl > tbody > tr:nth-child(1) > td:nth-child(2) {
+    border: 0px !important;
+    vertical-align: top;
+    text-align: center;
+    width: 45%;
+    min-width: 45%;
+}
+
+.outer_tbl > tbody > tr:nth-child(1) > td:nth-child(3) {
+    border: 0px !important;
+    vertical-align: top;
+    text-align: left;
+    width: 25%;
+    min-width: 25%;
+}
+
+.outer_tbl > tbody > tr:nth-child(2) > td {
+    text-align: right;
+}
+
+.rz-info {
+background-color: #007bff !important;
+}
+
+.FullDiv {
+    width: 100%;
+    /*display: flex;*/
+    padding-top: 10px
+}

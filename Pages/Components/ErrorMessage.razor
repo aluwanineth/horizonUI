@@ -1,0 +1,109 @@
+﻿@inject Radzen.DialogService dialogService
+
+
+<RadzenPanel Style="z-index:1500;width:420px;height:400px;">
+    <HeaderTemplate>
+        <h1 style="font-weight: bold;">@title</h1>
+
+    </HeaderTemplate>
+    <ChildContent>
+        <RadzenCard Style="width:410px;height:250px;">
+            <div class="alert alert-danger" role="alert" style="width:400px;height:240px">
+                <div class="container">
+                        <div class="row" style="padding-bottom:20px;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-exclamation-triangle-fill flex-shrink-0 me-2" viewBox="0 0 16 16" role="img" aria-label="Warning:">
+                            <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z" />
+                        </svg>
+                        </div>
+                  @*      <div class="row">*@
+                        <div class="row" style="text-align: right;font-size:small">
+                                @line1
+                            </div>
+                        <div class="row" hidden="@hidden1" style="text-align: right;">
+                                @line2
+                            </div>
+                        <div class="row" hidden="@hidden2" style="text-align: right;">
+                                @line3
+                            </div>
+                        <div class="row" hidden="@hidden3" style="text-align: right;">
+                                @line4
+                            </div>
+                        <div class="row" hidden="@hidden4" style="text-align: right;">
+                                @line5
+                            </div>
+                        </div>
+                   @* </div>*@
+               
+            </div>
+        </RadzenCard>
+        <RadzenCard Style="padding-top: 30px;width:410px;height:80px;">
+            <div class="col-md-12 text-end">
+                <RadzenButton Click="@((args) => dialogService.Close(false))" Variant="Variant.Flat" Text="Cancel" Style="width: 120px" Class="me-1" />
+
+            </div>
+
+        </RadzenCard>
+
+
+    </ChildContent>
+
+
+</RadzenPanel>
+
+@code {
+
+    [Parameter] public string title { get; set; }
+    [Parameter] public string messages { get; set; } = string.Empty;
+    string line1 = string.Empty;
+    string line2 = string.Empty;
+    string line3 = string.Empty;
+    string line4 = string.Empty;
+    string line5 = string.Empty;
+    bool hidden1 = true;
+    bool hidden2 = true;
+    bool hidden3 = true;
+    bool hidden4 = true;
+
+    protected async override void OnParametersSet()
+    {
+        string[] messageList = messages.Split("|");
+
+        for (int i = 0; i < messageList.Length - 1; i++)
+        {
+            messageList[i] = messageList[i].Replace("|", string.Empty);
+        }
+
+
+
+        for (int i = 0; i < messageList.Length - 1; i++)
+        {
+            line1 = messageList[0] + ",";
+
+            if (messageList[1] != string.Empty)
+            {
+                line2 = messageList[1] + ",";
+                hidden1 = false;
+
+                if (messageList[2] != string.Empty)
+                {
+                    line3 = messageList[2] + ",";
+                    hidden2 = false;
+
+                    if (messageList[3] != string.Empty)
+                    {
+                        line4 = messageList[3] + ",";
+                        hidden3 = false;
+
+                        if (messageList[4] != string.Empty)
+                        {
+                            line5 = messageList[4] + ",";
+                            hidden4 = false;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+
+}

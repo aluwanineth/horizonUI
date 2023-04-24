@@ -1,0 +1,75 @@
+﻿@page "/configuration/smoker"
+@using HorizonPollyC.Services.General
+@using HorizonPollyC.Models.Configuration
+@using HorizonPollyC.Services.Configuration
+@using Microsoft.JSInterop;
+@inject IExportService _exportService
+@inject IJSRuntime js
+@inject IGeneric<SmokerVM> _smokerService
+<h3>Smokers</h3>
+
+@if (smokers != null)
+{
+
+
+
+    <RadzenButton Icon="add_circle_outline" style="margin-bottom: 10px" Text="Add New Record" Click="@InsertRow" Disabled=@(smokerToInsert != null) />
+        <RadzenButton Text="Export XLS" Icon="grid_on" Click="@(args => Export("excel"))" Class="mb-4 mr-2" />
+        <RadzenButton Text="Export CSV" Icon="wrap_text" Click="@(args => Export("csv"))" Class="mb-4" />
+    <RadzenDataGrid @ref="smokerGrid" AllowFiltering="true" AllowColumnResize="true" FilterMode="FilterMode.Advanced" AllowSorting="true" PageSize="5" AllowPaging="true" PagerHorizontalAlign="HorizontalAlign.Left" ShowPagingSummary="true"
+                Data="@smokers" TItem="SmokerVM" ColumnWidth="300px" LogicalFilterOperator="LogicalFilterOperator.Or" EditMode="DataGridEditMode.Single" RowUpdate="@OnUpdateRow" RowCreate="@OnCreateRow">
+            <Columns>
+            <RadzenDataGridColumn TItem="SmokerVM" Property="SmokerCD" Filterable="true" Title="Smoker CD" Width="90px" TextAlign="TextAlign.Right">
+                <EditTemplate Context="smokervm">
+                    <RadzenNumeric Min="1" Max="100" @bind-Value="smokervm.SmokerCD" Class="w-70" Disabled="@enable" Name="SmokerCD" />
+                    <RadzenRequiredValidator Component="SmokerCD" Text="Value is required" Popup="true" />
+                    </EditTemplate>
+                </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="SmokerVM" Property="SDesc" Title="Description" Width="110px" TextAlign="TextAlign.Left">
+                <EditTemplate Context="smokervm">
+
+                    <RadzenTextBox @bind-Value="smokervm.SDesc" Style="width:100%; display: block" Name="SDesc" />
+                    <RadzenRequiredValidator Component="SDesc" Text="Value is required" Popup="true" />
+                    </EditTemplate>
+                </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="SmokerVM" Property="DispSeq" Filterable="true" Title="Sequence" Width="90px" TextAlign="TextAlign.Right">
+                <EditTemplate Context="smokervm">
+                    <RadzenNumeric Min="1" Max="100" @bind-Value="smokervm.DispSeq" Class="w-70" Disabled="@enable" Name="DispSeq" />  <RadzenRequiredValidator Component="DispSeq" Text="Value is required" Popup="true" />
+                    </EditTemplate>
+                </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="SmokerVM" Property="EffDate" Title="Eff date" Width="90px" TextAlign="TextAlign.Left" FormatString="{0:d}">
+                <EditTemplate Context="smokervm">
+                    <RadzenDatePicker @bind-Value="smokervm.EffDate" DateFormat="d" Class="w-100" Name="EffDate" />   <RadzenRequiredValidator Component="EffDate" Text="Value is required" Popup="true" />
+                    </EditTemplate>
+                </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="SmokerVM" Property="ExpDate" Title="Expiry Date" Width="100px" TextAlign="TextAlign.Left" FormatString="{0:d}">
+                <EditTemplate Context="smokervm">
+                    <RadzenDatePicker @bind-Value="smokervm.ExpDate" DateFormat="d" Class="w-100" Name="ExpDate" /> <RadzenRequiredValidator Component="ExpDate" Text="Value is required" Popup="true" />
+                    </EditTemplate>
+                </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="SmokerVM" Property="IsActive" Title="Is Active" Width="70px" TextAlign="TextAlign.Left">
+                <Template Context="smokervm">
+                    <RadzenSwitch @bind-Value="smokervm.IsActive" Disabled="false" />
+                    </Template>
+                <EditTemplate Context="smokervm">
+                    <RadzenSwitch @bind-Value="smokervm.IsActive" Disabled="false" />
+                    </EditTemplate>
+                </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="SmokerVM" Context="smokervm" Filterable="false" Sortable="false" TextAlign="TextAlign.Center" Width="80px">
+                <Template Context="smokervm">
+                    <RadzenButton Icon="edit" ButtonStyle="ButtonStyle.Primary" Class="m-1" Click="@(args => EditRow(smokervm))" @onclick:stopPropagation="true">
+                        </RadzenButton>
+                    </Template>
+                <EditTemplate Context="smokervm">
+                    <RadzenButton Icon="check" ButtonStyle="ButtonStyle.Primary" Class="m-1" Click="@((args) => SaveRow(smokervm))">
+                        </RadzenButton>
+                    <RadzenButton Icon="close" ButtonStyle="ButtonStyle.Primary" Class="m-1" Click="@((args) => CancelEdit(smokervm))">
+                        </RadzenButton>
+                    </EditTemplate>
+                </RadzenDataGridColumn>
+
+            </Columns>
+        </RadzenDataGrid>
+
+
+}

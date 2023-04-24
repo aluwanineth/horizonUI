@@ -1,0 +1,56 @@
+﻿@using Microsoft.AspNetCore.SignalR.Client
+@inject NavigationManager NavigationManager
+@inject IJSRuntime JSRuntime
+@inject DialogService DialogService
+@implements IAsyncDisposable
+
+
+@*<h3>Chat</h3>*@
+
+
+@if (!IsConnected)
+{
+    <RadzenTextBox @bind-Value="username" TValue="string"  Placeholder="Lets Chat" Visible="false" />
+@*    <RadzenButton Click=@Connect Text="Connect" />*@
+      <div style="padding-top:300px;padding-left:50px">
+    <RadzenButton Click=@ChatNow Icon="chat" ButtonStyle="ButtonStyle.Info" Text="Chat" Size="ButtonSize.Medium" />
+ @*       <button type="button" class="btn btn-info btn-lg" @onclick="@Connect"><i class="bi bi-chat"></i></button>*@
+        </div>
+}
+else
+{
+
+}
+
+@code {
+    private HubConnection? hubConnection;
+    private string messages = string.Empty;
+
+    public string username = string.Empty;
+    private string message = string.Empty;
+    ElementReference TextAreaRef;
+
+    [CascadingParameter]
+    public GlobalVariables? userInfo { get; set; }
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        if (userInfo != null)
+        {
+            username = userInfo.LoggedInUser;
+
+        }
+    }
+
+    private async Task ChatNow()
+    {
+        await DialogService.OpenAsync<ChatWindow>("Conversation", new Dictionary<string, object>() { { "username", username }, { "messages", messages } }, new DialogOptions() { Width = "500px", Height = "800px", Resizable = true, Draggable = true, Style = "z-index:1500;", CloseDialogOnEsc = true });
+    }
+
+    public bool IsConnected => hubConnection?.State == HubConnectionState.Connected;
+
+    public async ValueTask DisposeAsync()
+    {
+        await hubConnection.DisposeAsync();
+    }
+}

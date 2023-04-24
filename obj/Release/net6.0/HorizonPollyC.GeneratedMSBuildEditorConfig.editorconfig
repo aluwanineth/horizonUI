@@ -1,0 +1,485 @@
+is_global = true
+build_property.TargetFramework = net6.0
+build_property.TargetPlatformMinVersion = 
+build_property.UsingMicrosoftNETSdkWeb = 
+build_property.ProjectTypeGuids = 
+build_property.InvariantGlobalization = false
+build_property.PlatformNeutralAssembly = 
+build_property.EnforceExtendedAnalyzerRules = 
+build_property._SupportedPlatformList = browser
+build_property.RootNamespace = HorizonPollyC
+build_property.RootNamespace = HorizonPollyC
+build_property.ProjectDir = C:\SourceControl\Horizon\Dev\UI\HorizonPollyC\
+build_property.RazorLangVersion = 6.0
+build_property.SupportLocalizedComponentNames = 
+build_property.GenerateRazorMetadataSourceChecksumAttributes = 
+build_property.MSBuildProjectDirectory = C:\SourceControl\Horizon\Dev\UI\HorizonPollyC
+build_property._RazorSourceGeneratorDebug = 
+
+[C:/SourceControl/Horizon/Dev/UI/HorizonPollyC/App.razor]
+build_metadata.AdditionalFiles.TargetPath = QXBwLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/SourceControl/Horizon/Dev/UI/HorizonPollyC/Pages/AccountingHistory.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQWNjb3VudGluZ0hpc3RvcnkucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/SourceControl/Horizon/Dev/UI/HorizonPollyC/Pages/AuditLog.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQXVkaXRMb2cucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/SourceControl/Horizon/Dev/UI/HorizonPollyC/Pages/Authentication/Login.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQXV0aGVudGljYXRpb25cTG9naW4ucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/SourceControl/Horizon/Dev/UI/HorizonPollyC/Pages/BenefitDetail.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQmVuZWZpdERldGFpbC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/SourceControl/Horizon/Dev/UI/HorizonPollyC/Pages/BrokerDetails.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQnJva2VyRGV0YWlscy5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/SourceControl/Horizon/Dev/UI/HorizonPollyC/Pages/Chat/Chat.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ2hhdFxDaGF0LnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/SourceControl/Horizon/Dev/UI/HorizonPollyC/Pages/Components/AwaitingResponse.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ29tcG9uZW50c1xBd2FpdGluZ1Jlc3BvbnNlLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/SourceControl/Horizon/Dev/UI/HorizonPollyC/Pages/Components/DebiCheckFail.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ29tcG9uZW50c1xEZWJpQ2hlY2tGYWlsLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/SourceControl/Horizon/Dev/UI/HorizonPollyC/Pages/Components/DebiCheckSuccess.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ29tcG9uZW50c1xEZWJpQ2hlY2tTdWNjZXNzLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/SourceControl/Horizon/Dev/UI/HorizonPollyC/Pages/Components/EntityPolicyList.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ29tcG9uZW50c1xFbnRpdHlQb2xpY3lMaXN0LnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/SourceControl/Horizon/Dev/UI/HorizonPollyC/Pages/Components/ErrorMessage.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ29tcG9uZW50c1xFcnJvck1lc3NhZ2UucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/SourceControl/Horizon/Dev/UI/HorizonPollyC/Pages/Components/HasBankingApp.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ29tcG9uZW50c1xIYXNCYW5raW5nQXBwLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/SourceControl/Horizon/Dev/UI/HorizonPollyC/Pages/Components/Info.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ29tcG9uZW50c1xJbmZvLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/SourceControl/Horizon/Dev/UI/HorizonPollyC/Pages/Components/SuccessMessage.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ29tcG9uZW50c1xTdWNjZXNzTWVzc2FnZS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/SourceControl/Horizon/Dev/UI/HorizonPollyC/Pages/Components/TT1.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ29tcG9uZW50c1xUVDEucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/SourceControl/Horizon/Dev/UI/HorizonPollyC/Pages/Components/TT2.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ29tcG9uZW50c1xUVDIucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/SourceControl/Horizon/Dev/UI/HorizonPollyC/Pages/Configuration/Account.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ29uZmlndXJhdGlvblxBY2NvdW50LnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/SourceControl/Horizon/Dev/UI/HorizonPollyC/Pages/Configuration/AncillType.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ29uZmlndXJhdGlvblxBbmNpbGxUeXBlLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/SourceControl/Horizon/Dev/UI/HorizonPollyC/Pages/Configuration/AnnIncFactors.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ29uZmlndXJhdGlvblxBbm5JbmNGYWN0b3JzLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/SourceControl/Horizon/Dev/UI/HorizonPollyC/Pages/Configuration/Attribute.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ29uZmlndXJhdGlvblxBdHRyaWJ1dGUucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/SourceControl/Horizon/Dev/UI/HorizonPollyC/Pages/Configuration/BenefitAges.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ29uZmlndXJhdGlvblxCZW5lZml0QWdlcy5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/SourceControl/Horizon/Dev/UI/HorizonPollyC/Pages/Configuration/BenefitOption.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ29uZmlndXJhdGlvblxCZW5lZml0T3B0aW9uLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/SourceControl/Horizon/Dev/UI/HorizonPollyC/Pages/Configuration/BenefitOptions.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ29uZmlndXJhdGlvblxCZW5lZml0T3B0aW9ucy5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/SourceControl/Horizon/Dev/UI/HorizonPollyC/Pages/Configuration/BenefitPackage.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ29uZmlndXJhdGlvblxCZW5lZml0UGFja2FnZS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/SourceControl/Horizon/Dev/UI/HorizonPollyC/Pages/Configuration/BenefitPackages.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ29uZmlndXJhdGlvblxCZW5lZml0UGFja2FnZXMucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/SourceControl/Horizon/Dev/UI/HorizonPollyC/Pages/Configuration/BenefitPlanAncills.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ29uZmlndXJhdGlvblxCZW5lZml0UGxhbkFuY2lsbHMucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/SourceControl/Horizon/Dev/UI/HorizonPollyC/Pages/Configuration/BenefitPlanCovers.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ29uZmlndXJhdGlvblxCZW5lZml0UGxhbkNvdmVycy5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/SourceControl/Horizon/Dev/UI/HorizonPollyC/Pages/Configuration/BenefitPlanIncrs.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ29uZmlndXJhdGlvblxCZW5lZml0UGxhbkluY3JzLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/SourceControl/Horizon/Dev/UI/HorizonPollyC/Pages/Configuration/BenefitPlans.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ29uZmlndXJhdGlvblxCZW5lZml0UGxhbnMucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/SourceControl/Horizon/Dev/UI/HorizonPollyC/Pages/Configuration/BenefitPremFreqs.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ29uZmlndXJhdGlvblxCZW5lZml0UHJlbUZyZXFzLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/SourceControl/Horizon/Dev/UI/HorizonPollyC/Pages/Configuration/BenefitType.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ29uZmlndXJhdGlvblxCZW5lZml0VHlwZS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/SourceControl/Horizon/Dev/UI/HorizonPollyC/Pages/Configuration/BillPeriod.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ29uZmlndXJhdGlvblxCaWxsUGVyaW9kLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/SourceControl/Horizon/Dev/UI/HorizonPollyC/Pages/Configuration/BordereauxSource.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ29uZmlndXJhdGlvblxCb3JkZXJlYXV4U291cmNlLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/SourceControl/Horizon/Dev/UI/HorizonPollyC/Pages/Configuration/Channel.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ29uZmlndXJhdGlvblxDaGFubmVsLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/SourceControl/Horizon/Dev/UI/HorizonPollyC/Pages/Configuration/ChannelBenTypes.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ29uZmlndXJhdGlvblxDaGFubmVsQmVuVHlwZXMucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/SourceControl/Horizon/Dev/UI/HorizonPollyC/Pages/Configuration/Cover.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ29uZmlndXJhdGlvblxDb3Zlci5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/SourceControl/Horizon/Dev/UI/HorizonPollyC/Pages/Configuration/DataArtefact.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ29uZmlndXJhdGlvblxEYXRhQXJ0ZWZhY3QucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/SourceControl/Horizon/Dev/UI/HorizonPollyC/Pages/Configuration/Discount.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ29uZmlndXJhdGlvblxEaXNjb3VudC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/SourceControl/Horizon/Dev/UI/HorizonPollyC/Pages/Configuration/DiscountType.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ29uZmlndXJhdGlvblxEaXNjb3VudFR5cGUucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/SourceControl/Horizon/Dev/UI/HorizonPollyC/Pages/Configuration/EntityType.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ29uZmlndXJhdGlvblxFbnRpdHlUeXBlLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/SourceControl/Horizon/Dev/UI/HorizonPollyC/Pages/Configuration/EntryAge.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ29uZmlndXJhdGlvblxFbnRyeUFnZS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/SourceControl/Horizon/Dev/UI/HorizonPollyC/Pages/Configuration/Error.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ29uZmlndXJhdGlvblxFcnJvci5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/SourceControl/Horizon/Dev/UI/HorizonPollyC/Pages/Configuration/EventField.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ29uZmlndXJhdGlvblxFdmVudEZpZWxkLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/SourceControl/Horizon/Dev/UI/HorizonPollyC/Pages/Configuration/EventHeader.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ29uZmlndXJhdGlvblxFdmVudEhlYWRlci5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/SourceControl/Horizon/Dev/UI/HorizonPollyC/Pages/Configuration/EventSubscriber.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ29uZmlndXJhdGlvblxFdmVudFN1YnNjcmliZXIucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/SourceControl/Horizon/Dev/UI/HorizonPollyC/Pages/Configuration/EventSubscription.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ29uZmlndXJhdGlvblxFdmVudFN1YnNjcmlwdGlvbi5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/SourceControl/Horizon/Dev/UI/HorizonPollyC/Pages/Configuration/EventType.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ29uZmlndXJhdGlvblxFdmVudFR5cGUucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/SourceControl/Horizon/Dev/UI/HorizonPollyC/Pages/Configuration/ExpiryAge.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ29uZmlndXJhdGlvblxFeHBpcnlBZ2UucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/SourceControl/Horizon/Dev/UI/HorizonPollyC/Pages/Configuration/Gender.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ29uZmlndXJhdGlvblxHZW5kZXIucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/SourceControl/Horizon/Dev/UI/HorizonPollyC/Pages/Configuration/Language.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ29uZmlndXJhdGlvblxMYW5ndWFnZS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/SourceControl/Horizon/Dev/UI/HorizonPollyC/Pages/Configuration/LegacyPayment.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ29uZmlndXJhdGlvblxMZWdhY3lQYXltZW50LnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/SourceControl/Horizon/Dev/UI/HorizonPollyC/Pages/Configuration/Level.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ29uZmlndXJhdGlvblxMZXZlbC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/SourceControl/Horizon/Dev/UI/HorizonPollyC/Pages/Configuration/Loading.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ29uZmlndXJhdGlvblxMb2FkaW5nLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/SourceControl/Horizon/Dev/UI/HorizonPollyC/Pages/Configuration/LoadingType.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ29uZmlndXJhdGlvblxMb2FkaW5nVHlwZS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/SourceControl/Horizon/Dev/UI/HorizonPollyC/Pages/Configuration/Movement.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ29uZmlndXJhdGlvblxNb3ZlbWVudC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/SourceControl/Horizon/Dev/UI/HorizonPollyC/Pages/Configuration/Partner.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ29uZmlndXJhdGlvblxQYXJ0bmVyLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/SourceControl/Horizon/Dev/UI/HorizonPollyC/Pages/Configuration/PaymentFrequency.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ29uZmlndXJhdGlvblxQYXltZW50RnJlcXVlbmN5LnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/SourceControl/Horizon/Dev/UI/HorizonPollyC/Pages/Configuration/PlanOption.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ29uZmlndXJhdGlvblxQbGFuT3B0aW9uLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/SourceControl/Horizon/Dev/UI/HorizonPollyC/Pages/Configuration/PlanType.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ29uZmlndXJhdGlvblxQbGFuVHlwZS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/SourceControl/Horizon/Dev/UI/HorizonPollyC/Pages/Configuration/PortionControl.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ29uZmlndXJhdGlvblxQb3J0aW9uQ29udHJvbC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/SourceControl/Horizon/Dev/UI/HorizonPollyC/Pages/Configuration/PortionOption.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ29uZmlndXJhdGlvblxQb3J0aW9uT3B0aW9uLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/SourceControl/Horizon/Dev/UI/HorizonPollyC/Pages/Configuration/PremiumPortionType.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ29uZmlndXJhdGlvblxQcmVtaXVtUG9ydGlvblR5cGUucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/SourceControl/Horizon/Dev/UI/HorizonPollyC/Pages/Configuration/PremiumType.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ29uZmlndXJhdGlvblxQcmVtaXVtVHlwZS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/SourceControl/Horizon/Dev/UI/HorizonPollyC/Pages/Configuration/PremPortion.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ29uZmlndXJhdGlvblxQcmVtUG9ydGlvbi5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/SourceControl/Horizon/Dev/UI/HorizonPollyC/Pages/Configuration/Process.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ29uZmlndXJhdGlvblxQcm9jZXNzLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/SourceControl/Horizon/Dev/UI/HorizonPollyC/Pages/Configuration/ProcessControlLogs.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ29uZmlndXJhdGlvblxQcm9jZXNzQ29udHJvbExvZ3MucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/SourceControl/Horizon/Dev/UI/HorizonPollyC/Pages/Configuration/ProductBenefits.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ29uZmlndXJhdGlvblxQcm9kdWN0QmVuZWZpdHMucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/SourceControl/Horizon/Dev/UI/HorizonPollyC/Pages/Configuration/ProductLine.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ29uZmlndXJhdGlvblxQcm9kdWN0TGluZS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/SourceControl/Horizon/Dev/UI/HorizonPollyC/Pages/Configuration/Reason.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ29uZmlndXJhdGlvblxSZWFzb24ucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/SourceControl/Horizon/Dev/UI/HorizonPollyC/Pages/Configuration/ReinsDuration.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ29uZmlndXJhdGlvblxSZWluc0R1cmF0aW9uLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/SourceControl/Horizon/Dev/UI/HorizonPollyC/Pages/Configuration/ReinsMemberType.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ29uZmlndXJhdGlvblxSZWluc01lbWJlclR5cGUucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/SourceControl/Horizon/Dev/UI/HorizonPollyC/Pages/Configuration/Role.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ29uZmlndXJhdGlvblxSb2xlLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/SourceControl/Horizon/Dev/UI/HorizonPollyC/Pages/Configuration/SchemaLoadLink.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ29uZmlndXJhdGlvblxTY2hlbWFMb2FkTGluay5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/SourceControl/Horizon/Dev/UI/HorizonPollyC/Pages/Configuration/Scheme.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ29uZmlndXJhdGlvblxTY2hlbWUucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/SourceControl/Horizon/Dev/UI/HorizonPollyC/Pages/Configuration/SchemePlanFactors.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ29uZmlndXJhdGlvblxTY2hlbWVQbGFuRmFjdG9ycy5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/SourceControl/Horizon/Dev/UI/HorizonPollyC/Pages/Configuration/Smoker.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ29uZmlndXJhdGlvblxTbW9rZXIucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/SourceControl/Horizon/Dev/UI/HorizonPollyC/Pages/Configuration/Status.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ29uZmlndXJhdGlvblxTdGF0dXMucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/SourceControl/Horizon/Dev/UI/HorizonPollyC/Pages/Configuration/StatusReasons.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ29uZmlndXJhdGlvblxTdGF0dXNSZWFzb25zLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/SourceControl/Horizon/Dev/UI/HorizonPollyC/Pages/Configuration/SubscriptionType.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ29uZmlndXJhdGlvblxTdWJzY3JpcHRpb25UeXBlLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/SourceControl/Horizon/Dev/UI/HorizonPollyC/Pages/Configuration/Table.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ29uZmlndXJhdGlvblxUYWJsZS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/SourceControl/Horizon/Dev/UI/HorizonPollyC/Pages/Configuration/TableConfiguration.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ29uZmlndXJhdGlvblxUYWJsZUNvbmZpZ3VyYXRpb24ucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/SourceControl/Horizon/Dev/UI/HorizonPollyC/Pages/Configuration/TakeOnOption.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ29uZmlndXJhdGlvblxUYWtlT25PcHRpb24ucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/SourceControl/Horizon/Dev/UI/HorizonPollyC/Pages/Configuration/Tier.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ29uZmlndXJhdGlvblxUaWVyLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/SourceControl/Horizon/Dev/UI/HorizonPollyC/Pages/Configuration/Title.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ29uZmlndXJhdGlvblxUaXRsZS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/SourceControl/Horizon/Dev/UI/HorizonPollyC/Pages/Configuration/TransactionCategory.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ29uZmlndXJhdGlvblxUcmFuc2FjdGlvbkNhdGVnb3J5LnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/SourceControl/Horizon/Dev/UI/HorizonPollyC/Pages/Configuration/TransactionType.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ29uZmlndXJhdGlvblxUcmFuc2FjdGlvblR5cGUucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/SourceControl/Horizon/Dev/UI/HorizonPollyC/Pages/Configuration/Translate.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ29uZmlndXJhdGlvblxUcmFuc2xhdGUucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/SourceControl/Horizon/Dev/UI/HorizonPollyC/Pages/Configuration/TransType.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ29uZmlndXJhdGlvblxUcmFuc1R5cGUucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/SourceControl/Horizon/Dev/UI/HorizonPollyC/Pages/Configuration/UnitTypes.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ29uZmlndXJhdGlvblxVbml0VHlwZXMucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/SourceControl/Horizon/Dev/UI/HorizonPollyC/Pages/Configuration/ValidateStructure.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ29uZmlndXJhdGlvblxWYWxpZGF0ZVN0cnVjdHVyZS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/SourceControl/Horizon/Dev/UI/HorizonPollyC/Pages/Configuration/WaitingPeriods.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ29uZmlndXJhdGlvblxXYWl0aW5nUGVyaW9kcy5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/SourceControl/Horizon/Dev/UI/HorizonPollyC/Pages/FinancialDetails.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRmluYW5jaWFsRGV0YWlscy5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/SourceControl/Horizon/Dev/UI/HorizonPollyC/Pages/Financial/FinancialDetails.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRmluYW5jaWFsXEZpbmFuY2lhbERldGFpbHMucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/SourceControl/Horizon/Dev/UI/HorizonPollyC/Pages/Financial/ViewFinancialDetails.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRmluYW5jaWFsXFZpZXdGaW5hbmNpYWxEZXRhaWxzLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/SourceControl/Horizon/Dev/UI/HorizonPollyC/Pages/Index.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcSW5kZXgucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/SourceControl/Horizon/Dev/UI/HorizonPollyC/Pages/PolicyDetails.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUG9saWN5RGV0YWlscy5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/SourceControl/Horizon/Dev/UI/HorizonPollyC/Pages/PolicyEntityDetails.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUG9saWN5RW50aXR5RGV0YWlscy5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/SourceControl/Horizon/Dev/UI/HorizonPollyC/Pages/Quoting/QuoteBenefitList.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUXVvdGluZ1xRdW90ZUJlbmVmaXRMaXN0LnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/SourceControl/Horizon/Dev/UI/HorizonPollyC/Pages/Quoting/QuoteEntities.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUXVvdGluZ1xRdW90ZUVudGl0aWVzLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/SourceControl/Horizon/Dev/UI/HorizonPollyC/Pages/Quoting/QuoteEntityAddEdit.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUXVvdGluZ1xRdW90ZUVudGl0eUFkZEVkaXQucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/SourceControl/Horizon/Dev/UI/HorizonPollyC/Pages/Quoting/QuoteLayout.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUXVvdGluZ1xRdW90ZUxheW91dC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/SourceControl/Horizon/Dev/UI/HorizonPollyC/Pages/Quoting/QuoteList.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUXVvdGluZ1xRdW90ZUxpc3QucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/SourceControl/Horizon/Dev/UI/HorizonPollyC/Pages/Quoting/QuoteScriptComponent.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUXVvdGluZ1xRdW90ZVNjcmlwdENvbXBvbmVudC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/SourceControl/Horizon/Dev/UI/HorizonPollyC/Pages/Search.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU2VhcmNoLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/SourceControl/Horizon/Dev/UI/HorizonPollyC/Pages/Search2.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU2VhcmNoMi5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/SourceControl/Horizon/Dev/UI/HorizonPollyC/Pages/SelectedClientView.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU2VsZWN0ZWRDbGllbnRWaWV3LnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/SourceControl/Horizon/Dev/UI/HorizonPollyC/Pages/UserManagement/FeatureList.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVXNlck1hbmFnZW1lbnRcRmVhdHVyZUxpc3QucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/SourceControl/Horizon/Dev/UI/HorizonPollyC/Pages/UserManagement/RoleFeatures.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVXNlck1hbmFnZW1lbnRcUm9sZUZlYXR1cmVzLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/SourceControl/Horizon/Dev/UI/HorizonPollyC/Pages/UserManagement/RoleList.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVXNlck1hbmFnZW1lbnRcUm9sZUxpc3QucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/SourceControl/Horizon/Dev/UI/HorizonPollyC/Shared/EmptyLayout.razor]
+build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXEVtcHR5TGF5b3V0LnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/SourceControl/Horizon/Dev/UI/HorizonPollyC/Shared/RedirectToLogin.razor]
+build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXFJlZGlyZWN0VG9Mb2dpbi5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/SourceControl/Horizon/Dev/UI/HorizonPollyC/Shared/UserDetails.razor]
+build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXFVzZXJEZXRhaWxzLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/SourceControl/Horizon/Dev/UI/HorizonPollyC/_Imports.razor]
+build_metadata.AdditionalFiles.TargetPath = X0ltcG9ydHMucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/SourceControl/Horizon/Dev/UI/HorizonPollyC/Pages/Chat/ChatWindow.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ2hhdFxDaGF0V2luZG93LnJhem9y
+build_metadata.AdditionalFiles.CssScope = b-wbdcguc9em
+
+[C:/SourceControl/Horizon/Dev/UI/HorizonPollyC/Shared/MainLayout.razor]
+build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXE1haW5MYXlvdXQucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-5kop4k3ypw
+
+[C:/SourceControl/Horizon/Dev/UI/HorizonPollyC/Shared/NavMenu.razor]
+build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXE5hdk1lbnUucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-830ayzt96b

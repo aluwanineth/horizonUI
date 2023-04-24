@@ -1,0 +1,76 @@
+﻿@page "/configuration/benefitPlanCovers"
+@using HorizonPollyC.Services.General
+@using HorizonPollyC.Models.Configuration
+@using HorizonPollyC.Services.Configuration
+@using Microsoft.JSInterop;
+@inject IExportService _exportService
+@inject IJSRuntime js
+@inject IBenefitPlanCoversService _benefitPlanCoversService
+@inject ICoverService _coverService
+@inject IBenefitPlansService _benefitsPlanService
+
+
+
+
+<h3>Benefit Plan Covers</h3>
+
+@if (benefitPlanCovers != null)
+{
+
+
+
+    <RadzenButton Icon="add_circle_outline" style="margin-bottom: 10px" Text="Add New Record" Click="@InsertRow" Disabled=@(benefitPlanCoversToInsert != null) />
+    <RadzenButton Text="Export XLS" Icon="grid_on" Click="@(args => Export("excel"))" Class="mb-4 mr-2" />
+    <RadzenButton Text="Export CSV" Icon="wrap_text" Click="@(args => Export("csv"))" Class="mb-4" />
+    <RadzenDataGrid @ref="benefitPlanCoversGrid" AllowFiltering="true" AllowColumnResize="true" FilterMode="FilterMode.Advanced" AllowSorting="true" PageSize="5" AllowPaging="true" PagerHorizontalAlign="HorizontalAlign.Left" ShowPagingSummary="true"
+                Data="@benefitPlanCovers" TItem="BenefitPlanCoversVM" ColumnWidth="300px" LogicalFilterOperator="LogicalFilterOperator.Or" EditMode="DataGridEditMode.Single" RowUpdate="@OnUpdateRow" RowCreate="@OnCreateRow">
+        <Columns>
+            <RadzenDataGridColumn TItem="BenefitPlanCoversVM" Property="BenefitPlanID" Title="Benefit Plan ID" Width="140px" TextAlign="TextAlign.Left">
+                <EditTemplate Context="benefitPlanCoversvm">
+
+                     <RadzenDropDown @bind-Value="benefitPlanCoversvm.BenefitPlanID" Data="@benefitPlansLookup" TextProperty="BenefitPlanID" ValueProperty="BenefitPlanID" Style="width:100%; display: block;" />
+                </EditTemplate>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="BenefitPlanCoversVM" Property="CoverID" Title="Cover ID" Width="170px" TextAlign="TextAlign.Left">
+                <EditTemplate Context="benefitPlanCoversvm">
+                  
+                        <RadzenDropDown @bind-Value="benefitPlanCoversvm.CoverID" Data="@coversLookup" TextProperty="CoverAmt" ValueProperty="CoverID" Style="width:100%; display: block;" />
+                </EditTemplate>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="BenefitPlanCoversVM" Property="EffectiveDate" Title="Eff date" Width="100px" TextAlign="TextAlign.Left"  FormatString="{0:d}">
+                <EditTemplate Context="benefitPlanCoversvm">
+                    <RadzenDatePicker @bind-Value="benefitPlanCoversvm.EffectiveDate" DateFormat="d" Class="w-100" />
+                </EditTemplate>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="BenefitPlanCoversVM" Property="ExpiryDate" Title="Expiry Date" Width="100px" TextAlign="TextAlign.Left"  FormatString="{0:d}">
+                <EditTemplate Context="benefitPlanCoversvm">
+                    <RadzenDatePicker @bind-Value="benefitPlanCoversvm.ExpiryDate" DateFormat="d" Class="w-100" />
+                </EditTemplate>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="BenefitPlanCoversVM" Property="IsActive" Title="Is Active" Width="50px" TextAlign="TextAlign.Left">
+                <Template Context="benefitPlanCoversvm">
+                    <RadzenSwitch @bind-Value="benefitPlanCoversvm.IsActive" Disabled="false" />
+                </Template>
+                <EditTemplate Context="benefitPlanCoversvm">
+                    <RadzenSwitch @bind-Value="benefitPlanCoversvm.IsActive" Disabled="false" />
+                </EditTemplate>
+
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="BenefitPlanCoversVM" Context="benefitPlanCoversvm" Filterable="false" Sortable="false" TextAlign="TextAlign.Center" Width="100px">
+                <Template Context="benefitPlanCoversvm">
+                    <RadzenButton Icon="edit" ButtonStyle="ButtonStyle.Primary" Class="m-1" Click="@(args => EditRow(benefitPlanCoversvm))" @onclick:stopPropagation="true">
+                    </RadzenButton>
+                </Template>
+                <EditTemplate Context="benefitPlanCoversvm">
+                    <RadzenButton Icon="check" ButtonStyle="ButtonStyle.Primary" Class="m-1" Click="@((args) => SaveRow(benefitPlanCoversvm))">
+                    </RadzenButton>
+                    <RadzenButton Icon="close" ButtonStyle="ButtonStyle.Primary" Class="m-1" Click="@((args) => CancelEdit(benefitPlanCoversvm))">
+                    </RadzenButton>
+                </EditTemplate>
+            </RadzenDataGridColumn>
+
+        </Columns>
+    </RadzenDataGrid>
+
+
+}

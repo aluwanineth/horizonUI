@@ -1,0 +1,71 @@
+﻿@using Blazored.LocalStorage
+@using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
+@inherits LayoutComponentBase
+@inject ILocalStorageService _localStorageService;
+@inject NavigationManager _NavigationManager;
+@inject IWebAssemblyHostEnvironment HostEnvironment;
+
+
+@*<div style="margin-left: auto; margin-left: 0; text-align:initial; width:40% ; float:left">
+      <label class="BoldWhiteonBlueMed">First Name :@userInfo.PersonFirstName </label>
+    <br />
+      <label class="BoldWhiteonBlueMed">Last Name: @userInfo.PersonSurname </label>
+    <br />
+        <label class="BoldWhiteonBlueMed">Policy Number :@userInfo.PolicyNumber</label>
+</div>*@
+
+@*<div style="margin-left: auto; margin-right: 0; text-align:end;">
+    <label class="BoldWhiteonBlueMed">Welcome back @userInfo.LoggedInUser </label>
+    <br />
+    <br />*@
+    @*<RadzenButton Icon="add_circle_outline" style="margin-bottom: 10px; " Text="Logout" Click="@Logout" />*@
+   @* <RadzenButton Text="Search" Icon="arrow_drop_down" ButtonStyle="ButtonStyle.Light" Style="background-color:#eeeeee; color:#424242; font-weight:500; font-size:16px;" />
+</div>*@
+
+<style>
+    .hlp_link:hover {
+        text-decoration: underline;
+    }
+</style>
+
+<div style="width:100%;">
+    <table style="float:right; margin-top:12px;">
+        <tr>
+            <td style="text-align:left; vertical-align:top; font-family: 'Liberation Sans'; color:red; font-size:16px; width:112px;">
+                Environment:
+            </td>
+            <td style="text-align:left; vertical-align:top; font-family: 'Liberation Sans'; color:red; font-size:16px; width:200px;">
+                @HostEnvironment.Environment
+            </td>
+            <td rowspan="3" style="text-align:right; vertical-align:top; ">
+                <p class="hlp_link" style="font-family: 'Liberation Sans'; color:red; font-size:18px; cursor:pointer; margin-top: -6px;">Help</p>
+            </td>
+        </tr>
+        <tr>
+            <td style="text-align:left; vertical-align:top; font-family: 'Liberation Sans'; color:red; font-size:16px; width:112px;">
+                Logged In:
+            </td>
+            <td style="text-align:left; vertical-align:top; font-family: 'Liberation Sans'; color:red; font-size:16px;">
+                @(userInfo.LoggedInUser == null ? "" : userInfo.LoggedInUser.Replace(@"\\", @"\"))
+            </td>
+        </tr>
+        <tr>
+            <td style="text-align:left; vertical-align:top; font-family: 'Liberation Sans'; color:red; font-size:16px; width:112px;">
+                Policy Number:
+            </td>
+            <td style="text-align:left; vertical-align:top; font-family: 'Liberation Sans'; color:red; font-size:16px;">
+                @userInfo.PolicyNumber
+            </td>
+        </tr>
+    </table>
+</div>
+
+
+@code {
+
+    public void Logout()
+    {
+        _localStorageService.RemoveItemAsync("authResult");
+        _NavigationManager.NavigateTo("");
+    }
+}

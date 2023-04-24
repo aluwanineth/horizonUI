@@ -1,0 +1,81 @@
+﻿@page "/Components/EntityPolicyList"
+@using HorizonPollyC.Services.SCV
+@using HorizonPollyC.Models
+@inject ISCVService _SCVService
+
+
+<style>
+    .h_btn_bar > li > div > a {
+        color: white !important;
+        cursor: pointer;
+    }
+    .h_btn_bar > li > div > div {
+        color: white !important;
+        cursor: pointer;
+    }
+    .member_details_top {
+        width: 100%;
+        background-color: rgb(223, 226, 231);
+        font-size: 16px;
+    }
+    .h_btn_bar > li {
+        padding: 4px 0px 4px 0px;
+    }
+    .h_btn_bar > li > div {
+        border-radius: 8px 8px 8px 8px;
+        transition: background-color 0.3s;
+    }
+    .h_btn_bar > li > div:hover {
+        background-color: rgb(0,131,194) !important;
+    }
+</style>
+
+    <RadzenCard style="min-width:100%">
+        <div Style="display:flex;
+                    flex-direction:row;" >
+
+         <div style="width:100%;">
+                <RadzenMenu class="h_btn_bar" Style="width:100%; display:flex; flex-direction:row; justify-content:space-between; padding-right:10px; background-color:rgb(76, 83, 93);">                   
+                        <RadzenMenuItem Text="Annual Increase" Path="buttons"></RadzenMenuItem>
+                        <RadzenMenuItem Text="Cash Back" Path="menu"></RadzenMenuItem>
+                        <RadzenMenuItem Text="Refunds"></RadzenMenuItem>
+                        <RadzenMenuItem Text="Discount Details"></RadzenMenuItem>
+                        <RadzenMenuItem Text="Policy Conversion"></RadzenMenuItem>                        
+                        <RadzenMenuItem Text="Removal From Billing" Path="notification"></RadzenMenuItem>
+                        <RadzenMenuItem Text="Adjustments to Billing" Path="notification"></RadzenMenuItem>
+                        <RadzenMenuItem Text="Underwriter Comments"></RadzenMenuItem>
+                        <RadzenMenuItem Text="Change DOC"></RadzenMenuItem>   
+                        <RadzenMenuItem Text="Get Quote"></RadzenMenuItem>
+                </RadzenMenu>
+            </div>
+                       
+        </div>
+  
+    <table class="member_details_top">
+        <tr>
+            <td>Client: @((Globals.PersonFirstName == null ? Globals.PersonFirstName + " " : "") + (Globals.PersonSurname == null ? Globals.PersonSurname : "") + " (" + Globals.PolicyNumber + ")")</td>
+            <td>Email Address: @(Globals.EmailAddress ?? "") </td>
+            <td>Cellphone Number: @(Globals.CellphoneNumber ?? "") </td>
+        </tr>
+    </table>
+    <div class="rz-tabview-panel">
+                    <RadzenDataGrid @ref="CustomerPolicyResultsGrid" Data="@CustomerPoliciesModel" AllowFiltering="true" AllowColumnResize="true"
+                                FilterMode="FilterMode.Advanced" AllowSorting="true" PageSize="5" AllowPaging="true"
+                                PagerHorizontalAlign="HorizontalAlign.Left" ShowPagingSummary="true" TItem="CustomerPolicies" ColumnWidth="300px"
+                                LogicalFilterOperator="LogicalFilterOperator.Or" EditMode="DataGridEditMode.Single" RowClick="PolicySelected" @bind-Value=@SelectedPolicy >
+                    <Columns>
+                        <RadzenDataGridColumn TItem="CustomerPolicies" Property="Policy_NO" Filterable="false" Title="Policy No." Width="70px" TextAlign="TextAlign.Right" />
+                        <RadzenDataGridColumn TItem="CustomerPolicies" Property="IFA_No" Filterable="false" Title="IFA No." Width="70px" TextAlign="TextAlign.Right" />
+                        <RadzenDataGridColumn TItem="CustomerPolicies" Property="Product" Filterable="false" Title="Product" Width="70px" TextAlign="TextAlign.Left" />
+                        <RadzenDataGridColumn TItem="CustomerPolicies" Property="Policy_Status" Filterable="false" Title="Status" Width="70px" TextAlign="TextAlign.Left" />
+                        <RadzenDataGridColumn TItem="CustomerPolicies" Property="Status_Date" Filterable="false" Title="Status Date" Width="70px" TextAlign="TextAlign.Left" FormatString="{0:yyyy/MM/dd}" />
+                        <RadzenDataGridColumn TItem="CustomerPolicies" Property="DOC" Filterable="false" Title="DOC" Width="70px" TextAlign="TextAlign.Right" FormatString="{0:yyyy/MM/dd}" />
+                        <RadzenDataGridColumn TItem="CustomerPolicies" Property="Payer" Filterable="false" Title="Payer" Width="70px" TextAlign="TextAlign.Left" />
+                        <RadzenDataGridColumn TItem="CustomerPolicies" Property="Policy_Premium" Filterable="false" Title="Premium" Width="70px" TextAlign="TextAlign.Right" />
+                        <RadzenDataGridColumn TItem="CustomerPolicies" Property="Sales_Person" Filterable="false" Title="Sales Person" Width="70px" TextAlign="TextAlign.Left" />
+                        <RadzenDataGridColumn TItem="CustomerPolicies" Property="DebiCheck_Status" Filterable="false" Title="Debi Status" Width="70px" TextAlign="TextAlign.Left" />
+                    </Columns>
+                    </RadzenDataGrid>
+    </div>
+
+  </RadzenCard>

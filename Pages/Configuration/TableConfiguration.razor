@@ -1,0 +1,68 @@
+﻿@page "/configuration/tableconfiguration"
+@using HorizonPollyC.Services.General
+@using HorizonPollyC.Models.Configuration
+@using HorizonPollyC.Services.Configuration
+@using Microsoft.JSInterop;
+@using System.Security.Policy
+@inject IJSRuntime js
+
+@{
+    <h1>Table Configuration</h1>
+
+    <div align="right">
+        <td><input type="text" placeholder="Enter screen name" @bind="@screenName" /></td>
+    </div>
+    <div align="right">
+        <RadzenButton Text="Search" Icon="find_in_page" Click="@(args => showspecificScreen())" ButtonStyle="ButtonStyle.Primary" />
+    </div>
+
+
+    <h2>Allow Schema Table Configurations</h2>
+
+
+    @if (tableConfigurationAllow.Any())
+
+
+    {
+        @foreach (var item in tableConfigurationAllow)
+        {
+            <div class="col-md-4 p-3" style="width: 20rem; text-align:center;display:inline-block;">
+                <RadzenCard>
+
+                    <div class="col-md-90 p-3" style=" text-align:center"><a href="configuration/@item.ScreenName">@item.DisplayName</a></div>
+
+                </RadzenCard>
+            </div>
+        }
+
+    }
+    else
+    {
+        <h4 >No results found for '@screenName' under the allow schema.</h4>
+    }
+
+    <h2>Config Schema Table Configurations</h2>
+
+    @if (tableConfigurationConfig.Any())
+
+
+    {
+        @foreach (var item in tableConfigurationConfig)
+        {
+            <div class="col-md-4 p-3" style="width: 20rem; text-align:center;display:inline-block;">
+                <RadzenCard>
+
+                    <div class="col-md-90 p-3" style=" text-align:center"><a href="configuration/@item.ScreenName">@item.DisplayName</a></div>
+
+                </RadzenCard>
+            </div>
+        }
+
+    }
+    else
+    {
+        <h4>No results found for '@screenName' under the config schema.</h4>
+    }
+
+}
+

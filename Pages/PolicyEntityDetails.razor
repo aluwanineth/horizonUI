@@ -1,0 +1,82 @@
+﻿@page "/PolicyEntityDetails"
+@using HorizonPollyC.Services.SCV
+@using HorizonPollyC.Models
+@inject ISCVService _SCVService
+
+<div>
+    <div>
+        <HorizonPollyC.Pages.Components.EntityPolicyList></HorizonPollyC.Pages.Components.EntityPolicyList>
+    </div>
+
+
+
+    <span style="padding-top: 10px;display:;">   
+            <RadzenTabs RenderMode="TabRenderMode.Client">
+                <Tabs>
+                    <RadzenTabsItem Text="Extended Members">
+                        <RadzenDataGrid @ref="ExtendedMembersDetailsResultsGrid" Data="@ExtendedMembersDetailsModel" AllowFiltering="true" AllowColumnResize="true"
+                                        FilterMode="FilterMode.Advanced" AllowSorting="true" PageSize="5" AllowPaging="true"
+                                        PagerHorizontalAlign="HorizontalAlign.Left" ShowPagingSummary="true" TItem="ExtendedMembersDetails" ColumnWidth="300px"
+                                        LogicalFilterOperator="LogicalFilterOperator.Or" EditMode="DataGridEditMode.Single">
+                            <Columns>
+                                <RadzenDataGridColumn TItem="ExtendedMembersDetails" Property="FirstName" Filterable="false" Title="First Name" Width="70px" TextAlign="TextAlign.Left" />
+                                <RadzenDataGridColumn TItem="ExtendedMembersDetails" Property="Surname" Filterable="false" Title="Surname" Width="70px" TextAlign="TextAlign.Left" />
+                                <RadzenDataGridColumn TItem="ExtendedMembersDetails" Property="Relation" Filterable="false" Title="Relation" Width="70px" TextAlign="TextAlign.Left" />
+                                <RadzenDataGridColumn TItem="ExtendedMembersDetails" Property="IdNumber" Filterable="false" Title="ID Number" Width="70px" TextAlign="TextAlign.Left" />
+                                <RadzenDataGridColumn TItem="ExtendedMembersDetails" Property="CoveredAmount" Filterable="false" Title="Covered Amount" Width="70px" TextAlign="TextAlign.Right" />
+                                <RadzenDataGridColumn TItem="ExtendedMembersDetails" Property="PremiumAmount" Filterable="false" Title="Premium Amount" Width="70px" TextAlign="TextAlign.Right"  FormatString="{0:00.00}"/>
+                                <RadzenDataGridColumn TItem="ExtendedMembersDetails" Property="WaitingPeriod" Filterable="false" Title="Waiting Period" Width="70px" TextAlign="TextAlign.Left" />
+                                <RadzenDataGridColumn TItem="ExtendedMembersDetails" Property="DOB" Filterable="false" Title="Date of Birth" Width="70px" TextAlign="TextAlign.Left" FormatString="{0:d}"/>
+                                <RadzenDataGridColumn TItem="ExtendedMembersDetails" Property="Status" Filterable="false" Title="Status" Width="70px" TextAlign="TextAlign.Left" />
+@*                                <RadzenDataGridColumn TItem="ExtendedMembersDetails" Property="Active" Filterable="false" Title="Active" Width="70px" TextAlign="TextAlign.Left">
+                                    <Template Context="ExtendedMembersDetails">
+                                        <RadzenSwitch @bind-Value="ExtendedMembersDetails.Active" Disabled="false" />
+                                    </Template>
+                                    <EditTemplate Context="ExtendedMembersDetails">
+                                        <RadzenSwitch @bind-Value="ExtendedMembersDetails.Active" Disabled="false" />
+                                    </EditTemplate>
+                                </RadzenDataGridColumn>*@
+                            </Columns>
+                        </RadzenDataGrid>
+                    </RadzenTabsItem>
+                </Tabs>
+            </RadzenTabs>
+    </span>
+
+    <span style="padding-top: 10px;display: flex;">
+        <RadzenTabs RenderMode="TabRenderMode.Client">
+            <Tabs>
+                <RadzenTabsItem Text="Beneficiarys">
+                    <RadzenCard>
+                        <RadzenDataGrid @ref="BeneficiaryDetailsResultsGrid" Data="@BeneficiaryDetailsModel" AllowFiltering="true" AllowColumnResize="true"
+                                        FilterMode="FilterMode.Advanced" AllowSorting="true" PageSize="5" AllowPaging="true"
+                                        PagerHorizontalAlign="HorizontalAlign.Left" ShowPagingSummary="true" TItem="BeneficiaryDetails" ColumnWidth="300px"
+                                        LogicalFilterOperator="LogicalFilterOperator.Or" EditMode="DataGridEditMode.Single">
+                            <Columns>
+                                <RadzenDataGridColumn TItem="BeneficiaryDetails" Property="FirstName" Filterable="false" Title="First Name" Width="70px" TextAlign="TextAlign.Left" />
+                                <RadzenDataGridColumn TItem="BeneficiaryDetails" Property="Surname" Filterable="false" Title="Surname" Width="70px" TextAlign="TextAlign.Left" />
+                                <RadzenDataGridColumn TItem="BeneficiaryDetails" Property="Relation" Filterable="false" Title="Relation" Width="70px" TextAlign="TextAlign.Left" />
+                                <RadzenDataGridColumn TItem="BeneficiaryDetails" Property="IDNumber" Filterable="false" Title="ID Number" Width="70px" TextAlign="TextAlign.Left" />
+                                <RadzenDataGridColumn TItem="BeneficiaryDetails" Property="CoveredAmount" Filterable="false" Title="Covered Amount" Width="70px" TextAlign="TextAlign.Right" />
+                                <RadzenDataGridColumn TItem="BeneficiaryDetails" Property="Allocation" Filterable="false" Title="Allocation" Width="70px" TextAlign="TextAlign.Right"   FormatString="{0:00.00}"/>
+                                <RadzenDataGridColumn TItem="BeneficiaryDetails" Property="DateCeded" Filterable="false" Title="Date Created" Width="70px" TextAlign="TextAlign.Left"  FormatString="{0:d}" />
+                                <RadzenDataGridColumn TItem="BeneficiaryDetails" Property="DOB" Filterable="false" Title="Date Of Birth" Width="70px" TextAlign="TextAlign.Left" FormatString="{0:d}"/>
+                                <RadzenDataGridColumn TItem="BeneficiaryDetails" Property="Status" Filterable="false" Title="Status" Width="70px" TextAlign="TextAlign.Left" />
+@*                                <RadzenDataGridColumn TItem="BeneficiaryDetails" Property="Active" Filterable="false" Title="Active " Width="70px" TextAlign="TextAlign.Left">
+                                    <Template Context="BeneficiaryDetails">
+                                        <RadzenSwitch @bind-Value="BeneficiaryDetails.Active" Disabled="false" />
+                                    </Template>
+                                    <EditTemplate Context="BeneficiaryDetails">
+                                        <RadzenSwitch @bind-Value="BeneficiaryDetails.Active" Disabled="false" />
+                                    </EditTemplate>
+                                </RadzenDataGridColumn>*@
+                            </Columns>
+                        </RadzenDataGrid>
+                    </RadzenCard>
+                </RadzenTabsItem>
+            </Tabs>
+        </RadzenTabs>
+
+    </span>
+
+</div>

@@ -1,0 +1,83 @@
+﻿@page "/configuration/benefitAges"
+@using HorizonPollyC.Services.General
+@using HorizonPollyC.Models.Configuration
+@using HorizonPollyC.Services.Configuration
+@using Microsoft.JSInterop;
+@inject IExportService _exportService
+@inject IJSRuntime js
+@inject IBenefitAgesService _benefitAgesService
+@inject IBenefitTypeService _benefitTypeService
+@inject IEntryAgeService _entryAgeService
+@inject IExpiryAgeService _expiryAgeService
+
+<h3>BenefitAges </h3>
+
+@if (benefitAges != null)
+{
+    <RadzenButton Icon="add_circle_outline" style="margin-bottom: 10px" Text="Add New Record" Click="@InsertRow" Disabled=@(benefitAgesToInsert != null) />
+    <RadzenButton Text="Export XLS" Icon="grid_on" Click="@(args => Export("excel"))" Class="mb-4 mr-2" />
+    <RadzenButton Text="Export CSV" Icon="wrap_text" Click="@(args => Export("csv"))" Class="mb-4" />
+    <RadzenDataGrid @ref="benefitAgeGrid" AllowFiltering="true" AllowColumnResize="true" FilterMode="FilterMode.Advanced" AllowSorting="true" PageSize="5" AllowPaging="true" PagerHorizontalAlign="HorizontalAlign.Left" ShowPagingSummary="true"
+                Data="@benefitAges" TItem="BenefitAgesVM" ColumnWidth="300px" LogicalFilterOperator="LogicalFilterOperator.Or" EditMode="DataGridEditMode.Single" RowUpdate="@OnUpdateRow" RowCreate="@OnCreateRow">
+        <Columns>
+            <RadzenDataGridColumn TItem="BenefitAgesVM" Property="BenefitEntryID" Filterable="true" Title="Benefit Entry ID" Width="70px" TextAlign="TextAlign.Right" Visible=false>
+                <EditTemplate Context="benefitAgesvm">
+                    <RadzenNumeric Min="1" Max="100" @bind-Value="benefitAgesvm.BenefitEntryID" Class="w-70" Disabled="@enable" Name="BenefitEntryID" />
+                     <RadzenRequiredValidator Component="BenefitEntryID" Text="Value is required" Popup="true" />
+                </EditTemplate>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="BenefitAgesVM" Property="BenefitTypeCD" Title="Benefit Type CD" Width="140px" TextAlign="TextAlign.Left">
+                <EditTemplate Context="benefitAgesLookup">
+                    <RadzenDropDown @bind-Value="benefitAgesLookup.BenefitTypeCD" Data="@benefitTypeLookup" TextProperty="SDesc" ValueProperty="BenefitTypeCD" Style="width:100%; display: block;" />
+                </EditTemplate>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="BenefitAgesVM" Property="EntryAgeCD" Title="Entry Age CD" Width="170px" TextAlign="TextAlign.Left">
+                <EditTemplate Context="benefitAgeLookup">
+                  <RadzenDropDown @bind-Value="benefitAgeLookup.EntryAgeCD" Data="@EntryAgeLookup" TextProperty="DisplayMinMax" ValueProperty="EntryAgeCD" Style="width:100%; display: block;" />
+                </EditTemplate>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="BenefitAgesVM" Property="ExpiryAgeCD" Title="Expiry Age CD" Width="170px" TextAlign="TextAlign.Left">
+                <EditTemplate Context="benefitExpiryLookup">
+                           <RadzenDropDown @bind-Value="benefitExpiryLookup.ExpiryAgeCD" Data="@ExpiyAgeLookup" TextProperty="ExpiryAge1" ValueProperty="ExpiryAgeCD" Style="width:100%; display: block;" />
+                </EditTemplate>
+            </RadzenDataGridColumn>
+
+            <RadzenDataGridColumn TItem="BenefitAgesVM" Property="EffDate" Title="Eff date" Width="100px" TextAlign="TextAlign.Left"  FormatString="{0:d}">
+                <EditTemplate Context="benefitAgeVM">
+                    <RadzenDatePicker @bind-Value="benefitAgeVM.EffDate" DateFormat="d" Class="w-100" Name="EffDate"/>  
+                    <RadzenRequiredValidator Component="EffDate" Text="Value is required" Popup="true" />
+                </EditTemplate>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="BenefitAgesVM" Property="ExpDate" Title="Expiry Date" Width="100px" TextAlign="TextAlign.Left"  FormatString="{0:d}">
+                <EditTemplate Context="benefitAgeVM">
+                    <RadzenDatePicker @bind-Value="benefitAgeVM.ExpDate" DateFormat="d" Class="w-100" Name="ExpDate"/>
+                    <RadzenRequiredValidator Component="ExpDate" Text="Value is required" Popup="true" />
+                </EditTemplate>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="BenefitAgesVM" Property="IsActive" Title="Is Active" Width="50px" TextAlign="TextAlign.Left">
+                <Template Context="benefitAgeVM">
+                    <RadzenSwitch @bind-Value="benefitAgeVM.IsActive" Disabled="false" />
+                </Template>
+                <EditTemplate Context="benefitAgeVM">
+                    <RadzenSwitch @bind-Value="benefitAgeVM.IsActive" Disabled="false" />
+                </EditTemplate>
+
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="BenefitAgesVM" Context="benefitAgesvm" Filterable="false" Sortable="false" TextAlign="TextAlign.Center" Width="100px">
+                <Template Context="benefitAgesvm">
+                    <RadzenButton Icon="edit" ButtonStyle="ButtonStyle.Primary" Class="m-1" Click="@(args => EditRow(benefitAgesvm))" @onclick:stopPropagation="true">
+                    </RadzenButton>
+                </Template>
+                <EditTemplate Context="BenefitAgesVM">
+                    <RadzenButton Icon="check" ButtonStyle="ButtonStyle.Primary" Class="m-1" Click="@((args) => SaveRow(BenefitAgesVM))">
+                    </RadzenButton>
+                    <RadzenButton Icon="close" ButtonStyle="ButtonStyle.Primary" Class="m-1" Click="@((args) => CancelEdit(BenefitAgesVM))">
+                    </RadzenButton>
+                </EditTemplate>
+            </RadzenDataGridColumn>
+
+        </Columns>
+    </RadzenDataGrid>
+
+
+}

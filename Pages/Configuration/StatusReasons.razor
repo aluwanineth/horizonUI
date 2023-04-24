@@ -1,0 +1,77 @@
+﻿@page "/configuration/StatusReasons"
+@using HorizonPollyC.Services.General
+@using HorizonPollyC.Models.Configuration
+@using HorizonPollyC.Services.Configuration
+@using Microsoft.JSInterop;
+@inject IExportService _exportService
+@inject IJSRuntime js
+@inject IStatusReasonsService _statusReasonsService
+@inject IGeneric<StatusVM> _statusService
+@inject IGeneric<ReasonVM> _reasonService
+
+<h3>Status Reasons</h3>
+
+@if (statusReasons != null)
+{
+
+
+
+    <RadzenButton Icon="add_circle_outline" style="margin-bottom: 10px" Text="Add New Record" Click="@InsertRow" Disabled=@(statusReasonsToInsert != null) />
+    <RadzenButton Text="Export XLS" Icon="grid_on" Click="@(args => Export("excel"))" Class="mb-4 mr-2" />
+    <RadzenButton Text="Export CSV" Icon="wrap_text" Click="@(args => Export("csv"))" Class="mb-4" />
+    <RadzenDataGrid @ref="statusReasonsGrid" AllowFiltering="true" AllowColumnResize="true" FilterMode="FilterMode.Advanced" AllowSorting="true" PageSize="5" AllowPaging="true" PagerHorizontalAlign="HorizontalAlign.Left" ShowPagingSummary="true"
+                Data="@statusReasons" TItem="StatusReasonsVM" ColumnWidth="300px" LogicalFilterOperator="LogicalFilterOperator.Or" EditMode="DataGridEditMode.Single" RowUpdate="@OnUpdateRow" RowCreate="@OnCreateRow">
+        <Columns>
+            <RadzenDataGridColumn TItem="StatusReasonsVM" Property="StatusCD" Title="Status CD" Width="140px" TextAlign="TextAlign.Left">
+                <EditTemplate Context="statusReasonsvm">
+                 @*   <RadzenNumeric @bind-Value="statusReasonsvm.StatusCD" Style="width:100%; display: block" Name="Status CD" />*@
+                    <RadzenDropDown @bind-Value="statusReasonsvm.StatusCD" Data="@statusLookup" Name="StatusCD" TextProperty="SDesc"  ValueProperty="StatusCD" Style="width:100%; display: block;"  />
+                    <RadzenRequiredValidator Component="StatusCD" Text="Value is required" Popup="true" />
+                </EditTemplate>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="StatusReasonsVM" Property="ReasonCD" Title="Reason CD" Width="170px" TextAlign="TextAlign.Right">
+                <EditTemplate Context="statusReasonsvm">
+                @*    <RadzenNumeric @bind-Value="statusReasonsvm.ReasonCD" Style="width:100%; display: block" Name="Reason CD" />*@
+                    <RadzenDropDown @bind-Value="statusReasonsvm.ReasonCD" Data="@reasonLookup" Name="ReasonCD" TextProperty="SDesc" ValueProperty="ReasonCD" Style="width:100%; display: block;" />
+                    <RadzenRequiredValidator Component="ReasonCD" Text="Value is required" Popup="true" />
+                </EditTemplate>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="StatusReasonsVM" Property="EffectiveDate" Title="Eff date" Width="100px" TextAlign="TextAlign.Left"  FormatString="{0:d}">
+                <EditTemplate Context="statusReasonsvm">
+                    <RadzenDatePicker @bind-Value="statusReasonsvm.EffectiveDate" DateFormat="d" Class="w-100" Name="EffectiveDate" />
+                    <RadzenRequiredValidator Component="EffectiveDate" Text="Value is required" Popup="true" />
+                </EditTemplate>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="StatusReasonsVM" Property="ExpiryDate" Title="Expiry Date" Width="100px" TextAlign="TextAlign.Left"  FormatString="{0:d}">
+                <EditTemplate Context="statusReasonsvm">
+                    <RadzenDatePicker @bind-Value="statusReasonsvm.ExpiryDate" DateFormat="d" Class="w-100" Name="ExpiryDate" />
+                    <RadzenRequiredValidator Component="ExpiryDate" Text="Value is required" Popup="true" />
+                </EditTemplate>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="StatusReasonsVM" Property="IsActive" Title="Is Active" Width="50px" TextAlign="TextAlign.Left">
+                <Template Context="statusReasonsvm">
+                    <RadzenSwitch @bind-Value="statusReasonsvm.IsActive" Disabled="false" />
+                </Template>
+                <EditTemplate Context="statusReasonsvm">
+                    <RadzenSwitch @bind-Value="statusReasonsvm.IsActive" Disabled="false" />
+                </EditTemplate>
+
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="StatusReasonsVM" Context="schemePlanFactorssvm" Filterable="false" Sortable="false" TextAlign="TextAlign.Center" Width="100px">
+                <Template Context="statusReasonsvm">
+                    <RadzenButton Icon="edit" ButtonStyle="ButtonStyle.Primary" Class="m-1" Click="@(args => EditRow(statusReasonsvm))" @onclick:stopPropagation="true">
+                    </RadzenButton>
+                </Template>
+                <EditTemplate Context="statusReasonsvm">
+                    <RadzenButton Icon="check" ButtonStyle="ButtonStyle.Primary" Class="m-1" Click="@((args) => SaveRow(statusReasonsvm))">
+                    </RadzenButton>
+                    <RadzenButton Icon="close" ButtonStyle="ButtonStyle.Primary" Class="m-1" Click="@((args) => CancelEdit(statusReasonsvm))">
+                    </RadzenButton>
+                </EditTemplate>
+            </RadzenDataGridColumn>
+
+        </Columns>
+    </RadzenDataGrid>
+
+
+}

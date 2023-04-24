@@ -1,0 +1,66 @@
+﻿@page "/configuration/anciltype"
+@using HorizonPollyC.Services.General
+@using HorizonPollyC.Models.Configuration
+@using HorizonPollyC.Services.Configuration
+@using Microsoft.JSInterop;
+@inject IExportService _exportService
+@inject IJSRuntime js
+@inject IAncilTypeService _ancilTypeService
+<h3>AncilType</h3>
+
+@if (anciltypes != null)
+{
+
+
+
+    <RadzenButton Icon="add_circle_outline" style="margin-bottom: 10px" Text="Add New Record" Click="@InsertRow" Disabled=@(anciltypeToInsert != null) />
+    <RadzenButton Text="Export XLS" Icon="grid_on" Click="@(args => Export("excel"))" Class="mb-4 mr-2" />
+<RadzenButton Text="Export CSV" Icon="wrap_text" Click="@(args => Export("csv"))" Class="mb-4" />
+    <RadzenDataGrid @ref="anciltypeGrid" AllowFiltering="true" AllowColumnResize="true" FilterMode="FilterMode.Advanced" AllowSorting="true" PageSize="10" AllowPaging="true" PagerHorizontalAlign="HorizontalAlign.Left" ShowPagingSummary="true"
+                Data="@anciltypes" TItem="AncilTypeVM" ColumnWidth="300px" LogicalFilterOperator="LogicalFilterOperator.Or" EditMode="DataGridEditMode.Single" RowUpdate="@OnUpdateRow" RowCreate="@OnCreateRow">
+        <Columns>
+            <RadzenDataGridColumn TItem="AncilTypeVM" Property="AncillTypeCd" Filterable="true" Title="AncilType CD"  Width="80px" TextAlign="TextAlign.Right" >
+                 <EditTemplate  Context="anciltypevm">
+                       <RadzenNumeric Min="1" Max="100" @bind-Value="anciltypevm.AncillTypeCd" Class="w-70"  Disabled="@enable" Name ="AncillTypeCd" />
+                        <RadzenRequiredValidator Component="AncillTypeCd" Text="Value is required" Popup="true" />
+                </EditTemplate>
+             </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="AncilTypeVM" Property="SDesc" Title="Description" Width="140px" TextAlign="TextAlign.Left">
+                  <EditTemplate Context="anciltypevm">
+                    <RadzenTextBox @bind-Value="anciltypevm.SDesc" Style="width:100%; display: block" Name="Description" />   <RadzenRequiredValidator Component="Description" Text="Value is required" Popup="true" />
+                </EditTemplate>
+             </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="AncilTypeVM" Property="EffDate" Title="Eff date" Width="100px" TextAlign="TextAlign.Left"  FormatString="{0:d}">
+              <EditTemplate Context="anciltypevm">
+                     <RadzenDatePicker @bind-Value="anciltypevm.EffDate" DateFormat="d" Class="w-100" Name="EffDate"/>   <RadzenRequiredValidator Component="EffDate" Text="Value is required" Popup="true" />
+                </EditTemplate>
+              </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="AncilTypeVM" Property="ExpDate" Title="Expiry Date" Width="100px" TextAlign="TextAlign.Left"  FormatString="{0:d}">
+              <EditTemplate Context="anciltypevm">
+                     <RadzenDatePicker @bind-Value="anciltypevm.ExpDate" DateFormat="d" Class="w-100" Name="ExpDate"/> <RadzenRequiredValidator Component="ExpDate" Text="Value is required" Popup="true" />
+                </EditTemplate>
+              </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="AncilTypeVM" Property="IsActive" Title="Is Active" Width="60px" TextAlign="TextAlign.Left">
+                 <Template Context="anciltypevm">
+                   <RadzenSwitch @bind-Value="anciltypevm.IsActive" Disabled="false" />
+                </Template>
+                 <EditTemplate Context="anciltypevm">
+                    <RadzenSwitch @bind-Value="anciltypevm.IsActive" Disabled="false" />
+                </EditTemplate>
+            </RadzenDataGridColumn>
+          <RadzenDataGridColumn TItem="AncilTypeVM" Context="accountvm" Filterable="false" Sortable="false" TextAlign="TextAlign.Center" Width="90px">
+                <Template Context="anciltypevm">
+                    <RadzenButton Icon="edit" ButtonStyle="ButtonStyle.Primary" Class="m-1" Click="@(args => EditRow(anciltypevm))" @onclick:stopPropagation="true">
+                    </RadzenButton>
+                </Template>
+                <EditTemplate Context="anciltypevm">
+                    <RadzenButton Icon="check" ButtonStyle="ButtonStyle.Primary" Class="m-1" Click="@((args) => SaveRow(anciltypevm))">
+                    </RadzenButton>
+                    <RadzenButton Icon="close" ButtonStyle="ButtonStyle.Primary" Class="m-1" Click="@((args) => CancelEdit(anciltypevm))">
+                    </RadzenButton>
+                </EditTemplate>
+            </RadzenDataGridColumn>
+       
+        </Columns>
+    </RadzenDataGrid>
+    }

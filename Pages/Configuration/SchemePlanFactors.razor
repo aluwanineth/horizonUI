@@ -1,0 +1,104 @@
+﻿@page "/configuration/schemePlanFactors"
+@using HorizonPollyC.Services.General
+@using HorizonPollyC.Models.Configuration
+@using HorizonPollyC.Services.Configuration
+@using Microsoft.JSInterop;
+@inject IExportService _exportService
+@inject IJSRuntime js
+@inject ISchemePlanFactorsService _schemePlanFactorsService
+
+<h3>Scheme Plan Factors</h3>
+
+@if (schemePlanFactors != null)
+{
+
+
+
+    <RadzenButton Icon="add_circle_outline" style="margin-bottom: 10px" Text="Add New Record" Click="@InsertRow" Disabled=@(schemePlanFactorsToInsert != null) />
+    <RadzenButton Text="Export XLS" Icon="grid_on" Click="@(args => Export("excel"))" Class="mb-4 mr-2" />
+    <RadzenButton Text="Export CSV" Icon="wrap_text" Click="@(args => Export("csv"))" Class="mb-4" />
+    <RadzenDataGrid @ref="schemePlanFactorsGrid" AllowFiltering="true" AllowColumnResize="true" FilterMode="FilterMode.Advanced" AllowSorting="true" PageSize="5" AllowPaging="true" PagerHorizontalAlign="HorizontalAlign.Left" ShowPagingSummary="true"
+                Data="@schemePlanFactors" TItem="SchemePlanFactorsVM" ColumnWidth="300px" LogicalFilterOperator="LogicalFilterOperator.Or" EditMode="DataGridEditMode.Single" RowUpdate="@OnUpdateRow" RowCreate="@OnCreateRow">
+        <Columns>
+            <RadzenDataGridColumn TItem="SchemePlanFactorsVM" Property="SchemeCd" Title="Scheme CD" Width="140px" TextAlign="TextAlign.Left">
+                <EditTemplate Context="schemePlanFactorsvm">
+                    <RadzenNumeric @bind-Value="schemePlanFactorsvm.SchemeCd" Style="width:100%; display: block" Name="Scheme CD" />
+                </EditTemplate>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="SchemePlanFactorsVM" Property="PlanTypeCD" Title="Plan Type CD" Width="170px" TextAlign="TextAlign.Left">
+                <EditTemplate Context="schemePlanFactorsvm">
+                    <RadzenNumeric @bind-Value="schemePlanFactorsvm.PlanTypeCD" Style="width:100%; display: block" Name="Plan Type CD" />
+                </EditTemplate>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="SchemePlanFactorsVM" Property="LevelCD" Title="Level CD" Width="170px" TextAlign="TextAlign.Left">
+                <EditTemplate Context="schemePlanFactorsvm">
+                    <RadzenNumeric @bind-Value="schemePlanFactorsvm.LevelCD" Style="width:100%; display: block" Name="Level CD" />
+                </EditTemplate>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="SchemePlanFactorsVM" Property="PremPortionTypeCD" Title="Prem Portion Type CD" Width="170px" TextAlign="TextAlign.Left">
+                <EditTemplate Context="schemePlanFactorsvm">
+                    <RadzenNumeric @bind-Value="schemePlanFactorsvm.PremPortionTypeCD" Style="width:100%; display: block" Name="Prem Portion Type CD" />
+                </EditTemplate>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="SchemePlanFactorsVM" Property="PremPortionAmt" Title="Prem Portion Amt" Width="170px" TextAlign="TextAlign.Left">
+                <EditTemplate Context="schemePlanFactorsvm">
+                    <RadzenNumeric @bind-Value="schemePlanFactorsvm.PremPortionAmt" Style="width:100%; display: block" Name="Prem Portion Amt" />
+                </EditTemplate>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="SchemePlanFactorsVM" Property="PremPortionPerc" Title="Prem Portion Perc" Width="170px" TextAlign="TextAlign.Left">
+                <EditTemplate Context="schemePlanFactorsvm">
+                    <RadzenNumeric @bind-Value="schemePlanFactorsvm.PremPortionPerc" Style="width:100%; display: block" Name="Prem Portion Perc" />
+                </EditTemplate>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="SchemePlanFactorsVM" Property="BasedOn" Title="Based On" Width="170px" TextAlign="TextAlign.Left">
+                <EditTemplate Context="schemePlanFactorsvm">
+                    <RadzenNumeric @bind-Value="schemePlanFactorsvm.BasedOn" Style="width:100%; display: block" Name="Based On" />
+                </EditTemplate>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="SchemePlanFactorsVM" Property="ProcessSeq" Title="Process Seq" Width="170px" TextAlign="TextAlign.Left">
+                <EditTemplate Context="schemePlanFactorsvm">
+                    <RadzenNumeric @bind-Value="schemePlanFactorsvm.ProcessSeq" Style="width:100%; display: block" Name="Process Seq" />
+                </EditTemplate>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="SchemePlanFactorsVM" Property="NBCommFactor" Title="NB Comm Factor" Width="170px" TextAlign="TextAlign.Left">
+                <EditTemplate Context="schemePlanFactorsvm">
+                    <RadzenNumeric @bind-Value="schemePlanFactorsvm.NBCommFactor" Style="width:100%; display: block" Name="NB Comm Factor" />
+                </EditTemplate>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="SchemePlanFactorsVM" Property="EffectiveDate" Title="Eff date" Width="100px" TextAlign="TextAlign.Left"  FormatString="{0:d}">
+                <EditTemplate Context="schemePlanFactorsvm">
+                    <RadzenDatePicker @bind-Value="schemePlanFactorsvm.EffectiveDate" DateFormat="d" Class="w-100" />
+                </EditTemplate>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="SchemePlanFactorsVM" Property="ExpiryDate" Title="Expiry Date" Width="100px" TextAlign="TextAlign.Left"  FormatString="{0:d}">
+                <EditTemplate Context="schemePlanFactorsvm">
+                    <RadzenDatePicker @bind-Value="schemePlanFactorsvm.ExpiryDate" DateFormat="d" Class="w-100" />
+                </EditTemplate>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="SchemePlanFactorsVM" Property="IsActive" Title="Is Active" Width="50px" TextAlign="TextAlign.Left">
+                <Template Context="schemePlanFactorsvm">
+                    <RadzenSwitch @bind-Value="schemePlanFactorsvm.IsActive" Disabled="false" />
+                </Template>
+                <EditTemplate Context="schemePlanFactorsvm">
+                    <RadzenSwitch @bind-Value="schemePlanFactorsvm.IsActive" Disabled="false" />
+                </EditTemplate>
+
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="SchemePlanFactorsVM" Context="schemePlanFactorssvm" Filterable="false" Sortable="false" TextAlign="TextAlign.Center" Width="100px">
+                <Template Context="schemePlanFactorsvm">
+                    <RadzenButton Icon="edit" ButtonStyle="ButtonStyle.Primary" Class="m-1" Click="@(args => EditRow(schemePlanFactorsvm))" @onclick:stopPropagation="true">
+                    </RadzenButton>
+                </Template>
+                <EditTemplate Context="schemePlanFactorsvm">
+                    <RadzenButton Icon="check" ButtonStyle="ButtonStyle.Primary" Class="m-1" Click="@((args) => SaveRow(schemePlanFactorsvm))">
+                    </RadzenButton>
+                    <RadzenButton Icon="close" ButtonStyle="ButtonStyle.Primary" Class="m-1" Click="@((args) => CancelEdit(schemePlanFactorsvm))">
+                    </RadzenButton>
+                </EditTemplate>
+            </RadzenDataGridColumn>
+
+        </Columns>
+    </RadzenDataGrid>
+
+
+}

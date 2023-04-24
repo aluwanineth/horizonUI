@@ -1,0 +1,538 @@
+﻿@page "/PolicyDetails";
+
+@using HorizonPollyC.Services
+@using HorizonPollyC.Services.General
+@using HorizonPollyC.Models
+@using HorizonPollyC.Services.SCV
+@inject ISCVService _SCVService
+@using HorizonPollyC.Services.Configuration
+@using HorizonPollyC.Models.Configuration
+@using Microsoft.JSInterop;
+@inject IExportService _exportService
+@inject IJSRuntime js
+@inject IGeneric<TitlesVM> _TitleService
+@*@inject IGeneric<TelecomType> _TelecomTypeService*@
+@inject IGeneric<CountryPhone> _CountryPhoneService
+@inject IGenderService _GenderService
+
+
+<style>
+    .LabelLabelRow {
+        padding-bottom: 4px;
+        min-width: 55%;
+        display: inline-block;
+    }
+
+    .doubleLabelRow {
+        padding-bottom: 4px;
+        width: 23%;
+        display: inline-block;
+    }
+
+    .LabelHeader {
+        font-weight: bold;
+    }
+
+    .FullDiv {
+        width: 100%;
+        /*display: flex;*/
+        padding-top: 10px
+    }
+
+
+    .btn {
+        width: 140px;
+        display: inline-block;
+        float: right;
+    }
+
+    .loading_dlg {
+        z-index: 999;
+        padding: 10px;
+        background-color: white;
+        position: absolute;
+        left: 50vw;
+        top: 50vh;
+        box-shadow: #747474 0px 0px 11px 0px;
+        border-radius: 5px 5px 5px 5px;
+    }
+
+    .alert_dlg {
+        z-index: 999;
+        padding: 15px;
+        width: 340px;
+        position: absolute;
+        background-color: white;
+        left: 50vw;
+        top: 20vh;
+        box-shadow: #202020 0px 0px 11px 0px;
+        border-radius: 5px 5px 5px 5px;
+        padding: 10px 10px 10px 10px;
+    }
+
+    .loading_dlg p {
+        font-size: 2em;
+        font-weight: bold;
+        text-align: center;
+        padding-top: 10px;
+    }
+
+    .pinfo_table_2col > tr > td:nth-child(1) {
+        font-weight: 700;
+        width: 40%;
+        min-width: 160px;
+    }
+
+    .pinfo_table_2col > tr > td:nth-child(2) {
+        width: 60%;
+        min-width: 160px;
+        padding-left: 8.5px;
+    }
+
+    .pinfo_table_4col > tr > td:nth-child(odd) {
+        font-weight: 700;
+        width: 18%;
+    }
+
+    .pinfo_table_4col > tr > td:nth-child(even) {
+        width: 32%;
+    }
+
+        .pinfo_table_4col > tr > td:nth-child(even) > span {
+            padding-left: 8.5px;
+        }
+
+    .pinfo_table_2col > tr > td:nth-child(2) > span {
+        padding-left: 8.5px;
+    }
+
+    .pinfo_table_2col > tr, .pinfo_table_4col > tr {
+        height: 34px;
+    }
+
+    .frm_input {
+        width: 160px;
+    }
+
+    .input_disabled {
+        cursor: not-allowed !important;
+        background-color: rgb(225 225 225) !important;
+    }
+   
+    .member_details{
+        background-color: lightgray;
+        width: 100%;
+    }
+
+    .rz_h_type {
+        color: white;
+        padding: 12px !important;
+        font-size: 12px;
+        font-weight: 600;
+    }
+
+    .rz_h_type:nth-child(1) {
+        text-align: left;
+        border-radius: 5px 0px 0px 5px;
+    }
+    .rz_h_type:nth-child(2) {
+        text-align: center;
+    }
+    .rz_h_type:nth-child(3) {
+        text-align: center;
+        border-radius: 0px 5px 5px 0px;
+    }
+
+    .inner_tbl {
+        width: 100%;
+    }
+    .inner_tbl > tbody > tr > td {
+        border: 0px !important;
+        text-align: left;
+    }
+    .inner_tbl > tbody > tr > td:nth-child(2), .inner_tbl > tbody > tr > td:nth-child(4) {
+        width: 190px !important;
+        padding-left: 8px;
+    }
+
+    .outer_tbl {
+        width: 100%;
+    }
+
+    .outer_tbl > thead > tr > th {
+        border: 0px !important;
+    }
+
+    .outer_tbl > tbody > tr:nth-child(1) > td:nth-child(1) {
+        border: 0px !important;
+        vertical-align: top;
+        text-align: left;
+        width: 30%;
+        min-width: 30%;
+    }
+    .outer_tbl > tbody > tr:nth-child(1) > td:nth-child(2) {
+        border: 0px !important;
+        vertical-align: top;
+        text-align: center;
+        width: 45%;
+        min-width: 45%;
+    }
+    .outer_tbl > tbody > tr:nth-child(1) > td:nth-child(3) {
+        border: 0px !important;
+        vertical-align: top;
+        text-align: left;
+        width: 25%;
+        min-width: 25%;
+    }
+    .outer_tbl > tbody > tr:nth-child(2) > td {
+        text-align: right;
+    }
+
+    .rz-info {
+        background-color: #007bff !important;
+    }
+
+    .edit_btn {
+        cursor: pointer;
+        zoom: 1.3;
+        width: 120px;
+        color: black;
+    }
+
+
+</style>
+
+<div>
+
+    <InformationBoard OnStateHasChanged="OnStateHasChanged" />
+    <div>
+        <HorizonPollyC.Pages.Components.EntityPolicyList onPolicySelect="PolicySelected"></HorizonPollyC.Pages.Components.EntityPolicyList>
+    </div>
+    
+    <div class="loading_dlg" style="@("display:" + (busy_loading ? "block" : "none") + ";")">
+        <img src="loading-gif.gif" title="loading" style="zoom:50%; filter:brightness(80%) hue-rotate(345deg) saturate(1) contrast(3.5) saturate(12);" />
+        <p>LOADING</p>
+    </div>
+
+
+
+    <div class="alert_dlg" style="@("display:" + ((show_alert_error || show_alert_success || show_alert_warning) ? "block" : "none") + ";")">
+        <RadzenCard>
+            <div style="background-color:#F7E2C4; border-radius:4px 4px 4px 4px;">
+                <div style="color:rgb(204, 122, 0); font-family:roboto, sans-serif; font-weight:400; font-size:16px;">@alert_warning_msg</div>
+            </div>
+        </RadzenCard>
+    </div>
+
+
+    <div class="FullDiv">
+
+        <table class="rz-grid-table outer_tbl">
+            <thead>
+                <tr>
+                    <th class="rz_h_type">Policy Details</th>
+                    <th class="rz_h_type">Member Details</th>
+                    <th class="rz_h_type">Premium Details</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td rowspan="2">
+
+                        <table class="inner_tbl">
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        Master Contract:
+                                    </td>
+                                    <td>@(userInfo.PolicyNumber == null ? "" : userInfo.PolicyNumber.ToString())</td>
+                                </tr>
+                                <tr>
+                                    <td>Legacy Policy Number:</td>
+                                    <td>
+                                        <span>@(LegacyPolicyNumber ?? "")</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Entity Number:</td>
+                                    <td>
+                                        <span>@(EntityNumber ?? 0)</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Annual Increase:</td>
+                                    <td>
+                                        <span>@(AnnualIncrease ?? "")</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Date of Commencement:</td>
+                                    <td>
+                                        <span>@(DateofCommencement == null ? "" : DateofCommencement.Value.ToString("dd/MM/yyyy"))</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Reinstatement Date of Commencement:</td>
+                                    <td>
+                                        <span>@(ReinstatementDateofCommencement == null ? "" : ReinstatementDateofCommencement.Value.ToString("dd/MM/yyyy"))</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Lapsed Date:</td>
+                                    <td>
+                                        <span>@(LapsedDate == null ? "" : LapsedDate.Value.ToString("dd/MM/yyyy"))</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Cancelled Date:</td>
+                                    <td>
+                                        <span>@(CancelledDate == null ? "" : CancelledDate.Value.ToString("dd/MM/yyyy"))</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Sales Venue:</td>
+                                    <td>
+                                        <span>@(SalesVenue ?? "")</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Sales Person:</td>
+                                    <td>
+                                        <span>@(SalesPerson ?? "")</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Campaign Code:</td>
+                                    <td>
+                                        <span>@(CampaignCode ?? "")</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Policy Fee:</td>
+                                    <td>
+                                        <span>@(PolicyFee == null ? "0.00" : PolicyFee.Value.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture))</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Capture Date:</td>
+                                    <td>
+                                        <span>@(CaptureDate == null ? "" : CaptureDate.Value.ToString("dd/MM/yyyy"))</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Preferred Communication Method:</td>
+                                    <td style="padding-top:0px; padding-bottom:0px;">
+                                        <span style="@("display:" + (state_is_editing ? "none" : "block") + ";")">@(selected_telecom_type_str ?? "")</span>
+                                        <RadzenDropDown class="frm_input" AllowClear="false" AllowFiltering="false" Data="@SelectTelecomTypesList" TextProperty="item_description" ValueProperty="item_id" @bind-Value=temp_selected_telecom_type_int Style="@("display:" + (state_is_editing ? "block" : "none") + ";")" />
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                    </td>
+                    <td rowspan="2">
+
+                        <table class="inner_tbl">
+                            <tbody>
+                                <tr>
+                                    <td colspan="4"></td>
+                                </tr>
+                                <tr>
+                                    <td>Title:</td>
+                                    <td style="padding-top:0px; padding-bottom:0px;">
+                                        <span style="@("display:" + (state_is_editing ? "none" : "block") + ";")">@(selected_title_str ?? "")</span>
+                                        <RadzenDropDown class="frm_input" AllowClear="false" AllowFiltering="false" Data="@SelectTitlesList" TextProperty="item_description" ValueProperty="item_id" @bind-Value=temp_selected_title_int Style="@("display:" + (state_is_editing ? "block" : "none") + ";")" />
+                                    </td>
+                                    <td>First Name:</td>
+                                    <td style="padding-top:0px; padding-bottom:0px;">
+                                        <span style="@("display:" + (state_is_editing ? "none" : "block") + ";")">@(FirstName ?? "")</span>
+                                        <RadzenTextBox class="frm_input" @bind-Value=@temp_firstname Style="@("display:" + (state_is_editing ? "block" : "none") + ";")" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Surname:</td>
+                                    <td style="padding-top:0px; padding-bottom:0px;">
+                                        <span style="@("display:" + (state_is_editing ? "none" : "block") + ";")">@(Surname ?? "")</span>
+                                        <RadzenTextBox class="frm_input" @bind-Value=@temp_surname Style="@("display:" + (state_is_editing ? "block" : "none") + ";")" />
+                                    </td>
+                                    <td>ID Number:</td>
+                                    <td>
+                                        <span>@(IDNumber ?? "")</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2"></td>
+                                    <td>Passport Number:</td>
+                                    <td>
+                                        <span>@(PassportNumber ?? "")</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Fax Number:</td>
+                                    <td style="padding-top:0px; padding-bottom:0px;">
+                                        <span style="@("display:" + (state_is_editing ? "none" : "block") + ";")">@(FaxNumber ?? "")</span>
+                                        <RadzenTextBox class="frm_input" @bind-Value=@temp_faxnumber Style="@("display:" + (state_is_editing ? "block" : "none") + ";")" />
+                                    </td>
+                                    <td>Home Number:</td>
+                                    <td style="padding-top:0px; padding-bottom:0px;">
+                                        <span style="@("display:" + (state_is_editing ? "none" : "block") + ";")">@(HomeNumber ?? "")</span>
+                                        <RadzenTextBox class="frm_input" @bind-Value=@temp_homenumber Style="@("display:" + (state_is_editing ? "block" : "none") + ";")" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Email Address:</td>
+                                    <td style="padding-top:0px; padding-bottom:0px;">
+                                        <span style="@("display:" + (state_is_editing ? "none" : "block") + ";")">@(EmailAddress ?? "")</span>
+                                        <RadzenTextBox class="frm_input" @bind-Value=@temp_emailaddress Style="@("display:" + (state_is_editing ? "block" : "none") + ";")" />
+                                    </td>
+                                    <td>Cell Number:</td>
+                                    <td style="padding-top:0px; padding-bottom:0px;">
+                                        <span style="@("display:" + (state_is_editing ? "none" : "block") + ";")">@(MaskedCellNumber ?? "")</span>
+                                        <RadzenTextBox class="frm_input" @bind-Value=@MaskedCellNumber Style="@("display:" + (state_is_editing ? "block" : "none") + ";")" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Physical Address:</td>
+                                    <td style="padding-top:0px; padding-bottom:0px;">
+                                        <span style="@("display:" + (state_is_editing ? "none" : "block") + ";")">@(PhyAddressLine1 ?? "")</span>
+                                        <RadzenTextBox class="frm_input" @bind-Value=@temp_phyaddress_line1 Style="@("display:" + (state_is_editing ? "block" : "none") + ";")" />
+                                    </td>
+                                    <td>Postal Address:</td>
+                                    <td style="padding-top:0px; padding-bottom:0px;">
+                                        <span style="@("display:" + (state_is_editing ? "none" : "block") + ";")">@(PostAddressLine1 ?? "")</span>
+                                        <RadzenTextBox class="frm_input" @bind-Value=@temp_postaladdress_line1 Style="@("display:" + (state_is_editing ? "block" : "none") + ";")" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td style="padding-top:0px; padding-bottom:0px;">
+                                        <span style="@("display:" + (state_is_editing ? "none" : "block") + ";")">@(PhyAddressLine2 ?? "")</span>
+                                        <RadzenTextBox class="frm_input" @bind-Value=@temp_phyaddress_line2 Style="@("display:" + (state_is_editing ? "block" : "none") + ";")" />
+                                    </td>
+                                    <td></td>
+                                    <td style="padding-top:0px; padding-bottom:0px;">
+                                        <span style="@("display:" + (state_is_editing ? "none" : "block") + ";")">@(PostAddressLine2 ?? "")</span>
+                                        <RadzenTextBox class="frm_input" @bind-Value=@temp_postaladdress_line2 Style="@("display:" + (state_is_editing ? "block" : "none") + ";")" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Suburb:</td>
+                                    <td style="padding-top:0px; padding-bottom:0px;">
+                                        <span style="@("display:" + (state_is_editing ? "none" : "block") + ";")">@(PhyAddressLine3 ?? "")</span>
+                                        <RadzenTextBox class="frm_input" @bind-Value=@temp_phy_suburb Style="@("display:" + (state_is_editing ? "block" : "none") + ";")" />
+                                    </td>
+                                    <td>Suburb:</td>
+                                    <td style="padding-top:0px; padding-bottom:0px;">
+                                        <span style="@("display:" + (state_is_editing ? "none" : "block") + ";")">@(PostAddressLine3 ?? "")</span>
+                                        <RadzenTextBox class="frm_input" @bind-Value=@temp_postal_suburb Style="@("display:" + (state_is_editing ? "block" : "none") + ";")" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Town &#47; City:</td>
+                                    <td style="padding-top:0px; padding-bottom:0px;">
+                                        <span style="@("display:" + (state_is_editing ? "none" : "block") + ";")">@(PhyTownCity ?? "")</span>
+                                        <RadzenTextBox class="frm_input" @bind-Value=@temp_phy_towncity Style="@("display:" + (state_is_editing ? "block" : "none") + ";")" />
+                                    </td>
+                                    <td>Town &#47; City:</td>
+                                    <td style="padding-top:0px; padding-bottom:0px;">
+                                        <span style="@("display:" + (state_is_editing ? "none" : "block") + ";")">@(PostTownCity ?? "")</span>
+                                        <RadzenTextBox class="frm_input" @bind-Value=@temp_postal_towncity Style="@("display:" + (state_is_editing ? "block" : "none") + ";")" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Postal Code:</td>
+                                    <td style="padding-top:0px; padding-bottom:0px;">
+                                        <span style="@("display:" + (state_is_editing ? "none" : "block") + ";")">@(PhyPostalCode ?? "")</span>
+                                        <RadzenTextBox class="frm_input" @bind-Value=@temp_phy_postalcode Style="@("display:" + (state_is_editing ? "block" : "none") + ";")" />
+                                    </td>
+                                    <td>Postal Code:</td>
+                                    <td style="padding-top:0px; padding-bottom:0px;">
+                                        <span style="@("display:" + (state_is_editing ? "none" : "block") + ";")">@(PostPostalCode ?? "")</span>
+                                        <RadzenTextBox class="frm_input" @bind-Value=@temp_postal_postalcode Style="@("display:" + (state_is_editing ? "block" : "none") + ";")" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Gender:</td>
+                                    <td colspan="3">
+                                        <span>@(selected_gender_str ?? "")</span>
+                                        @*<RadzenDropDown class="frm_input" AllowClear="false" AllowFiltering="false" Data="@SelectGenderList" TextProperty="item_description" ValueProperty="item_id" @bind-Value=temp_selected_gender_int Style="@("display:" + (state_is_editing ? "block" : "none") + ";")" />*@
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Smoker:</td>
+                                    <td colspan="3">
+                                        <span>@(((Smoker ?? false) ? "Yes" : "No"))</span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                    </td>
+                    <td>
+
+                        <table class="inner_tbl">
+                            <tbody>
+                                <tr>
+                                    <td colspan="2"></td>
+                                </tr>
+                                <tr>
+                                    <td>Last Billing Date:</td>
+                                    <td>
+                                        <span>@(LastBillingDate == null ? "" : LastBillingDate.Value.ToString("dd/MM/yyyy"))</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Last Paid Date:</td>
+                                    <td>
+                                        <span>@(LastPaidDate == null ? "" : LastPaidDate.Value.ToString("dd/MM/yyyy"))</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Next Billing Date:</td>
+                                    <td>
+                                        <span>@(NextBillingDate == null ? "" : NextBillingDate.Value.ToString("dd/MM/yyyy"))</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Policy Premium Amount:</td>
+                                    <td>
+                                        <span>@(PolicyPremiumAmount == null ? "0.00" : PolicyPremiumAmount.Value.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture))</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Premium Count:</td>
+                                    <td>
+                                        <span>@(PremiumCount ?? 0)</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Payment Frequency:</td>
+                                    <td>
+                                        <span>@(PaymentFrequency ?? "")</span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+
+                    </td>
+
+                </tr>
+                <tr>
+                    <td style="vertical-align:bottom;">
+
+                        <RadzenButton class="edit_btn" Text="@(state_is_editing ? "Save" : "Edit")" ButtonStyle="ButtonStyle.Info" Click="@(args => ToggleEdit())" />
+
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+
+
+
+</div>
+
+
+

@@ -1,0 +1,51 @@
+﻿@page "/UserManagement/FeatureList"
+@using HorizonPollyC.Models.UserManagement
+@using HorizonPollyC.Services.UserManagement
+@using Microsoft.AspNetCore.Authorization
+@inject IUserManagementService _userManagementService 
+<h3>User Features </h3>
+
+
+<RadzenButton Icon="add_circle_outline" style="margin-bottom: 10px" Text="Add New Record" Click="@InsertRow" Disabled=@(featuresToInsert != null) /> 
+   <RadzenDataGrid  @ref="featuregrid" AllowFiltering="true" AllowColumnResize="true" FilterMode="FilterMode.Advanced" AllowSorting="true" PageSize="10" AllowPaging="true" PagerHorizontalAlign="HorizontalAlign.Left" ShowPagingSummary="true"
+        Data="@featureList" TItem="Features" ColumnWidth="300px" LogicalFilterOperator="LogicalFilterOperator.Or" EditMode="DataGridEditMode.Single" RowUpdate="@OnUpdateRow" RowCreate="@OnCreateRow">
+        <Columns>
+            <RadzenDataGridColumn TItem="Features" Property="ID" Filterable="true" Title="ID"  Width="70px" TextAlign="TextAlign.Center" >
+                 <EditTemplate  Context="Features">
+                       <RadzenNumeric Min="1" Max="100" @bind-Value="Features.ID" Class="w-70"  Disabled="@enable"/>
+                </EditTemplate>
+             </RadzenDataGridColumn>
+
+            <RadzenDataGridColumn TItem="Features" Property="FeatureDescription" Title="Description"  Width="140px" >
+                  <EditTemplate Context="Features">
+                    <RadzenTextBox @bind-Value="Features.FeatureDescription" Style="width:100%; display: block" Name="FeatureDescription" />
+                </EditTemplate>
+             </RadzenDataGridColumn>
+
+              <RadzenDataGridColumn TItem="Features" Property="isActive" Title="Is Active" Width="50px">
+                 <Template Context="Features">
+                   <RadzenSwitch @bind-Value="Features.isActive" Disabled="false" />
+                </Template>
+                 <EditTemplate Context="Features">
+                    <RadzenSwitch @bind-Value="Features.isActive" Disabled="false" />
+                </EditTemplate>             
+            </RadzenDataGridColumn>
+
+           <RadzenDataGridColumn TItem="Features" Context="Features" Filterable="false" Sortable="false" TextAlign="TextAlign.Center" Width="100px">
+                <Template Context="Features">
+                    <RadzenButton Icon="edit" ButtonStyle="ButtonStyle.Primary" Class="m-1" Click="@(args => EditRow(Features))" @onclick:stopPropagation="true">
+                    </RadzenButton>
+                </Template>
+                <EditTemplate Context="Features">
+                    <RadzenButton Icon="check" ButtonStyle="ButtonStyle.Primary" Class="m-1" Click="@((args) => SaveRow(Features))">
+                    </RadzenButton>
+                    <RadzenButton Icon="close" ButtonStyle="ButtonStyle.Primary" Class="m-1" Click="@((args) => CancelEdit(Features))">
+                    </RadzenButton>
+                </EditTemplate>
+            </RadzenDataGridColumn>
+
+
+
+
+        </Columns>
+    </RadzenDataGrid>

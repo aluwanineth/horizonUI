@@ -1,0 +1,249 @@
+{
+  "Files": [
+    {
+      "Id": "C:\\source control2\\Horizon\\Dev\\UI\\HorizonPollyC\\bin\\Debug\\net7.0\\wwwroot\\_framework\\blazor.webassembly.js",
+      "PackagePath": "staticwebassets\\_framework\\blazor.webassembly.js"
+    },
+    {
+      "Id": "C:\\source control2\\Horizon\\Dev\\UI\\HorizonPollyC\\obj\\Debug\\net7.0\\build-gz\\sITdtrZQ.gz",
+      "PackagePath": "staticwebassets\\_framework\\blazor.webassembly.js.gz"
+    },
+    {
+      "Id": "C:\\source control2\\Horizon\\Dev\\UI\\HorizonPollyC\\obj\\Debug\\net7.0\\scopedcss\\bundle\\HorizonPollyC.styles.css",
+      "PackagePath": "staticwebassets\\HorizonPollyC.styles.css"
+    },
+    {
+      "Id": "C:\\source control2\\Horizon\\Dev\\UI\\HorizonPollyC\\wwwroot\\Images\\ClienteleHorizontal.jpg",
+      "PackagePath": "staticwebassets\\Images\\ClienteleHorizontal.jpg"
+    },
+    {
+      "Id": "C:\\source control2\\Horizon\\Dev\\UI\\HorizonPollyC\\wwwroot\\Images\\ClienteleOnlyLogo.jpg",
+      "PackagePath": "staticwebassets\\Images\\ClienteleOnlyLogo.jpg"
+    },
+    {
+      "Id": "C:\\source control2\\Horizon\\Dev\\UI\\HorizonPollyC\\wwwroot\\Images\\ClienteleStacked.jpg",
+      "PackagePath": "staticwebassets\\Images\\ClienteleStacked.jpg"
+    },
+    {
+      "Id": "C:\\source control2\\Horizon\\Dev\\UI\\HorizonPollyC\\wwwroot\\Images\\ClienteleStackedDark.jpg",
+      "PackagePath": "staticwebassets\\Images\\ClienteleStackedDark.jpg"
+    },
+    {
+      "Id": "C:\\source control2\\Horizon\\Dev\\UI\\HorizonPollyC\\wwwroot\\Images\\ClienteleStackedDarkSmall.jpg",
+      "PackagePath": "staticwebassets\\Images\\ClienteleStackedDarkSmall.jpg"
+    },
+    {
+      "Id": "C:\\source control2\\Horizon\\Dev\\UI\\HorizonPollyC\\wwwroot\\appsettings.Development.json",
+      "PackagePath": "staticwebassets\\appsettings.Development.json"
+    },
+    {
+      "Id": "C:\\source control2\\Horizon\\Dev\\UI\\HorizonPollyC\\wwwroot\\appsettings.Local.json",
+      "PackagePath": "staticwebassets\\appsettings.Local.json"
+    },
+    {
+      "Id": "C:\\source control2\\Horizon\\Dev\\UI\\HorizonPollyC\\wwwroot\\appsettings.json",
+      "PackagePath": "staticwebassets\\appsettings.json"
+    },
+    {
+      "Id": "C:\\source control2\\Horizon\\Dev\\UI\\HorizonPollyC\\wwwroot\\css\\Radzen\\Radzen.Blazor.js",
+      "PackagePath": "staticwebassets\\css\\Radzen\\Radzen.Blazor.js"
+    },
+    {
+      "Id": "C:\\source control2\\Horizon\\Dev\\UI\\HorizonPollyC\\wwwroot\\css\\Radzen\\css\\dark-base.css",
+      "PackagePath": "staticwebassets\\css\\Radzen\\css\\dark-base.css"
+    },
+    {
+      "Id": "C:\\source control2\\Horizon\\Dev\\UI\\HorizonPollyC\\wwwroot\\css\\Radzen\\css\\dark.css",
+      "PackagePath": "staticwebassets\\css\\Radzen\\css\\dark.css"
+    },
+    {
+      "Id": "C:\\source control2\\Horizon\\Dev\\UI\\HorizonPollyC\\wwwroot\\css\\Radzen\\css\\default-base.css",
+      "PackagePath": "staticwebassets\\css\\Radzen\\css\\default-base.css"
+    },
+    {
+      "Id": "C:\\source control2\\Horizon\\Dev\\UI\\HorizonPollyC\\wwwroot\\css\\Radzen\\css\\default.css",
+      "PackagePath": "staticwebassets\\css\\Radzen\\css\\default.css"
+    },
+    {
+      "Id": "C:\\source control2\\Horizon\\Dev\\UI\\HorizonPollyC\\wwwroot\\css\\Radzen\\css\\humanistic-base.css",
+      "PackagePath": "staticwebassets\\css\\Radzen\\css\\humanistic-base.css"
+    },
+    {
+      "Id": "C:\\source control2\\Horizon\\Dev\\UI\\HorizonPollyC\\wwwroot\\css\\Radzen\\css\\humanistic.css",
+      "PackagePath": "staticwebassets\\css\\Radzen\\css\\humanistic.css"
+    },
+    {
+      "Id": "C:\\source control2\\Horizon\\Dev\\UI\\HorizonPollyC\\wwwroot\\css\\Radzen\\css\\software-base.css",
+      "PackagePath": "staticwebassets\\css\\Radzen\\css\\software-base.css"
+    },
+    {
+      "Id": "C:\\source control2\\Horizon\\Dev\\UI\\HorizonPollyC\\wwwroot\\css\\Radzen\\css\\software.css",
+      "PackagePath": "staticwebassets\\css\\Radzen\\css\\software.css"
+    },
+    {
+      "Id": "C:\\source control2\\Horizon\\Dev\\UI\\HorizonPollyC\\wwwroot\\css\\Radzen\\css\\standard-base.css",
+      "PackagePath": "staticwebassets\\css\\Radzen\\css\\standard-base.css"
+    },
+    {
+      "Id": "C:\\source control2\\Horizon\\Dev\\UI\\HorizonPollyC\\wwwroot\\css\\Radzen\\css\\standard.css",
+      "PackagePath": "staticwebassets\\css\\Radzen\\css\\standard.css"
+    },
+    {
+      "Id": "C:\\source control2\\Horizon\\Dev\\UI\\HorizonPollyC\\wwwroot\\css\\Radzen\\fonts\\MaterialIcons-Regular.woff",
+      "PackagePath": "staticwebassets\\css\\Radzen\\fonts\\MaterialIcons-Regular.woff"
+    },
+    {
+      "Id": "C:\\source control2\\Horizon\\Dev\\UI\\HorizonPollyC\\wwwroot\\css\\Radzen\\fonts\\SourceSansPro-Black.woff",
+      "PackagePath": "staticwebassets\\css\\Radzen\\fonts\\SourceSansPro-Black.woff"
+    },
+    {
+      "Id": "C:\\source control2\\Horizon\\Dev\\UI\\HorizonPollyC\\wwwroot\\css\\Radzen\\fonts\\SourceSansPro-BlackIt.woff",
+      "PackagePath": "staticwebassets\\css\\Radzen\\fonts\\SourceSansPro-BlackIt.woff"
+    },
+    {
+      "Id": "C:\\source control2\\Horizon\\Dev\\UI\\HorizonPollyC\\wwwroot\\css\\Radzen\\fonts\\SourceSansPro-Bold.woff",
+      "PackagePath": "staticwebassets\\css\\Radzen\\fonts\\SourceSansPro-Bold.woff"
+    },
+    {
+      "Id": "C:\\source control2\\Horizon\\Dev\\UI\\HorizonPollyC\\wwwroot\\css\\Radzen\\fonts\\SourceSansPro-BoldIt.woff",
+      "PackagePath": "staticwebassets\\css\\Radzen\\fonts\\SourceSansPro-BoldIt.woff"
+    },
+    {
+      "Id": "C:\\source control2\\Horizon\\Dev\\UI\\HorizonPollyC\\wwwroot\\css\\Radzen\\fonts\\SourceSansPro-ExtraLight.woff",
+      "PackagePath": "staticwebassets\\css\\Radzen\\fonts\\SourceSansPro-ExtraLight.woff"
+    },
+    {
+      "Id": "C:\\source control2\\Horizon\\Dev\\UI\\HorizonPollyC\\wwwroot\\css\\Radzen\\fonts\\SourceSansPro-ExtraLightIt.woff",
+      "PackagePath": "staticwebassets\\css\\Radzen\\fonts\\SourceSansPro-ExtraLightIt.woff"
+    },
+    {
+      "Id": "C:\\source control2\\Horizon\\Dev\\UI\\HorizonPollyC\\wwwroot\\css\\Radzen\\fonts\\SourceSansPro-It.woff",
+      "PackagePath": "staticwebassets\\css\\Radzen\\fonts\\SourceSansPro-It.woff"
+    },
+    {
+      "Id": "C:\\source control2\\Horizon\\Dev\\UI\\HorizonPollyC\\wwwroot\\css\\Radzen\\fonts\\SourceSansPro-Light.woff",
+      "PackagePath": "staticwebassets\\css\\Radzen\\fonts\\SourceSansPro-Light.woff"
+    },
+    {
+      "Id": "C:\\source control2\\Horizon\\Dev\\UI\\HorizonPollyC\\wwwroot\\css\\Radzen\\fonts\\SourceSansPro-LightIt.woff",
+      "PackagePath": "staticwebassets\\css\\Radzen\\fonts\\SourceSansPro-LightIt.woff"
+    },
+    {
+      "Id": "C:\\source control2\\Horizon\\Dev\\UI\\HorizonPollyC\\wwwroot\\css\\Radzen\\fonts\\SourceSansPro-Regular.woff",
+      "PackagePath": "staticwebassets\\css\\Radzen\\fonts\\SourceSansPro-Regular.woff"
+    },
+    {
+      "Id": "C:\\source control2\\Horizon\\Dev\\UI\\HorizonPollyC\\wwwroot\\css\\Radzen\\fonts\\SourceSansPro-Semibold.woff",
+      "PackagePath": "staticwebassets\\css\\Radzen\\fonts\\SourceSansPro-Semibold.woff"
+    },
+    {
+      "Id": "C:\\source control2\\Horizon\\Dev\\UI\\HorizonPollyC\\wwwroot\\css\\Radzen\\fonts\\SourceSansPro-SemiboldIt.woff",
+      "PackagePath": "staticwebassets\\css\\Radzen\\fonts\\SourceSansPro-SemiboldIt.woff"
+    },
+    {
+      "Id": "C:\\source control2\\Horizon\\Dev\\UI\\HorizonPollyC\\wwwroot\\css\\Radzen\\fonts\\roboto-v15-latin-300.woff",
+      "PackagePath": "staticwebassets\\css\\Radzen\\fonts\\roboto-v15-latin-300.woff"
+    },
+    {
+      "Id": "C:\\source control2\\Horizon\\Dev\\UI\\HorizonPollyC\\wwwroot\\css\\Radzen\\fonts\\roboto-v15-latin-700.woff",
+      "PackagePath": "staticwebassets\\css\\Radzen\\fonts\\roboto-v15-latin-700.woff"
+    },
+    {
+      "Id": "C:\\source control2\\Horizon\\Dev\\UI\\HorizonPollyC\\wwwroot\\css\\Radzen\\fonts\\roboto-v15-latin-regular.woff",
+      "PackagePath": "staticwebassets\\css\\Radzen\\fonts\\roboto-v15-latin-regular.woff"
+    },
+    {
+      "Id": "C:\\source control2\\Horizon\\Dev\\UI\\HorizonPollyC\\wwwroot\\css\\app.css",
+      "PackagePath": "staticwebassets\\css\\app.css"
+    },
+    {
+      "Id": "C:\\source control2\\Horizon\\Dev\\UI\\HorizonPollyC\\wwwroot\\css\\bootstrap\\bootstrap.min.css",
+      "PackagePath": "staticwebassets\\css\\bootstrap\\bootstrap.min.css"
+    },
+    {
+      "Id": "C:\\source control2\\Horizon\\Dev\\UI\\HorizonPollyC\\wwwroot\\css\\bootstrap\\bootstrap.min.css.map",
+      "PackagePath": "staticwebassets\\css\\bootstrap\\bootstrap.min.css.map"
+    },
+    {
+      "Id": "C:\\source control2\\Horizon\\Dev\\UI\\HorizonPollyC\\wwwroot\\css\\open-iconic\\FONT-LICENSE",
+      "PackagePath": "staticwebassets\\css\\open-iconic"
+    },
+    {
+      "Id": "C:\\source control2\\Horizon\\Dev\\UI\\HorizonPollyC\\wwwroot\\css\\open-iconic\\ICON-LICENSE",
+      "PackagePath": "staticwebassets\\css\\open-iconic"
+    },
+    {
+      "Id": "C:\\source control2\\Horizon\\Dev\\UI\\HorizonPollyC\\wwwroot\\css\\open-iconic\\README.md",
+      "PackagePath": "staticwebassets\\css\\open-iconic\\README.md"
+    },
+    {
+      "Id": "C:\\source control2\\Horizon\\Dev\\UI\\HorizonPollyC\\wwwroot\\css\\open-iconic\\font\\css\\open-iconic-bootstrap.min.css",
+      "PackagePath": "staticwebassets\\css\\open-iconic\\font\\css\\open-iconic-bootstrap.min.css"
+    },
+    {
+      "Id": "C:\\source control2\\Horizon\\Dev\\UI\\HorizonPollyC\\wwwroot\\css\\open-iconic\\font\\fonts\\open-iconic.eot",
+      "PackagePath": "staticwebassets\\css\\open-iconic\\font\\fonts\\open-iconic.eot"
+    },
+    {
+      "Id": "C:\\source control2\\Horizon\\Dev\\UI\\HorizonPollyC\\wwwroot\\css\\open-iconic\\font\\fonts\\open-iconic.otf",
+      "PackagePath": "staticwebassets\\css\\open-iconic\\font\\fonts\\open-iconic.otf"
+    },
+    {
+      "Id": "C:\\source control2\\Horizon\\Dev\\UI\\HorizonPollyC\\wwwroot\\css\\open-iconic\\font\\fonts\\open-iconic.svg",
+      "PackagePath": "staticwebassets\\css\\open-iconic\\font\\fonts\\open-iconic.svg"
+    },
+    {
+      "Id": "C:\\source control2\\Horizon\\Dev\\UI\\HorizonPollyC\\wwwroot\\css\\open-iconic\\font\\fonts\\open-iconic.ttf",
+      "PackagePath": "staticwebassets\\css\\open-iconic\\font\\fonts\\open-iconic.ttf"
+    },
+    {
+      "Id": "C:\\source control2\\Horizon\\Dev\\UI\\HorizonPollyC\\wwwroot\\css\\open-iconic\\font\\fonts\\open-iconic.woff",
+      "PackagePath": "staticwebassets\\css\\open-iconic\\font\\fonts\\open-iconic.woff"
+    },
+    {
+      "Id": "C:\\source control2\\Horizon\\Dev\\UI\\HorizonPollyC\\wwwroot\\favicon.ico",
+      "PackagePath": "staticwebassets\\favicon.ico"
+    },
+    {
+      "Id": "C:\\source control2\\Horizon\\Dev\\UI\\HorizonPollyC\\wwwroot\\icon-192.png",
+      "PackagePath": "staticwebassets\\icon-192.png"
+    },
+    {
+      "Id": "C:\\source control2\\Horizon\\Dev\\UI\\HorizonPollyC\\wwwroot\\index.html",
+      "PackagePath": "staticwebassets\\index.html"
+    },
+    {
+      "Id": "C:\\source control2\\Horizon\\Dev\\UI\\HorizonPollyC\\wwwroot\\js\\duplicateform.js",
+      "PackagePath": "staticwebassets\\js\\duplicateform.js"
+    },
+    {
+      "Id": "C:\\source control2\\Horizon\\Dev\\UI\\HorizonPollyC\\wwwroot\\js\\export.js",
+      "PackagePath": "staticwebassets\\js\\export.js"
+    },
+    {
+      "Id": "C:\\source control2\\Horizon\\Dev\\UI\\HorizonPollyC\\wwwroot\\loading-gif.gif",
+      "PackagePath": "staticwebassets\\loading-gif.gif"
+    },
+    {
+      "Id": "C:\\source control2\\Horizon\\Dev\\UI\\HorizonPollyC\\wwwroot\\sample-data\\weather.json",
+      "PackagePath": "staticwebassets\\sample-data\\weather.json"
+    },
+    {
+      "Id": "obj\\Debug\\net7.0\\staticwebassets\\msbuild.HorizonPollyC.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj\\Debug\\net7.0\\staticwebassets\\msbuild.build.HorizonPollyC.props",
+      "PackagePath": "build\\HorizonPollyC.props"
+    },
+    {
+      "Id": "obj\\Debug\\net7.0\\staticwebassets\\msbuild.buildMultiTargeting.HorizonPollyC.props",
+      "PackagePath": "buildMultiTargeting\\HorizonPollyC.props"
+    },
+    {
+      "Id": "obj\\Debug\\net7.0\\staticwebassets\\msbuild.buildTransitive.HorizonPollyC.props",
+      "PackagePath": "buildTransitive\\HorizonPollyC.props"
+    }
+  ],
+  "ElementsToRemove": []
+}

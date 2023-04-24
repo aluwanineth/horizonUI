@@ -1,0 +1,328 @@
+﻿@page "/ViewFinancialDetails";
+
+@using HorizonPollyC.Services
+@using HorizonPollyC.Services.General
+@using HorizonPollyC.Models
+@using HorizonPollyC.Services.SCV
+@using HorizonPollyC.Services.Financial
+@using HorizonPollyC.Services.Configuration
+@using HorizonPollyC.Models.Configuration
+@using Microsoft.JSInterop;
+@inject ISCVService _SCVService
+@inject IExportService _exportService
+@inject IJSRuntime js
+@inject IGeneric<TitlesVM> _TitleService
+@inject IGeneric<TelecomType> _TelecomTypeService
+@inject IGeneric<CountryPhone> _CountryPhoneService
+@inject IGenderService _GenderService
+@inject IFinancialService _financialService
+@inject ISCVService _customerPolicyService
+
+<style>
+    .LabelLabelRow {
+        padding-bottom: 4px;
+        min-width: 55%;
+        display: inline-block;
+    }
+
+    .doubleLabelRow {
+        padding-bottom: 4px;
+        width: 23%;
+        display: inline-block;
+    }
+
+    .LabelHeader {
+        font-weight: bold;
+    }
+
+    .FullDiv {
+        width: 100%;
+        /*display: flex;*/
+        padding-top: 10px
+    }
+
+
+    .btn {
+        width: 140px;
+        display: inline-block;
+        float: right;
+    }
+
+    .loading_dlg {
+        z-index: 999;
+        padding: 10px;
+        background-color: white;
+        position: absolute;
+        left: 50vw;
+        top: 50vh;
+        box-shadow: #747474 0px 0px 11px 0px;
+        border-radius: 5px 5px 5px 5px;
+    }
+
+    .alert_dlg {
+        z-index: 999;
+        padding: 10px;
+        background-color: white;
+        position: absolute;
+        left: 50vw;
+        top: 20px;
+        box-shadow: #202020 0px 0px 11px 0px;
+        border-radius: 5px 5px 5px 5px;
+    }
+
+    .loading_dlg p {
+        font-size: 2em;
+        font-weight: bold;
+        text-align: center;
+        padding-top: 10px;
+    }
+
+    .pinfo_table_2col > tr > td:nth-child(1) {
+        font-weight: 700;
+        width: 40%;
+        min-width: 160px;
+    }
+
+    .pinfo_table_2col > tr > td:nth-child(2) {
+        width: 60%;
+        min-width: 160px;
+        padding-left: 8.5px;
+    }
+
+    .pinfo_table_4col > tr > td:nth-child(odd) {
+        font-weight: 700;
+        width: 18%;
+    }
+
+    .pinfo_table_4col > tr > td:nth-child(even) {
+        width: 32%;
+    }
+
+    .pinfo_table_4col > tr > td:nth-child(even) > span {
+        padding-left: 8.5px;
+    }
+
+    .pinfo_table_2col > tr > td:nth-child(2) > span {
+        padding-left: 8.5px;
+    }
+
+    .pinfo_table_2col > tr, .pinfo_table_4col > tr {
+        height: 34px;
+    }
+
+    .frm_input {
+        width: 160px;
+    }
+</style>
+
+<div>
+    <div>
+        <HorizonPollyC.Pages.Components.EntityPolicyList onPolicySelect="PolicySelected"></HorizonPollyC.Pages.Components.EntityPolicyList>
+    </div>
+
+    <span class="FullDiv" style="display: flex;">
+        <RadzenCard Style="width:30%;border:none; padding-right:10px; min-width:348px; ">
+
+            <RadzenTabs RenderMode="TabRenderMode.Client" Style="height:100%">
+                <Tabs>
+                    <RadzenTabsItem Text="Payer Details">
+                        @if (payerDetails!= null)
+                        {
+                            <table border="0" class="pinfo_table_2col" style="width:100%;">
+                                <tr>
+                                    <td>Title:</td>
+                                    <td><span>@payerDetails.Title</span></td>
+                                </tr>
+                                <tr>
+                                    <td>First Name:</td>
+                                    <td><span>@payerDetails.FirstName</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Surname:</td>
+                                    <td><span>@payerDetails.SurName</span></td>
+                                </tr>
+                                <tr>
+                                    <td>ID Number:</td>
+                                    <td><span>@payerDetails.IdNumber</span></td>
+
+                                </tr>
+                                <tr>
+                                    <td>Passport Number:</td>
+                                    <td><span>@payerDetails.PassportNumber</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Date of Birth:</td>
+                                    <td><span>@payerDetails.DOB.ToString()</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Employee/Persal Number:</td>
+                                    <td><span></span></td>
+                                </tr>
+                                <tr>
+                                    <td>Employee Department:</td>
+                                    <td><span></span></td>
+                                </tr>
+                                <tr>
+                                    <td>Home Number:</td>
+                                    <td><span>@payerDetails.HomeNumber</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Cell Number:</td>
+                                    <td><span>@payerDetails.CellNumber</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Work Number:</td>
+                                    <td><span>@payerDetails.WorkNumber</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Relation To Member:</td>
+                                    <td><span></span></td>
+                                </tr>
+                            </table>
+                        }
+                        else
+                        {
+                            <span>No Client Details Captured</span>
+                        }
+                      
+            
+                    </RadzenTabsItem>
+                </Tabs>
+            </RadzenTabs>
+        </RadzenCard>
+
+        <RadzenCard Style="width:45%;border:none;padding-right:10px; min-width:584px;">
+
+            <RadzenTabs RenderMode="TabRenderMode.Client" Style="height:100%">
+                <Tabs>
+                    <RadzenTabsItem Text="Banking Details">
+                        @if (bankingDetails != null)
+                        {
+                            <table border="0" class="pinfo_table_2col" style="width:100%;">
+                                <tr>
+                                    <td>Account Holder:</td>
+                                    <td><span>@bankingDetails.AccountHolder</span></td>
+
+                                </tr>
+                                <tr>
+                                    <td>Bank Name:</td>
+                                    <td><span>@BankName</span></td>
+
+                                </tr>
+                                <tr>
+                                    <td>Account Type:</td>
+                                    <td><span>@AccountType</span></td>
+
+                                </tr>
+                                <tr>
+                                    <td>Payment Method:</td>
+                                    <td><span>@bankingDetails.PaymentMethod</span></td>
+
+                                </tr>
+                                <tr>
+                                    <td>Early Tracking:</td>
+                                    <td><span>"N/A"</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Debit Day:</td>
+                                    <td><span>@bankingDetails.DebitDay.ToString()</span></td>
+                                </tr>
+                                <tr>
+                                    <td>First Debit Day:</td>
+                                    <td><span>"N/A"</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Branch Code:</td>
+                                    <td><span>@bankingDetails.BranchCode</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Account Number:</td>
+                                    <td><span>@bankingDetails.AccountNumber</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Early WE/PH:</td>
+                                    <td><span>"N/A"</span></td>
+                                </tr>
+
+                            </table>
+                        }
+                        else
+                        {
+                            <span>No Client Details Captured</span>
+                        }
+                       
+                        <div style="padding-top:20px;">
+                            <RadzenButton ButtonType="ButtonType.Submit" Icon="account_balance" Text="Banking Details" Click="@LoadFinancial" style="color: WHITE;" />
+                        </div>
+                     
+                    </RadzenTabsItem>
+                </Tabs>
+            </RadzenTabs>
+        </RadzenCard>
+
+        <RadzenCard Style="width:25%; border:none; min-width:310px;">
+            <RadzenTabs RenderMode="TabRenderMode.Client" Style="height:100%">
+                <Tabs>
+                    <RadzenTabsItem Text="DebiCheck Details">
+                        @if (debiCheckList != null)
+                        {
+                            var val = 0;
+                            string name = string.Empty;
+                            @foreach (var item in debiCheckList)
+                            {
+
+                                val = val++;
+                                <div class="row" style="padding-top:20px;">
+                                    <div class="col-lg-6 align-items-center d-flex">
+                                        <table>
+                                            <tr>
+                                                <td>
+                                                    <RadzenLabel Text="Policy Number :" />
+                                                </td>
+                                                <td>
+
+                                                    <RadzenNumeric ShowUpDown="false" TValue="int" style="border-color:transparent;" Class="w-100" Name="PolicyNumber" @bind-Value="item.custPolicies.Policy_NO" TextAlign="TextAlign.Right" ReadOnly=true />
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <RadzenLabel Text="Debicheck Ammount :" />
+                                                </td>
+                                                <td>
+
+                                                    <RadzenNumeric ShowUpDown="false" Format="" style="border-color:transparent;" Placeholder="R0,000,000.00" TValue="decimal" Class="w-100" Name="DebiAmount" @bind-Value="item.Amount" TextAlign="TextAlign.Right" ReadOnly=true />
+                                                    @*  <RadzenMask Mask="(***) ***-****" Pattern="^\$\d{1,3}(,\d{3})*(\.\d+)?$" Placeholder="(000) 000-0000" Name="Phone" @bind-Value="@item.custPolicies.Policy_Premium.ToString()" />*@
+                                                    @*<RadzenTextBox style="width: 100%;" @bind-Value="item.custPolicies.Policy_Premium.ToString()" TextAlign="TextAlign.Left" ReadOnly=true />*@
+
+                                                </td>
+
+                                            </tr>
+                                        </table>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <table>
+                                            <tr>
+                                                <td>
+                                                    <RadzenLabel Text="DebiCheck Status: " />
+                                                </td>
+                                                <td>
+                                                    <RadzenTextBox Style="@textboxStyle" @bind-Value="item.DebiCheckStatus" TextAlign="TextAlign.Left" ReadOnly=true />
+                                                </td>
+                                    
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                            }
+                        }
+                     
+                    </RadzenTabsItem>
+                </Tabs>
+            </RadzenTabs>
+        </RadzenCard>
+    </span>
+
+</div>
+
+
+

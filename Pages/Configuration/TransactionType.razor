@@ -1,0 +1,98 @@
+﻿@page "/configuration/TransactionType"
+@using HorizonPollyC.Services.General
+@using HorizonPollyC.Models.Configuration
+@using HorizonPollyC.Services.Configuration
+@using Microsoft.JSInterop;
+@inject IExportService _exportService
+@inject IJSRuntime js
+@inject IGeneric<TransactionTypesVM> _genericService
+
+
+    <h3>Transaction Types</h3>
+@if (modelList != null)
+{
+
+
+    <RadzenButton Icon="add_circle_outline" style="margin-bottom: 10px" Text="Add New Record" Click="@InsertRow"
+              Disabled=@(modelToInsert != null) />
+    <RadzenButton Text="Export XLS" Icon="grid_on" Click="@(args => Export("excel"))" Class="mb-4 mr-2" />
+    <RadzenButton Text="Export CSV" Icon="wrap_text" Click="@(args => Export("csv"))" Class="mb-4" />
+    <RadzenDataGrid @ref="modelGrid"
+                Data="@modelList"
+                TItem="TransactionTypesVM"
+                AllowFiltering="true" AllowColumnResize="true" FilterMode="FilterMode.Advanced" AllowSorting="true" PageSize="5" AllowPaging="true" PagerHorizontalAlign="HorizontalAlign.Left" ShowPagingSummary="true"
+                ColumnWidth="300px" LogicalFilterOperator="LogicalFilterOperator.Or" EditMode="DataGridEditMode.Single" RowUpdate="@OnUpdateRow" RowCreate="@OnCreateRow">
+        <Columns>
+            <RadzenDataGridColumn TItem="TransactionTypesVM" Property="TransactionTypeId" Filterable="true" Title="TransactionTypeId" Width="70px" TextAlign="TextAlign.Right">
+                <EditTemplate Context="transactionTypesVM">
+                    <RadzenNumeric Min="1" Max="100" @bind-Value="transactionTypesVM.TransactionTypeId" Class="w-70" Disabled="@enable" Name="TransactionTypeId" />
+                    <RadzenRequiredValidator Component="TransactionTypeId" Text="Value is required" Popup="true" />
+                </EditTemplate>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="TransactionTypesVM" Property="TransactionTypeCD" Filterable="true" Title="TransactionTypeCD" Width="70px" TextAlign="TextAlign.Right">
+                <EditTemplate Context="transactionTypesVM">
+                    <RadzenNumeric Min="1" Max="100" @bind-Value="transactionTypesVM.TransactionTypeCD" Class="w-70" Disabled="@enable" Name="TransactionTypeCD" />
+                    <RadzenRequiredValidator Component="TransactionTypeCD" Text="Value is required" Popup="true" />
+                </EditTemplate>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="TransactionTypesVM" Property="SDesc" Title="Description" Width="140px" TextAlign="TextAlign.Left">
+                <EditTemplate Context="transactionTypesVM">
+                    <RadzenTextBox @bind-Value="transactionTypesVM.SDesc" Style="width:100%; display: block" Name="SDesc" />
+                    <RadzenRequiredValidator Component="SDesc" Text="Value is required" Popup="true" />
+
+                </EditTemplate>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="TransactionTypesVM" Property="DispSeq" Title="Display Sequence" Width="140px" TextAlign="TextAlign.Right">
+                <EditTemplate Context="transactionTypesVM">
+                    <RadzenNumeric Min="1" Max="100" @bind-Value="transactionTypesVM.DispSeq" Class="w-70" Disabled="@enable" Name="DispSeq" /> 
+                    <RadzenRequiredValidator Component="DispSeq" Text="Value is required" Popup="true" />
+                </EditTemplate>
+            </RadzenDataGridColumn>
+
+            <RadzenDataGridColumn TItem="TransactionTypesVM" Property="AccountCode" Title="Description" Width="140px" TextAlign="TextAlign.Left">
+                <EditTemplate Context="transactionTypesVM">
+                    <RadzenTextBox @bind-Value="transactionTypesVM.AccountCode" Style="width:100%; display: block" Name="AccountCode" />
+                    <RadzenRequiredValidator Component="AccountCode" Text="Value is required" Popup="true" />
+                </EditTemplate>
+            </RadzenDataGridColumn>
+
+            <RadzenDataGridColumn TItem="TransactionTypesVM" Property="EffDate" Title="Eff date" Width="100px" TextAlign="TextAlign.Left"  FormatString="{0:d}">
+                <EditTemplate Context="transactionTypesVM">
+                    <RadzenDatePicker @bind-Value="transactionTypesVM.EffDate" DateFormat="d" Class="w-100" Name="EffDate"/> 
+                    <RadzenRequiredValidator Component="EffDate" Text="Value is required" Popup="true" />
+                </EditTemplate>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="TransactionTypesVM" Property="ExpDate" Title="Expiry Date" Width="100px" TextAlign="TextAlign.Left"  FormatString="{0:d}">
+                <EditTemplate Context="transactionTypesVM">
+                    <RadzenDatePicker @bind-Value="transactionTypesVM.ExpDate" DateFormat="d" Class="w-100" Name="ExpDate"/> 
+                    <RadzenRequiredValidator Component="ExpDate" Text="Value is required" Popup="true" />
+                </EditTemplate>
+            </RadzenDataGridColumn>
+
+            <RadzenDataGridColumn TItem="TransactionTypesVM" Property="IsActive" Title="Is Active" Width="50px" TextAlign="TextAlign.Left">
+                <Template Context="transactionTypesVM">
+                    <RadzenSwitch @bind-Value="transactionTypesVM.IsActive" Disabled="false" />
+                </Template>
+                <EditTemplate Context="transactionTypesVM">
+                    <RadzenSwitch @bind-Value="transactionTypesVM.IsActive" Disabled="false" />
+                </EditTemplate>
+            </RadzenDataGridColumn>
+
+            <RadzenDataGridColumn TItem="TransactionTypesVM" Context="schemePlanFactorssvm" Filterable="false" Sortable="false" TextAlign="TextAlign.Center" Width="100px">
+                <Template Context="transactionTypesVM">
+                    <RadzenButton Icon="edit" ButtonStyle="ButtonStyle.Primary" Class="m-1" Click="@(args => EditRow(transactionTypesVM))" @onclick:stopPropagation="true">
+                    </RadzenButton>
+                </Template>
+                <EditTemplate Context="transactionTypesVM">
+                    <RadzenButton Icon="check" ButtonStyle="ButtonStyle.Primary" Class="m-1" Click="@((args) => SaveRow(transactionTypesVM))">
+                    </RadzenButton>
+                    <RadzenButton Icon="close" ButtonStyle="ButtonStyle.Primary" Class="m-1" Click="@((args) => CancelEdit(transactionTypesVM))">
+                    </RadzenButton>
+                </EditTemplate>
+            </RadzenDataGridColumn>
+
+        </Columns>
+    </RadzenDataGrid>
+
+
+}
